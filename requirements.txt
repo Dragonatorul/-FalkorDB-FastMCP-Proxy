@@ -1,0 +1,10 @@
+fastmcp
+fastapi
+uvicorn
+pytest
+requests
+httpx
+starlette
+sse-starlette
+pyjwt[crypto]
+cryptography
