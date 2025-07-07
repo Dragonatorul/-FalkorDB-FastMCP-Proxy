@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  falkordb:
+    image: falkordb/falkordb:latest
+    container_name: falkordb
+    ports:
+      - "6379:6379"
+    volumes:
+      - falkordb_data:/data
+
+  falkordb-mcp-server:
+    image: ghcr.io/dragonatorul/falkordb-mcpserver:1.1.0
+    container_name: falkordb-mcp-server
+    environment:
+      - FALKORDB_HOST=falkordb
+      - MCP_API_KEY=dev-api-key
+      - ENABLE_MULTI_TENANCY=false
+    ports:
+      - "3000:3000"
+    depends_on:
+      - falkordb
+
+  fastmcp-proxy:
+    build: .
+    container_name: fastmcp-proxy
+    environment:
+      - FALKORDB_MCPSERVER_URL=http://falkordb-mcp-server:3000
+      - MCP_API_KEY=dev-api-key
+      - PROXY_HOST=0.0.0.0
+      - PROXY_PORT=3001
+    ports:
+      - "3001:3001"  # Expose for remote Claude Desktop connections
+    depends_on:
+      - falkordb-mcp-server
+    restart: unless-stopped
+
+volumes:
+  falkordb_data:
