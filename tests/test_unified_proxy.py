@@ -40,14 +40,6 @@ Version:
     1.0.0
 """
 
-from fastmcp_proxy import (
-    generate_test_token,
-    generate_tenant_token,
-    verify_tenant_token,
-    mcp_unified,
-    AuthContext,
-    call_backend_unified
-)
 import os
 import sys
 from typing import Dict, Any, Optional
@@ -57,6 +49,15 @@ import pytest
 # Add src to path for imports
 # This is required for testing since we don't have the package installed in development mode
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+from fastmcp_proxy import (
+    generate_test_token,
+    generate_tenant_token,
+    verify_tenant_token,
+    mcp_unified,
+    AuthContext,
+    call_backend_unified
+)
 
 
 # Test configuration constants
