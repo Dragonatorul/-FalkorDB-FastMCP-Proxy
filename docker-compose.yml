@@ -28,8 +28,10 @@ services:
       - MCP_API_KEY=dev-api-key
       - PROXY_HOST=0.0.0.0
       - PROXY_PORT=3001
+      - PUBLIC_PORT=3003
     ports:
-      - "3001:3001"  # Expose for remote Claude Desktop connections
+      - "3001:3001"  # Authenticated endpoint for Claude Desktop
+      - "3003:3003"  # Public endpoint for opencode
     depends_on:
       - falkordb-mcp-server
     restart: unless-stopped
