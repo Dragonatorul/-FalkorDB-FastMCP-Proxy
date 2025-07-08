@@ -176,5 +176,14 @@ config.local.json
 # Claude Desktop config (contains sensitive tokens)
 claude_desktop_config.json
 
+# IDE and linter specific
 .claude/
 CLAUDE.md
+
+# Linter cache files
+.flake8_cache/
+.ruff_cache/
+
+# Editor configs (project-specific versions)
+.editorconfig.local
+.pylintrc.local

@@ -1,0 +1,161 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "falkordb-fastmcp-proxy"
+version = "1.0.0"
+description = "A unified proxy server for FalkorDB FastMCP with multi-authentication support"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Claude Code Assistant", email = "noreply@anthropic.com"},
+]
+keywords = ["falkordb", "mcp", "proxy", "authentication", "multi-tenant"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "fastapi>=0.104.0",
+    "httpx>=0.25.0",
+    "pyjwt[crypto]>=2.8.0",
+    "uvicorn>=0.24.0",
+    "fastmcp>=0.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "flake8>=6.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "autopep8>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy"
+Repository = "https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy"
+Issues = "https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/issues"
+
+# Black configuration
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \\.git
+    | \\.venv
+    | venv
+    | env
+    | \\.env
+    | build
+    | dist
+    | \\.pytest_cache
+    | \\.mypy_cache
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["fastmcp_proxy"]
+skip_glob = [
+    ".venv/*",
+    "venv/*",
+    "env/*",
+    ".env/*",
+    "build/*",
+    "dist/*",
+]
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = false
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = false
+warn_no_return = true
+warn_unreachable = true
+strict_optional = false
+show_error_codes = true
+show_column_numbers = true
+ignore_missing_imports = true
+disable_error_code = "assignment,arg-type,attr-defined"
+follow_imports = "skip"
+check_untyped_defs = false
+
+# Exclude directories
+exclude = [
+    "\\.venv/",
+    "venv/",
+    "env/",
+    "\\.env/",
+    "build/",
+    "dist/",
+]
+
+# Pytest configuration
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/build/*",
+    "*/dist/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+show_missing = true
+precision = 2
+
+[tool.coverage.html]
+directory = "htmlcov"

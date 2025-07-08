@@ -1,0 +1,26 @@
+[bandit]
+# Bandit security scanner configuration for FalkorDB FastMCP Proxy
+
+# Tests to skip (comma-separated list of test IDs)
+skips = B101,B601,B104
+
+# Test directories to exclude
+exclude_dirs = /tests,/.venv,/venv,/env,/.env,/build,/dist
+
+# Confidence level for issues (LOW, MEDIUM, HIGH)
+confidence = MEDIUM
+
+# Severity level for issues (LOW, MEDIUM, HIGH)  
+level = MEDIUM
+
+# Custom security issue patterns to ignore
+[bandit.ignore]
+# B101: Use of assert detected (acceptable in test files)
+B101 = *_test.py,test_*.py
+
+# B601: Use of shell=True (acceptable for specific cases with validation)
+B601 = *
+
+[bandit.hardcoded_password_string]
+# Ignore test tokens and development secrets
+word_list = dev-api-key,dev-secret-key,test-tenant,test-user
