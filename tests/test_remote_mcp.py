@@ -4,40 +4,35 @@ Test script for FalkorDB FastMCP Proxy with remote SSE connections.
 
 This script validates:
 1. OAuth Authorization Server Metadata endpoint
-2. SSE endpoint authentication 
+2. SSE endpoint authentication
 3. Remote MCP client connection capability
 """
 
 import os
 import sys
-import time
-import subprocess
 import requests
-import json
-from typing import Dict, Any
 
 # Add src to path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-from fastmcp_proxy import key_pair
+
+from fastmcp_proxy import generate_test_token
+
 
 def generate_bearer_token() -> str:
     """Generate a valid Bearer token for testing"""
-    token = key_pair.create_token(
-        subject="test-user",
-        issuer="https://falkordb-fastmcp-proxy",
-        audience="falkordb-mcp-server", 
-        scopes=["read", "write"],
-        expires_in_seconds=3600
-    )
+    token = generate_test_token()
     return f"Bearer {token}"
+
 
 def test_oauth_metadata(base_url: str) -> bool:
     """Test OAuth Authorization Server Metadata endpoint"""
     try:
-        response = requests.get(f"{base_url}/.well-known/oauth-authorization-server", timeout=5)
+        response = requests.get(
+            f"{base_url}/.well-known/oauth-authorization-server", timeout=5)
         if response.status_code == 200:
             metadata = response.json()
-            required_fields = ["issuer", "authorization_endpoint", "token_endpoint"]
+            required_fields = [
+                "issuer", "authorization_endpoint", "token_endpoint"]
             if all(field in metadata for field in required_fields):
                 print("✅ OAuth Authorization Server Metadata endpoint working")
                 return True
@@ -51,19 +46,21 @@ def test_oauth_metadata(base_url: str) -> bool:
         print(f"❌ Error testing OAuth metadata: {e}")
         return False
 
+
 def test_mcp_endpoint_auth(base_url: str, bearer_token: str) -> bool:
     """Test MCP endpoint authentication (streamable-http transport)"""
     try:
         # Test without auth - should get 401
         response = requests.get(f"{base_url}/mcp/", timeout=5)
         if response.status_code != 401:
-            print(f"❌ MCP endpoint should require auth, got {response.status_code}")
+            print(
+                f"❌ MCP endpoint should require auth, got {response.status_code}")
             return False
-        
+
         # Test with valid Bearer token - should get MCP protocol response
         headers = {"Authorization": bearer_token}
         response = requests.get(f"{base_url}/mcp/", headers=headers, timeout=5)
-        
+
         if response.status_code in [200, 202]:
             print("✅ MCP endpoint accepts valid Bearer token")
             return True
@@ -73,10 +70,11 @@ def test_mcp_endpoint_auth(base_url: str, bearer_token: str) -> bool:
         else:
             print(f"❌ Unexpected MCP response: {response.status_code}")
             return False
-            
+
     except Exception as e:
         print(f"❌ Error testing MCP endpoint: {e}")
         return False
+
 
 def test_backend_connectivity() -> bool:
     """Test connectivity to FalkorDB MCP Server backend"""
@@ -93,53 +91,55 @@ def test_backend_connectivity() -> bool:
         print(f"❌ Backend not accessible: {e}")
         return False
 
+
 def main():
     """Run all tests"""
     print("🧪 Testing FalkorDB FastMCP Proxy for Remote Access")
     print("=" * 60)
-    
+
     # Configuration
     proxy_url = "http://localhost:3001"
-    
+
     # Generate test token
     print("🔑 Generating Bearer token...")
     bearer_token = generate_bearer_token()
     print(f"   Token: {bearer_token[:50]}...")
-    
+
     # Run tests
     tests_passed = 0
     total_tests = 3
-    
-    print(f"\n📡 Testing backend connectivity...")
+
+    print("\n📡 Testing backend connectivity...")
     if test_backend_connectivity():
         tests_passed += 1
-    
-    print(f"\n🔐 Testing OAuth Authorization Server Metadata...")
+
+    print("\n🔐 Testing OAuth Authorization Server Metadata...")
     if test_oauth_metadata(proxy_url):
         tests_passed += 1
-        
-    print(f"\n🌊 Testing MCP endpoint authentication...")
+
+    print("\n🌊 Testing MCP endpoint authentication...")
     if test_mcp_endpoint_auth(proxy_url, bearer_token):
         tests_passed += 1
-    
+
     # Results
     print(f"\n📊 Test Results: {tests_passed}/{total_tests} passed")
-    
+
     if tests_passed == total_tests:
         print("🎉 All tests passed! FastMCP proxy is ready for remote Claude Desktop connections.")
         print("\n📋 Claude Desktop Configuration:")
-        print(f'{{')
-        print(f'  "name": "FalkorDB",')
+        print('{')
+        print('  "name": "FalkorDB",')
         print(f'  "serverUrl": "{proxy_url}/sse/",')
-        print(f'  "auth": {{')
-        print(f'    "type": "bearer",') 
+        print('  "auth": {')
+        print('    "type": "bearer",')
         print(f'    "token": "{bearer_token.replace("Bearer ", "")}"')
-        print(f'  }}')
-        print(f'}}')
+        print('  }')
+        print('}')
         return True
     else:
         print("❌ Some tests failed. Check the proxy configuration.")
         return False
+
 
 if __name__ == "__main__":
     success = main()
