@@ -53,7 +53,7 @@ Enable multiple devices to securely access a single remote FalkorDB instance thr
 ### **Phase 1: Core Tenant-Aware Proxy** (Priority: HIGH)
 
 #### Task 1.1: Complete Proxy Implementation
-**File**: `src/fastmcp_proxy_tenant.py`  
+**File**: `src/fastmcp_proxy.py`  
 **Status**: 75% Complete  
 **Remaining Work**:
 - [ ] Complete all 4 MCP tools with tenant-aware versions
@@ -154,7 +154,7 @@ async def falkordb_health_tenant(ctx: Context) -> str:
 ## 🔧 **IMPLEMENTATION STEPS**
 
 ### **Step 1: Complete Tenant-Aware Proxy** (Estimated: 2-3 hours)
-1. Finish `fastmcp_proxy_tenant.py` implementation
+1. Finish `fastmcp_proxy.py` implementation
 2. Test JWT token validation locally
 3. Verify all 4 MCP tools work with tenant context
 4. Add proper error handling
@@ -225,4 +225,4 @@ async def falkordb_health_tenant(ctx: Context) -> str:
 **Week 3**: Documentation and deployment preparation  
 **Week 4**: Production deployment and monitoring setup
 
-**Next Session Priority**: Complete `fastmcp_proxy_tenant.py` and test basic functionality
+**Next Session Priority**: Complete `fastmcp_proxy.py` and test basic functionality

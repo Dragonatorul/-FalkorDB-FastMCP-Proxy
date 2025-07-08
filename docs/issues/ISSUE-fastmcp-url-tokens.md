@@ -49,8 +49,8 @@ async def url_token_middleware(request: Request, call_next):
 
 ## Files to Modify
 
-1. `src/fastmcp_proxy_tenant.py` - Update authentication logic
-2. `src/fastmcp_proxy.py` - Add URL token support for single-device mode
+1. ✅ `src/fastmcp_proxy.py` - Authentication logic implemented
+2. ✅ `src/fastmcp_proxy.py` - URL token support for both single and multi-device modes
 3. `test_remote_mcp.py` - Update tests for URL-based authentication
 
 ## Success Criteria

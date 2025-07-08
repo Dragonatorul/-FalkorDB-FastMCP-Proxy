@@ -12,7 +12,7 @@ Current Docker setup only runs single-device proxy on port 3001. Need to support
 
 **docker-compose.yml**:
 - Only exposes port 3001 (authenticated endpoint)
-- Uses `src/fastmcp_proxy.py` (single-device)
+- ✅ **RESOLVED**: Uses `src/fastmcp_proxy.py` (supports both single and multi-device)
 - No tenant-aware endpoint available
 
 ## Required Configuration
@@ -32,7 +32,7 @@ services:
     ports:
       - "3001:3001"  # Authenticated endpoint
       - "3003:3003"  # Tenant-aware endpoint
-    command: python src/fastmcp_proxy_dual.py
+    command: python src/fastmcp_proxy.py  # ✅ Now unified
 ```
 
 #### Option 2: Separate Services
@@ -40,17 +40,17 @@ services:
 services:
   fastmcp-proxy-auth:
     ports: ["3001:3001"]
-    command: python src/fastmcp_proxy.py
+    command: python src/fastmcp_proxy.py  # ✅ Now unified
     
   fastmcp-proxy-tenant:
     ports: ["3003:3003"] 
-    command: python src/fastmcp_proxy_tenant.py
+    command: python src/fastmcp_proxy.py  # ✅ Now unified
 ```
 
 ## Implementation Tasks
 
 ### 1. Create Dual-Port Proxy
-Create `src/fastmcp_proxy_dual.py` that runs both servers:
+✅ **RESOLVED**: `src/fastmcp_proxy.py` handles both authentication methods on single port:
 ```python
 import asyncio
 import uvicorn
@@ -76,7 +76,7 @@ async def run_dual_servers():
 
 1. `docker-compose.yml` - Add dual-port configuration
 2. `Dockerfile` - Update for dual-server support
-3. `src/fastmcp_proxy_dual.py` - Create dual-server implementation
+3. ✅ `src/fastmcp_proxy.py` - Unified single-server implementation
 
 ## Success Criteria
 
