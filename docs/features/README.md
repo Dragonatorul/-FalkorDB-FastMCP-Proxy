@@ -23,6 +23,7 @@ Security enhancements and compliance features.
 
 ### High Priority
 - **[web-ui-user-management.md](./web-ui-user-management.md)** - Comprehensive web-based administration interface
+- **[cicd-pipeline-docker-semver.md](./cicd-pipeline-docker-semver.md)** - GitHub Actions CI/CD with semantic versioning
 
 ### Medium Priority
 - **[graphql-query-builder.md](./graphql-query-builder.md)** - Visual query construction interface
