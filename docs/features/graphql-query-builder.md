@@ -1,9 +1,12 @@
 # Feature: Advanced GraphQL Query Builder
 
-**Status**: Planned  
-**Priority**: Low  
-**Category**: User Experience  
-**Estimated Effort**: 3-4 weeks  
+> **⚠️ CONCEPT ONLY - NOT PLANNED FOR IMPLEMENTATION**  
+> This is a complex UI feature concept that is outside the scope of the current personal-use project. This document serves as a reference for potential future development but is not on the roadmap for the foreseeable future.
+
+**Status**: Concept Only (Not Planned)  
+**Priority**: Not Applicable  
+**Category**: User Experience Concepts  
+**Estimated Effort**: 3-4 weeks (if ever implemented)  
 
 ## Overview
 

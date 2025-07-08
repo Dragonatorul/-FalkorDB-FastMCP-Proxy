@@ -1,9 +1,12 @@
 # Feature: Web UI for User and Tenant Management
 
-**Status**: Planned  
-**Priority**: Medium  
-**Category**: Administrative Tools  
-**Estimated Effort**: 2-3 weeks  
+> **⚠️ CONCEPT ONLY - NOT PLANNED FOR IMPLEMENTATION**  
+> This is an enterprise-grade feature concept that is far outside the scope of the current personal-use project. This document serves as a reference for potential future enterprise adoption but is not on the roadmap for the foreseeable future.
+
+**Status**: Concept Only (Not Planned)  
+**Priority**: Not Applicable  
+**Category**: Enterprise Concepts  
+**Estimated Effort**: 2-3 weeks (if ever implemented)  
 
 ## Overview
 

@@ -7,7 +7,7 @@
 
 ## Overview
 
-Comprehensive CI/CD pipeline using GitHub Actions for automated building, testing, versioning, and releasing of the FalkorDB FastMCP Proxy with proper semantic versioning and Docker image management.
+Practical CI/CD pipeline using GitHub Actions for automated building, testing, and releasing of the FalkorDB FastMCP Proxy with Docker image management - designed for personal use and small-scale deployments.
 
 ## Business Case
 

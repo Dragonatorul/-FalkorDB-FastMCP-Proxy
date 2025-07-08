@@ -285,9 +285,13 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 4. **[multi-device-testing.md](./issues/multi-device-testing.md)** - Multi-device validation
 
 ## Planned Features (See docs/features/)
-- **[web-ui-user-management.md](./features/web-ui-user-management.md)** - Flask-based admin interface with React frontend
-- **[graphql-query-builder.md](./features/graphql-query-builder.md)** - Visual Cypher query construction  
-- **[collaborative-queries.md](./features/collaborative-queries.md)** - Real-time collaborative editing
+- **[cicd-pipeline-docker-semver.md](./features/cicd-pipeline-docker-semver.md)** - GitHub Actions CI/CD pipeline for personal use
+
+### Enterprise Concepts (Not Planned)
+> **Note**: The following are concept documents only and not planned for implementation
+- **[web-ui-user-management.md](./features/web-ui-user-management.md)** - Enterprise admin interface concept
+- **[graphql-query-builder.md](./features/graphql-query-builder.md)** - Visual query builder concept  
+- **[collaborative-queries.md](./features/collaborative-queries.md)** - Real-time collaboration concept
 
 **Files Created This Session**:
 - ✅ docs/issues/ - Dedicated directory for issue tracking

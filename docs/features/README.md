@@ -21,21 +21,23 @@ Security enhancements and compliance features.
 
 ## Current Planned Features
 
-### High Priority
-- **[web-ui-user-management.md](./web-ui-user-management.md)** - Comprehensive web-based administration interface
-- **[cicd-pipeline-docker-semver.md](./cicd-pipeline-docker-semver.md)** - GitHub Actions CI/CD with semantic versioning
+### High Priority (Actually Planned)
+- **[cicd-pipeline-docker-semver.md](./cicd-pipeline-docker-semver.md)** - GitHub Actions CI/CD with semantic versioning (for personal use)
 
-### Medium Priority
-- **[graphql-query-builder.md](./graphql-query-builder.md)** - Visual query construction interface
+### Concept Only (Not Planned - Enterprise Ideas)
+> **⚠️ The following are concept documents only** - These enterprise-grade features are far outside the scope of the current personal-use project and are not planned for implementation in the foreseeable future.
+
+- **[web-ui-user-management.md](./web-ui-user-management.md)** - Enterprise web-based administration interface  
+- **[graphql-query-builder.md](./graphql-query-builder.md)** - Advanced visual query construction interface
 - **[collaborative-queries.md](./collaborative-queries.md)** - Real-time collaborative query editing
 
-### Future Considerations
-- **Advanced Analytics Dashboard** - Business intelligence and reporting
-- **Mobile Administration App** - Native mobile interface for administrators  
-- **API Gateway Integration** - Centralized API management and routing
-- **Machine Learning Insights** - AI-powered query optimization and insights
-- **Backup & Recovery System** - Automated backup and disaster recovery
-- **Multi-Region Deployment** - Geographic distribution and failover
+### Future Considerations (Not Planned)
+- **Advanced Analytics Dashboard** - Business intelligence and reporting (enterprise concept)
+- **Mobile Administration App** - Native mobile interface (enterprise concept)  
+- **API Gateway Integration** - Centralized API management (enterprise concept)
+- **Machine Learning Insights** - AI-powered optimization (enterprise concept)
+- **Backup & Recovery System** - Enterprise disaster recovery (enterprise concept)
+- **Multi-Region Deployment** - Geographic distribution (enterprise concept)
 
 ## Feature Template
 

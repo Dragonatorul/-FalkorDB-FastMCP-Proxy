@@ -1,9 +1,12 @@
 # Feature: Real-Time Collaborative Queries
 
-**Status**: Planned  
-**Priority**: Low  
-**Category**: Collaboration  
-**Estimated Effort**: 2-3 weeks  
+> **⚠️ CONCEPT ONLY - NOT PLANNED FOR IMPLEMENTATION**  
+> This is an advanced collaboration feature concept that is outside the scope of the current personal-use project. This document serves as a reference for potential future development but is not on the roadmap for the foreseeable future.
+
+**Status**: Concept Only (Not Planned)  
+**Priority**: Not Applicable  
+**Category**: Collaboration Concepts  
+**Estimated Effort**: 2-3 weeks (if ever implemented)  
 
 ## Overview
 
