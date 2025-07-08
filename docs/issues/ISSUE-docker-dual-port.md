@@ -1,0 +1,128 @@
+# Issue: Docker Configuration for Dual-Port Deployment
+
+**Status**: Pending  
+**Priority**: Medium  
+**Assigned**: Future Session  
+
+## Problem Statement
+
+Current Docker setup only runs single-device proxy on port 3001. Need to support dual-port deployment for both Claude Desktop (authenticated) and opencode (tenant-aware) access.
+
+## Current Configuration
+
+**docker-compose.yml**:
+- Only exposes port 3001 (authenticated endpoint)
+- Uses `src/fastmcp_proxy.py` (single-device)
+- No tenant-aware endpoint available
+
+## Required Configuration
+
+### Dual-Port Architecture
+```yaml
+# Port 3001: Claude Desktop (Bearer token authentication)
+# Port 3003: opencode (URL token authentication with tenant isolation)
+```
+
+### Docker Service Options
+
+#### Option 1: Single Service, Dual Ports
+```yaml
+services:
+  fastmcp-proxy:
+    ports:
+      - "3001:3001"  # Authenticated endpoint
+      - "3003:3003"  # Tenant-aware endpoint
+    command: python src/fastmcp_proxy_dual.py
+```
+
+#### Option 2: Separate Services
+```yaml
+services:
+  fastmcp-proxy-auth:
+    ports: ["3001:3001"]
+    command: python src/fastmcp_proxy.py
+    
+  fastmcp-proxy-tenant:
+    ports: ["3003:3003"] 
+    command: python src/fastmcp_proxy_tenant.py
+```
+
+## Implementation Tasks
+
+### 1. Create Dual-Port Proxy
+Create `src/fastmcp_proxy_dual.py` that runs both servers:
+```python
+import asyncio
+import uvicorn
+from fastmcp_proxy import mcp_auth
+from fastmcp_proxy_tenant import mcp_public
+
+async def run_dual_servers():
+    # Start authenticated server on 3001
+    # Start tenant-aware server on 3003
+```
+
+### 2. Update docker-compose.yml
+- Add port 3003 exposure
+- Update command to use dual-port implementation
+- Set environment variables for both ports
+
+### 3. Update Dockerfile
+- Ensure all dependencies available
+- Set proper entry point for dual-server mode
+- Configure logging for both services
+
+## Files to Modify
+
+1. `docker-compose.yml` - Add dual-port configuration
+2. `Dockerfile` - Update for dual-server support
+3. `src/fastmcp_proxy_dual.py` - Create dual-server implementation
+
+## Success Criteria
+
+- [ ] Both endpoints accessible via Docker
+- [ ] Port 3001: Claude Desktop authentication working
+- [ ] Port 3003: opencode URL token authentication working  
+- [ ] Docker logs show both servers starting
+- [ ] Health checks work for both endpoints
+
+## Testing Plan
+
+1. `docker-compose up -d`
+2. Test Claude Desktop connection to `:3001`
+3. Test opencode connection to `:3003/?token=<jwt>`
+4. Verify tenant isolation between different tokens
+5. Check Docker service health and logs
+
+## Dependencies
+
+- Requires URL token authentication implementation
+- Requires completed tenant-aware tools
+- Backend services must remain accessible
+
+## Configuration Examples
+
+### Claude Desktop (Port 3001)
+```json
+{
+  "name": "FalkorDB",
+  "serverUrl": "http://localhost:3001/sse/",
+  "auth": {
+    "type": "bearer", 
+    "token": "eyJhbG..."
+  }
+}
+```
+
+### opencode (Port 3003)
+```json
+{
+  "name": "FalkorDB-Tenant",
+  "type": "sse",
+  "url": "http://localhost:3003/sse/?token=eyJhbG..."
+}
+```
+
+## Estimated Effort
+
+~1 hour to implement and test dual-port Docker configuration.
