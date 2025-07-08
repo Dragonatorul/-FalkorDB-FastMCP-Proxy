@@ -130,7 +130,7 @@ All 3/3 integration tests now pass consistently.
 
 ### Integration Test Status
 ```bash
-$ python test_remote_mcp.py
+$ python tests/test_remote_mcp.py
 🧪 Testing FalkorDB FastMCP Proxy for Remote Access
 ✅ Backend health: healthy
 ✅ OAuth Authorization Server Metadata endpoint working  

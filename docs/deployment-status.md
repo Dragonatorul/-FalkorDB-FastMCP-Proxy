@@ -72,7 +72,7 @@ docker-compose up -d falkordb falkordb-mcp-server
 python src/fastmcp_proxy.py
 
 # 3. Verify integration
-python test_remote_mcp.py
+python tests/test_remote_mcp.py
 ```
 
 ## Performance Metrics

@@ -14,13 +14,13 @@ Claude Desktop ←SSE/HTTPS→ FastMCP Proxy ←HTTP→ FalkorDB MCPServer v1.1.
 ## Key Files
 - `src/fastmcp_proxy.py` - FastMCP server with OAuth 2.1 and 4 MCP tools
 - `docker-compose.yml` - 3-service stack (FalkorDB + MCPServer + Proxy)
-- `test_remote_mcp.py` - Comprehensive integration tests
+- `tests/test_remote_mcp.py` - Comprehensive integration tests
 - `requirements.txt` - Dependencies (fastmcp, cryptography, pyjwt[crypto])
 
 ## Core Commands
 **Start Stack**: `docker-compose up -d`
 **Check Status**: `docker-compose ps`
-**Test Proxy**: `python test_remote_mcp.py`
+**Test Proxy**: `python tests/test_remote_mcp.py`
 **Get Token**: `python src/fastmcp_proxy.py` (shows Bearer token in output)
 **Logs**: `docker-compose logs fastmcp-proxy`
 
@@ -93,7 +93,7 @@ PROXY_PORT=3001
 4. Performance validation and production deployment prep
 
 ## Build, Lint, and Test Commands
-- **Test**: `python test_remote_mcp.py` (comprehensive proxy tests)
+- **Test**: `python tests/test_remote_mcp.py` (comprehensive proxy tests)
 - **Python Style**: `black src/` (if available)
 - **Type Check**: `mypy src/` (if configured)
 - **Docker Build**: `docker-compose build`

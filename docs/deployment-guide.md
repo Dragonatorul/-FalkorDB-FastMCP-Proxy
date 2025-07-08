@@ -57,7 +57,7 @@ Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
 ### 4. Validate Deployment
 ```bash
 # Run integration tests
-python test_remote_mcp.py
+python tests/test_remote_mcp.py
 ```
 
 Expected output:
@@ -226,7 +226,7 @@ curl http://localhost:3000/health
 curl http://localhost:3001/.well-known/oauth-authorization-server
 
 # Run full integration test
-python test_remote_mcp.py
+python tests/test_remote_mcp.py
 ```
 
 ### Log Monitoring

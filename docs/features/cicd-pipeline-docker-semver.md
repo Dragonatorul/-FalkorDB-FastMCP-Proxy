@@ -120,7 +120,7 @@ jobs:
           timeout 60 bash -c 'until docker-compose ps | grep healthy; do sleep 2; done'
           
       - name: Run integration tests
-        run: python test_remote_mcp.py
+        run: python tests/test_remote_mcp.py
         
       - name: Stop Docker services
         run: docker-compose down

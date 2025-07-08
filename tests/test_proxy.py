@@ -5,7 +5,7 @@ Test script for the FastMCP proxy server
 import asyncio
 import os
 import sys
-sys.path.append('src')
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from fastmcp_proxy import call_backend, list_tools, call_tool
 

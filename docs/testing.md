@@ -20,7 +20,7 @@ The FalkorDB FastMCP Proxy includes comprehensive testing to ensure reliability 
 
 #### Test Results Example:
 ```bash
-$ python test_remote_mcp.py
+$ python tests/test_remote_mcp.py
 🧪 Testing FalkorDB FastMCP Proxy for Remote Access
 ============================================================
 🔑 Generating Bearer token...
@@ -296,7 +296,7 @@ jobs:
       - name: Start FastMCP proxy
         run: python src/fastmcp_proxy.py &
       - name: Run integration tests
-        run: python test_remote_mcp.py
+        run: python tests/test_remote_mcp.py
       - name: Cleanup
         run: docker-compose down
 ```

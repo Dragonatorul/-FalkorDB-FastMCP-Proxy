@@ -72,7 +72,7 @@ Add to Claude Desktop MCP settings:
 
 ```bash
 # Run comprehensive test
-python test_remote_mcp.py
+python tests/test_remote_mcp.py
 ```
 
 ## Available Tools
@@ -139,7 +139,7 @@ Run the test suite to validate the setup:
 
 ```bash
 # Comprehensive test
-python test_remote_mcp.py
+python tests/test_remote_mcp.py
 
 # Expected output:
 # ✅ Backend health: healthy

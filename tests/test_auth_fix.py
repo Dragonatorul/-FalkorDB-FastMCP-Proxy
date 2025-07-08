@@ -5,7 +5,7 @@ Test script to debug FastMCP Bearer token authentication
 
 import sys
 import os
-sys.path.append('src')
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from fastmcp_proxy import mcp, auth, generate_test_token, key_pair
 import asyncio

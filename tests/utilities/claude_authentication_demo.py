@@ -78,7 +78,7 @@ def print_token_example():
     print("🔑 BEARER TOKEN USAGE EXAMPLE")
     print("-" * 50)
     print("Generate development token:")
-    print("python -c \"from src.fastmcp_proxy import generate_test_token; print(generate_test_token())\"")
+    print("python -c \"import sys; sys.path.append('src'); from fastmcp_proxy import generate_test_token; print(generate_test_token())\"")
     print()
     print("Use in HTTP requests:")
     print("curl -H \"Authorization: Bearer <token>\" http://localhost:3001/mcp/")
@@ -97,7 +97,7 @@ def print_claude_config():
     try:
         import sys
         import os
-        sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+        sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
         from fastmcp_proxy import generate_test_token
         token = generate_test_token()
     except:
@@ -154,7 +154,7 @@ def print_next_steps():
     print("   curl http://localhost:3001/.well-known/oauth-authorization-server")
     print()
     print("3. Generate Bearer token:")
-    print("   python -c \"from src.fastmcp_proxy import generate_test_token; print(generate_test_token())\"")
+    print("   python -c \"import sys; sys.path.append('src'); from fastmcp_proxy import generate_test_token; print(generate_test_token())\"")
     print()
     print("4. Test with Claude Desktop:")
     print("   - Add configuration to claude_desktop_config.json")
