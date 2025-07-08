@@ -183,6 +183,7 @@ python test_remote_mcp.py
 - **[Deployment Guide](docs/deployment-guide.md)** - Complete setup instructions
 - **[Claude Desktop Integration](docs/claude-desktop-integration.md)** - ⚠️ **Essential:** Step-by-step Claude Desktop setup
 - **[Multi-Tenant Authentication](docs/multi-tenant-authentication.md)** - 🏢 **Enterprise:** Multi-tenant deployment with data isolation
+- **[Client Onboarding Guide](docs/client-onboarding-guide.md)** - 🎯 **Production:** Complete workflow for onboarding new tenants
 - **[Architecture Overview](docs/architecture.md)** - System design and components
 - **[Testing Guide](docs/testing.md)** - Test procedures and validation
 
@@ -196,6 +197,7 @@ python test_remote_mcp.py
 
 **⚠️ Quick Start**: If you're confused about Claude Desktop setup, read [docs/claude-desktop-integration.md](docs/claude-desktop-integration.md) first!  
 **🏢 Enterprise**: For multi-tenant deployments, see [docs/multi-tenant-authentication.md](docs/multi-tenant-authentication.md)  
+**🎯 Production**: For onboarding new clients, see [docs/client-onboarding-guide.md](docs/client-onboarding-guide.md)  
 **🧠 Deep Understanding**: For technical details about MCP vs Integrations, see [docs/mcp-vs-integrations.md](docs/mcp-vs-integrations.md)
 
 ## Implementation Status
