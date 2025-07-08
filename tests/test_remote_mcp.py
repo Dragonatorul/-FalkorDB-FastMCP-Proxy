@@ -1,21 +1,57 @@
 #!/usr/bin/env python3
 """
-Test script for FalkorDB FastMCP Proxy with remote SSE connections.
+Integration test script for FalkorDB FastMCP Proxy with remote SSE connections.
 
-This script validates:
-1. OAuth Authorization Server Metadata endpoint
-2. SSE endpoint authentication
-3. Remote MCP client connection capability
+This module provides comprehensive integration testing for the unified FalkorDB
+FastMCP Proxy server with real HTTP connections and backend communication.
+Unlike unit tests, these tests require a running proxy server and optionally
+a FalkorDB backend server for full validation.
+
+Test Categories:
+    1. OAuth Authorization Server Metadata endpoint validation
+    2. Server-Sent Events (SSE) endpoint authentication testing
+    3. Remote MCP client connection capability validation
+    4. Bearer token authentication with HTTP requests
+    5. Backend connectivity and health checking
+
+Usage:
+    # Run with proxy and backend servers running:
+    python tests/test_remote_mcp.py
+
+    # Or use pytest:
+    pytest tests/test_remote_mcp.py -v
+
+    # Run as integration test target:
+    make test-integration
+
+Requirements:
+    - FalkorDB FastMCP Proxy server running on localhost:3001
+    - FalkorDB MCP Server backend running on localhost:3000 (optional)
+    - Python requests library for HTTP client testing
+
+Output:
+    - Detailed test results with pass/fail status
+    - Generated Claude Desktop configuration if all tests pass
+    - Bearer token examples for development use
+
+Security Note:
+    This script generates real JWT tokens for testing. These tokens
+    should only be used in development environments.
+
+Author:
+    Claude Code Assistant
+
+Version:
+    1.0.0
 """
 
+from fastmcp_proxy import generate_test_token
 import os
 import sys
 import requests
 
 # Add src to path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-
-from fastmcp_proxy import generate_test_token
 
 
 def generate_bearer_token() -> str:
