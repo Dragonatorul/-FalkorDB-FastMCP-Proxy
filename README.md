@@ -1,14 +1,14 @@
 # FalkorDB FastMCP Proxy
 
-A **remote-accessible** Model Context Protocol (MCP) server proxy that provides Claude Desktop and other MCP clients with **SSE-based access** to FalkorDB graph databases through the FalkorDB MCPServer backend.
+A **remote-accessible** Model Context Protocol (MCP) server proxy that provides Claude Desktop and other MCP clients with **HTTP-based access** to FalkorDB graph databases through the FalkorDB MCPServer backend.
 
 ## 🚀 Key Features
 
 ### ✅ **Remote MCP Server**
-- **SSE Transport**: Server-Sent Events for remote connections
+- **Streamable-HTTP Transport**: Modern HTTP transport for reliable remote connections
 - **OAuth 2.1 Authentication**: Bearer token validation with JWT
 - **Authorization Server Metadata**: RFC8414 compliant discovery
-- **Docker Deployment**: Production-ready containerized stack
+- **Full Docker Deployment**: Production-ready containerized stack
 
 ### ✅ **MCP Tools**
 - **falkordb_query**: Execute Cypher queries against FalkorDB graphs
@@ -25,8 +25,8 @@ A **remote-accessible** Model Context Protocol (MCP) server proxy that provides 
 ## Architecture
 
 ```
-Claude Desktop ←SSE/HTTPS→ FastMCP Proxy ←HTTP→ FalkorDB MCPServer v1.1.0 ←→ FalkorDB
-    (Remote)               (Port 3001)           (Port 3000)              (Port 6379)
+Claude Desktop ←HTTP/HTTPS→ FastMCP Proxy ←HTTP→ FalkorDB MCPServer v1.1.0 ←→ FalkorDB
+    (Remote)                (Port 3001)        (Port 3000)              (Port 6379)
 ```
 
 ## Quick Start
@@ -52,18 +52,27 @@ python src/fastmcp_proxy.py
 
 ### 3. Configure Claude Desktop
 
-Add to Claude Desktop **Integrations** settings:
+⚠️ **IMPORTANT**: Use the correct Claude Desktop integration method:
 
+**✅ CORRECT**: **Settings → Features → Model Context Protocol** (MCP Servers)  
+**❌ WRONG**: Settings → Integrations (that's for cloud services like GitHub)
+
+**Quick Configuration**:
 ```json
 {
-  "name": "FalkorDB",
-  "serverUrl": "http://localhost:3001/sse/",
-  "auth": {
-    "type": "bearer",
-    "token": "YOUR_BEARER_TOKEN_HERE"
+  "mcpServers": {
+    "falkordb": {
+      "serverUrl": "http://localhost:3001/mcp/",
+      "auth": {
+        "type": "bearer",
+        "token": "YOUR_BEARER_TOKEN_HERE"
+      }
+    }
   }
 }
 ```
+
+**📖 Complete Setup Guide**: See [docs/claude-desktop-integration.md](docs/claude-desktop-integration.md) for detailed step-by-step instructions.
 
 ### 4. Test Connection
 
@@ -74,7 +83,7 @@ python test_remote_mcp.py
 # Expected output:
 # ✅ Backend health: healthy
 # ✅ OAuth Authorization Server Metadata endpoint working  
-# ✅ SSE endpoint accepts valid Bearer token
+# ✅ MCP endpoint accepts valid Bearer token
 # 🎉 All tests passed!
 ```
 
@@ -167,6 +176,21 @@ python test_proxy.py
 # Test remote MCP capabilities
 python test_remote_mcp.py
 ```
+
+## 📚 Documentation
+
+### Setup & Configuration
+- **[Deployment Guide](docs/deployment-guide.md)** - Complete setup instructions
+- **[Claude Desktop Integration](docs/claude-desktop-integration.md)** - ⚠️ **Essential:** Explains the two different Claude Desktop integration methods
+- **[Architecture Overview](docs/architecture.md)** - System design and components
+- **[Testing Guide](docs/testing.md)** - Test procedures and validation
+
+### Status & Troubleshooting  
+- **[Deployment Status](docs/deployment-status.md)** - Current production readiness
+- **[Known Issues](docs/known-issues.md)** - Bug reports and solutions
+- **[Implementation Plan](docs/implementation-plan.md)** - Development progress and milestones
+
+**⚠️ Important**: If you're confused about Claude Desktop setup, read [docs/claude-desktop-integration.md](docs/claude-desktop-integration.md) first!
 
 ## Implementation Status
 

@@ -71,29 +71,44 @@ Expected output:
 ```
 
 ### 5. Configure Claude Desktop
-Add this configuration to your Claude Desktop MCP settings:
 
+⚠️ **IMPORTANT**: Claude Desktop has two different integration methods. **Use the correct one!**
+
+**✅ CORRECT**: Use **MCP Servers** configuration (JSON file)  
+**❌ WRONG**: Don't use the **Integrations** section (that's for cloud services)
+
+**📋 Quick Configuration**:
 ```json
 {
-  "name": "FalkorDB",
-  "serverUrl": "http://localhost:3001/mcp/",
-  "auth": {
-    "type": "bearer",
-    "token": "YOUR_BEARER_TOKEN_FROM_STEP_3"
+  "mcpServers": {
+    "falkordb": {
+      "serverUrl": "http://localhost:3001/mcp/",
+      "auth": {
+        "type": "bearer",
+        "token": "YOUR_BEARER_TOKEN_FROM_STEP_3"
+      }
+    }
   }
 }
 ```
+
+**📖 Detailed Setup**: See [Claude Desktop Integration Guide](./claude-desktop-integration.md) for complete step-by-step instructions and troubleshooting.
 
 ---
 
 ## Alternative Deployment Methods
 
-### Docker-Only Deployment (Known Issues)
-⚠️ **Not Recommended**: See [known-issues.md](./known-issues.md#issue-001-docker-fastmcp-initialization-failure)
+### Full Docker Deployment ✅ RECOMMENDED
+The current deployment method uses all services in Docker containers:
 
 ```bash
-# This currently doesn't work due to FastMCP Docker compatibility issue
-docker-compose up -d  # Will start all services but proxy won't initialize properly
+# Start complete 3-service stack  
+docker-compose up -d
+
+# All services running in containers:
+# - FalkorDB: localhost:6379
+# - MCPServer: localhost:3000  
+# - FastMCP Proxy: localhost:3001/mcp/
 ```
 
 ### Production Deployment
