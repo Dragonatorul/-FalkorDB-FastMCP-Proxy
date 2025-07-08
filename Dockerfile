@@ -29,5 +29,5 @@ ENV PYTHONUNBUFFERED=1
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:3001/.well-known/oauth-authorization-server || exit 1
 
-# Run FastMCP server with verbose output
+# Run unified FastMCP server with verbose output
 CMD ["python", "-u", "src/fastmcp_proxy.py"]
