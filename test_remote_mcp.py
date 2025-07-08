@@ -51,31 +51,31 @@ def test_oauth_metadata(base_url: str) -> bool:
         print(f"❌ Error testing OAuth metadata: {e}")
         return False
 
-def test_sse_endpoint_auth(base_url: str, bearer_token: str) -> bool:
-    """Test SSE endpoint authentication"""
+def test_mcp_endpoint_auth(base_url: str, bearer_token: str) -> bool:
+    """Test MCP endpoint authentication (streamable-http transport)"""
     try:
         # Test without auth - should get 401
-        response = requests.get(f"{base_url}/sse/", timeout=5)
+        response = requests.get(f"{base_url}/mcp/", timeout=5)
         if response.status_code != 401:
-            print(f"❌ SSE endpoint should require auth, got {response.status_code}")
+            print(f"❌ MCP endpoint should require auth, got {response.status_code}")
             return False
         
-        # Test with valid Bearer token - should get SSE connection
+        # Test with valid Bearer token - should get MCP protocol response
         headers = {"Authorization": bearer_token}
-        response = requests.get(f"{base_url}/sse/", headers=headers, timeout=5, stream=True)
+        response = requests.get(f"{base_url}/mcp/", headers=headers, timeout=5)
         
         if response.status_code in [200, 202]:
-            print("✅ SSE endpoint accepts valid Bearer token")
+            print("✅ MCP endpoint accepts valid Bearer token")
             return True
         elif response.status_code == 401:
             print(f"❌ Valid Bearer token was rejected: {response.text}")
             return False
         else:
-            print(f"❌ Unexpected SSE response: {response.status_code}")
+            print(f"❌ Unexpected MCP response: {response.status_code}")
             return False
             
     except Exception as e:
-        print(f"❌ Error testing SSE endpoint: {e}")
+        print(f"❌ Error testing MCP endpoint: {e}")
         return False
 
 def test_backend_connectivity() -> bool:
@@ -118,8 +118,8 @@ def main():
     if test_oauth_metadata(proxy_url):
         tests_passed += 1
         
-    print(f"\n🌊 Testing SSE endpoint authentication...")
-    if test_sse_endpoint_auth(proxy_url, bearer_token):
+    print(f"\n🌊 Testing MCP endpoint authentication...")
+    if test_mcp_endpoint_auth(proxy_url, bearer_token):
         tests_passed += 1
     
     # Results

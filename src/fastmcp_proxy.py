@@ -199,9 +199,10 @@ if __name__ == "__main__":
     print(f"\n📍 OAuth Authorization Server Metadata:")
     print(f"   http://{PROXY_HOST}:{PROXY_PORT}/.well-known/oauth-authorization-server")
     
-    # Run FastMCP server with SSE transport for remote connections
+    # Try streamable-http transport instead of deprecated SSE
+    print(f"\n🔧 Using streamable-http transport for Docker compatibility")
     mcp.run(
-        transport="sse",
+        transport="streamable-http",
         host=PROXY_HOST,
         port=PROXY_PORT
     )
