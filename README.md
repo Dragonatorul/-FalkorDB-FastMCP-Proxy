@@ -18,7 +18,7 @@ A **remote-accessible** Model Context Protocol (MCP) server proxy that provides 
 
 ### ✅ **Production Integration**
 - **FalkorDB MCPServer v1.1.0**: Production-tested backend
-- **Multi-tenant Support**: Ready for tenant isolation
+- **Multi-tenant Support**: Complete data isolation with JWT-based tenant authentication
 - **Comprehensive Error Handling**: User-friendly error messages
 - **Health Monitoring**: Backend connectivity monitoring
 
@@ -182,9 +182,12 @@ python test_remote_mcp.py
 ### Setup & Configuration
 - **[Deployment Guide](docs/deployment-guide.md)** - Complete setup instructions
 - **[Claude Desktop Integration](docs/claude-desktop-integration.md)** - ⚠️ **Essential:** Step-by-step Claude Desktop setup
-- **[MCP vs Integrations Deep Dive](docs/mcp-vs-integrations.md)** - 🧠 **Technical:** Complete analysis of Claude Desktop's two integration methods
+- **[Multi-Tenant Authentication](docs/multi-tenant-authentication.md)** - 🏢 **Enterprise:** Multi-tenant deployment with data isolation
 - **[Architecture Overview](docs/architecture.md)** - System design and components
 - **[Testing Guide](docs/testing.md)** - Test procedures and validation
+
+### Technical Deep Dives
+- **[MCP vs Integrations Deep Dive](docs/mcp-vs-integrations.md)** - 🧠 **Technical:** Complete analysis of Claude Desktop's two integration methods
 
 ### Status & Troubleshooting  
 - **[Deployment Status](docs/deployment-status.md)** - Current production readiness
@@ -192,6 +195,7 @@ python test_remote_mcp.py
 - **[Implementation Plan](docs/implementation-plan.md)** - Development progress and milestones
 
 **⚠️ Quick Start**: If you're confused about Claude Desktop setup, read [docs/claude-desktop-integration.md](docs/claude-desktop-integration.md) first!  
+**🏢 Enterprise**: For multi-tenant deployments, see [docs/multi-tenant-authentication.md](docs/multi-tenant-authentication.md)  
 **🧠 Deep Understanding**: For technical details about MCP vs Integrations, see [docs/mcp-vs-integrations.md](docs/mcp-vs-integrations.md)
 
 ## Implementation Status
