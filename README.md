@@ -181,7 +181,8 @@ python test_remote_mcp.py
 
 ### Setup & Configuration
 - **[Deployment Guide](docs/deployment-guide.md)** - Complete setup instructions
-- **[Claude Desktop Integration](docs/claude-desktop-integration.md)** - ⚠️ **Essential:** Explains the two different Claude Desktop integration methods
+- **[Claude Desktop Integration](docs/claude-desktop-integration.md)** - ⚠️ **Essential:** Step-by-step Claude Desktop setup
+- **[MCP vs Integrations Deep Dive](docs/mcp-vs-integrations.md)** - 🧠 **Technical:** Complete analysis of Claude Desktop's two integration methods
 - **[Architecture Overview](docs/architecture.md)** - System design and components
 - **[Testing Guide](docs/testing.md)** - Test procedures and validation
 
@@ -190,7 +191,8 @@ python test_remote_mcp.py
 - **[Known Issues](docs/known-issues.md)** - Bug reports and solutions
 - **[Implementation Plan](docs/implementation-plan.md)** - Development progress and milestones
 
-**⚠️ Important**: If you're confused about Claude Desktop setup, read [docs/claude-desktop-integration.md](docs/claude-desktop-integration.md) first!
+**⚠️ Quick Start**: If you're confused about Claude Desktop setup, read [docs/claude-desktop-integration.md](docs/claude-desktop-integration.md) first!  
+**🧠 Deep Understanding**: For technical details about MCP vs Integrations, see [docs/mcp-vs-integrations.md](docs/mcp-vs-integrations.md)
 
 ## Implementation Status
 

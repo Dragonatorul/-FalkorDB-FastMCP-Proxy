@@ -16,6 +16,8 @@ Claude Desktop has **two distinct ways** to connect external services. **Choose 
 **Purpose**: Third-party cloud services (GitHub, Google Drive, etc.)  
 **❌ **Don't use this for our MCP server**
 
+**🧠 Want to understand WHY these are different?** See [MCP vs Integrations Deep Dive](./mcp-vs-integrations.md) for complete technical analysis.
+
 ---
 
 ## ✅ **Correct Setup: MCP Servers Configuration**
