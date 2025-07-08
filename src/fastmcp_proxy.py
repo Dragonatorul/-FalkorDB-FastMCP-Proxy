@@ -1,32 +1,130 @@
+"""
+FalkorDB FastMCP Proxy (Unified Authentication)
+
+A unified proxy server that provides secure access to FalkorDB instances through
+the Model Context Protocol (MCP) with support for both Claude Desktop and opencode
+authentication methods.
+
+This module implements a single FastMCP server that can handle:
+- Bearer token authentication for Claude Desktop clients
+- URL-based JWT token authentication for opencode clients
+- Multi-tenant isolation with automatic graph prefixing
+- Unified toolset that works with both authentication methods
+
+Architecture:
+    Client (Claude Desktop) → Bearer Token → Unified Proxy → FalkorDB
+    Client (opencode)       → URL JWT Token → Unified Proxy → FalkorDB
+
+Example Usage:
+    # For Claude Desktop:
+    Authorization: Bearer <RSA-signed-JWT>
+    
+    # For opencode:
+    http://localhost:3001/sse/?token=<tenant-JWT>
+
+Environment Variables:
+    FALKORDB_MCPSERVER_URL: Backend FalkorDB MCP server URL (default: http://localhost:3000)
+    MCP_API_KEY: API key for backend authentication (default: dev-api-key)
+    PROXY_PORT: Port for the unified proxy server (default: 3001)
+    PROXY_HOST: Host interface to bind to (default: 0.0.0.0)
+    SECRET_KEY: Secret key for JWT signing (default: dev-secret-key-change-in-production)
+
+Security Features:
+    - RSA-256 signed Bearer tokens for Claude Desktop
+    - HS256 signed JWT tokens for opencode with tenant isolation
+    - Automatic token validation and expiration checking
+    - Tenant-aware graph name prefixing for data isolation
+    - Secure backend API key authentication
+
+Author: Claude Code Assistant
+Version: 1.0.0
+License: MIT
+"""
+
 import os
+import time
+import hashlib
+from typing import Dict, Any, Optional, Union
+from urllib.parse import urlparse, parse_qs
+
 import httpx
 import uvicorn
-from typing import Dict, Any, Optional
+import jwt
+from fastapi import Request, HTTPException
+from fastapi.responses import Response
+
 from fastmcp import FastMCP, Context
 from fastmcp.server.auth import BearerAuthProvider
 from fastmcp.server.auth.providers.bearer import RSAKeyPair
 
-# Configuration
-BACKEND_URL = os.environ.get("FALKORDB_MCPSERVER_URL", "http://localhost:3000")
-API_KEY = os.environ.get("MCP_API_KEY", "dev-api-key")
-PROXY_PORT = int(os.environ.get("PROXY_PORT", "3001"))
-PROXY_HOST = os.environ.get("PROXY_HOST", "0.0.0.0")
+# ============================================================================
+# Configuration Constants
+# ============================================================================
 
-# Generate development RSA key pair for authentication
-# In production, use proper OAuth provider or pre-generated keys
-key_pair = RSAKeyPair.generate()
+# Backend FalkorDB MCP Server Configuration
+BACKEND_URL: str = os.environ.get("FALKORDB_MCPSERVER_URL", "http://localhost:3000")
+"""Backend FalkorDB MCP server URL for proxying requests."""
 
-# Configure Bearer Token Authentication
-auth = BearerAuthProvider(
+API_KEY: str = os.environ.get("MCP_API_KEY", "dev-api-key")
+"""API key for authenticating with the backend FalkorDB MCP server."""
+
+# Proxy Server Configuration
+PROXY_PORT: int = int(os.environ.get("PROXY_PORT", "3001"))
+"""Port number for the unified proxy server to listen on."""
+
+PROXY_HOST: str = os.environ.get("PROXY_HOST", "0.0.0.0")
+"""Host interface for the proxy server to bind to (0.0.0.0 for all interfaces)."""
+
+# Security Configuration
+SECRET_KEY: str = os.environ.get("SECRET_KEY", "dev-secret-key-change-in-production")
+"""Secret key for signing JWT tokens. MUST be changed in production deployments."""
+
+# ============================================================================
+# Authentication Configuration
+# ============================================================================
+
+# Generate RSA key pair for Bearer token authentication (Claude Desktop)
+key_pair: RSAKeyPair = RSAKeyPair.generate()
+"""
+RSA key pair for signing and validating Bearer tokens used by Claude Desktop clients.
+In production, this should be generated once and stored securely rather than
+generated on each startup.
+"""
+
+# Configure Bearer Token Authentication provider
+auth: BearerAuthProvider = BearerAuthProvider(
     public_key=key_pair.public_key,
     issuer="https://falkordb-fastmcp-proxy",
     audience="falkordb-mcp-server",
     algorithm="RS256"
 )
+"""
+Bearer token authentication provider for Claude Desktop clients.
+Uses RSA-256 signing algorithm for enhanced security.
+"""
 
-# Generate a development token for testing
-def generate_test_token():
-    """Generate a test token for development purposes"""
+# ============================================================================
+# Token Generation and Validation Functions
+# ============================================================================
+
+def generate_test_token() -> str:
+    """
+    Generate a test Bearer token for Claude Desktop development.
+    
+    Creates an RSA-256 signed JWT token with standard claims for testing
+    and development purposes. This token is valid for 1 hour.
+    
+    Returns:
+        str: A Bearer token string that can be used in Authorization headers.
+        
+    Example:
+        >>> token = generate_test_token()
+        >>> # Use in HTTP header: Authorization: Bearer {token}
+        
+    Note:
+        In production, tokens should be generated by a proper OAuth2 server
+        or authentication service rather than this development utility.
+    """
     return key_pair.create_token(
         subject="dev-user",
         issuer="https://falkordb-fastmcp-proxy",
@@ -35,21 +133,183 @@ def generate_test_token():
         expires_in_seconds=3600
     )
 
-# Create FastMCP server with authentication
-mcp = FastMCP(
-    name="FalkorDB FastMCP Proxy",
-    auth=auth
-)
+def generate_tenant_token(tenant_id: str, user_id: str = "user") -> str:
+    """
+    Generate a URL-safe JWT token for opencode tenant authentication.
+    
+    Creates an HS256 signed JWT token containing tenant and user information
+    for use in URL query parameters by opencode clients.
+    
+    Args:
+        tenant_id (str): Unique identifier for the tenant organization.
+        user_id (str, optional): User identifier within the tenant. Defaults to "user".
+        
+    Returns:
+        str: A JWT token string suitable for URL query parameters.
+        
+    Example:
+        >>> token = generate_tenant_token("acme_corp", "admin")
+        >>> url = f"http://localhost:3001/sse/?token={token}"
+        
+    Note:
+        The token expires after 1 hour. In production, consider shorter
+        expiration times for enhanced security.
+    """
+    payload = {
+        "tenant": tenant_id,
+        "user": user_id,
+        "exp": int(time.time()) + 3600  # 1 hour expiry
+    }
+    return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
-# TODO: Add OAuth 2.1 endpoints via custom routes
-# Currently having issues with custom_route decorator - will implement via FastAPI directly if needed
+def verify_tenant_token(token: str) -> Dict[str, str]:
+    """
+    Verify and decode a tenant JWT token.
+    
+    Validates the token signature and expiration, then extracts tenant
+    and user information from the payload.
+    
+    Args:
+        token (str): The JWT token to verify and decode.
+        
+    Returns:
+        Dict[str, str]: A dictionary containing 'tenant' and 'user' keys.
+        
+    Raises:
+        HTTPException: If the token is invalid, expired, or malformed.
+        
+    Example:
+        >>> try:
+        ...     info = verify_tenant_token("eyJhbGciOiJIUzI1NiIs...")
+        ...     print(f"Tenant: {info['tenant']}, User: {info['user']}")
+        ... except HTTPException as e:
+        ...     print(f"Token validation failed: {e.detail}")
+    """
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        return {
+            "tenant": payload.get("tenant", "default"),
+            "user": payload.get("user", "anonymous")
+        }
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid tenant token")
 
-# HTTP client for backend communication
-http_client = httpx.AsyncClient(timeout=30.0)
+# ============================================================================
+# HTTP Client and Authentication Context
+# ============================================================================
 
-async def call_backend(method: str, endpoint: str, data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-    """Call the FalkorDB MCP Server backend API"""
+# HTTP client for backend communication with FalkorDB MCP server
+http_client: httpx.AsyncClient = httpx.AsyncClient(timeout=30.0)
+"""
+Asynchronous HTTP client for making requests to the backend FalkorDB MCP server.
+Configured with a 30-second timeout for robustness.
+"""
+
+class AuthContext:
+    """
+    Unified authentication context for both Bearer and URL token authentication.
+    
+    This class encapsulates authentication information for both Claude Desktop
+    (Bearer token) and opencode (URL JWT token) clients, providing a unified
+    interface for authorization logic.
+    
+    Attributes:
+        auth_type (str): Type of authentication ("bearer" or "tenant").
+        user_id (str): User identifier extracted from the token.
+        tenant_id (Optional[str]): Tenant identifier for multi-tenant isolation.
+                                 None for Bearer auth, tenant ID for URL auth.
+    """
+    
+    def __init__(self, auth_type: str, user_id: str, tenant_id: Optional[str] = None) -> None:
+        """
+        Initialize authentication context.
+        
+        Args:
+            auth_type (str): Authentication type ("bearer" or "tenant").
+            user_id (str): User identifier from the authenticated token.
+            tenant_id (Optional[str]): Tenant identifier for multi-tenant scenarios.
+                                     Should be None for Bearer auth, tenant ID for URL auth.
+        
+        Example:
+            >>> # Bearer token authentication (Claude Desktop)
+            >>> auth = AuthContext("bearer", "user123")
+            >>> 
+            >>> # Tenant token authentication (opencode)
+            >>> auth = AuthContext("tenant", "admin", "acme_corp")
+        """
+        self.auth_type: str = auth_type
+        self.user_id: str = user_id
+        self.tenant_id: Optional[str] = tenant_id
+        
+    @property
+    def is_tenant_auth(self) -> bool:
+        """
+        Check if this is tenant-based authentication (opencode).
+        
+        Returns:
+            bool: True if this is tenant authentication with a valid tenant ID.
+        """
+        return self.auth_type == "tenant" and self.tenant_id is not None
+    
+    @property
+    def is_bearer_auth(self) -> bool:
+        """
+        Check if this is Bearer token authentication (Claude Desktop).
+        
+        Returns:
+            bool: True if this is Bearer token authentication.
+        """
+        return self.auth_type == "bearer"
+
+# ============================================================================
+# Backend Communication Functions
+# ============================================================================
+
+async def call_backend_unified(
+    method: str, 
+    endpoint: str, 
+    auth_context: AuthContext, 
+    data: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
+    """
+    Call the FalkorDB MCP Server backend API with unified authentication context.
+    
+    This function handles communication with the backend FalkorDB MCP server,
+    automatically adding appropriate authentication headers based on the
+    authentication context (Bearer or tenant-based).
+    
+    Args:
+        method (str): HTTP method ("GET" or "POST").
+        endpoint (str): API endpoint path (e.g., "/api/mcp/context").
+        auth_context (AuthContext): Authentication context containing user/tenant info.
+        data (Optional[Dict[str, Any]]): JSON data for POST requests.
+        
+    Returns:
+        Dict[str, Any]: Parsed JSON response from the backend API.
+        
+    Raises:
+        ValueError: If an unsupported HTTP method is provided.
+        Exception: If the backend API returns an error or is unreachable.
+        
+    Example:
+        >>> auth = AuthContext("tenant", "admin", "acme_corp")
+        >>> result = await call_backend_unified("POST", "/api/mcp/context", auth, {
+        ...     "graphName": "acme_corp_users",
+        ...     "query": "MATCH (n) RETURN n LIMIT 10"
+        ... })
+        
+    Note:
+        - For tenant authentication, adds x-tenant-id and x-user-id headers
+        - Always includes x-api-key header for backend authentication
+        - Automatically sets Content-Type header for POST requests with data
+    """
     headers = {"x-api-key": API_KEY}
+    
+    # Add tenant context headers if available for multi-tenant isolation
+    if auth_context.is_tenant_auth:
+        headers["x-tenant-id"] = auth_context.tenant_id
+        headers["x-user-id"] = auth_context.user_id
+    
     if data:
         headers["Content-Type"] = "application/json"
     
@@ -68,26 +328,176 @@ async def call_backend(method: str, endpoint: str, data: Optional[Dict[str, Any]
     except httpx.HTTPError as e:
         raise Exception(f"Backend API error: {e}")
 
-@mcp.tool
+# ============================================================================
+# Authentication Middleware
+# ============================================================================
+
+async def unified_auth_middleware(request: Request, call_next):
+    """
+    Unified authentication middleware for both Bearer tokens and URL JWT tokens.
+    
+    This middleware handles authentication for both Claude Desktop (Bearer token)
+    and opencode (URL JWT token) clients. It validates tokens, extracts authentication
+    context, and stores it in the request state for use by MCP tools.
+    
+    Authentication Flow:
+        1. Check for URL token parameter (opencode clients)
+        2. If no URL token, check for Bearer token in Authorization header (Claude Desktop)
+        3. Validate the token using appropriate algorithm (HS256 for URL, RS256 for Bearer)
+        4. Create AuthContext and store in request.state
+        5. Require authentication for MCP endpoints (/mcp/, /sse/)
+    
+    Args:
+        request (Request): Incoming FastAPI request object.
+        call_next: Next middleware or route handler in the chain.
+        
+    Returns:
+        Response: HTTP response from the next handler or authentication error.
+        
+    Raises:
+        Returns HTTP 401 response for invalid or missing authentication.
+        
+    Example:
+        Authentication methods supported:
+        
+        # opencode (URL token)
+        GET /mcp/tools?token=eyJhbGciOiJIUzI1NiIs...
+        
+        # Claude Desktop (Bearer token)
+        GET /mcp/tools
+        Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+        
+    Note:
+        - URL tokens take precedence over Bearer tokens if both are present
+        - Authentication is only required for MCP endpoints
+        - Invalid tokens result in immediate 401 response
+        - Valid authentication context is stored in request.state.auth_context
+    """
+    auth_context = None
+    
+    # Priority 1: Check for URL token (opencode)
+    url_token = request.query_params.get("token")
+    if url_token:
+        try:
+            tenant_info = verify_tenant_token(url_token)
+            auth_context = AuthContext(
+                auth_type="tenant",
+                user_id=tenant_info["user"],
+                tenant_id=tenant_info["tenant"]
+            )
+        except HTTPException as e:
+            return Response(f"Tenant authentication failed: {e.detail}", status_code=e.status_code)
+    
+    # Priority 2: Check for Bearer token (Claude Desktop) - only if no URL token
+    elif "authorization" in request.headers:
+        auth_header = request.headers["authorization"]
+        if auth_header.startswith("Bearer "):
+            bearer_token = auth_header[7:]  # Remove "Bearer " prefix
+            try:
+                # Validate Bearer token manually using RSA public key
+                decoded = jwt.decode(bearer_token, key_pair.public_key, algorithms=["RS256"])
+                auth_context = AuthContext(
+                    auth_type="bearer",
+                    user_id=decoded.get("sub", "authenticated-user")
+                )
+            except jwt.InvalidTokenError:
+                return Response("Invalid Bearer token", status_code=401)
+    
+    # Require authentication for MCP endpoints
+    if request.url.path.startswith("/mcp/") or request.url.path.startswith("/sse/"):
+        if not auth_context:
+            return Response("Authentication required: Use Bearer token or ?token= parameter", status_code=401)
+    
+    # Store authentication context in request state for use by MCP tools
+    request.state.auth_context = auth_context
+    
+    response = await call_next(request)
+    return response
+
+# ============================================================================
+# FastMCP Server Setup
+# ============================================================================
+
+# Create unified FastMCP server instance
+mcp_unified: FastMCP = FastMCP(
+    name="FalkorDB FastMCP Proxy (Unified)"
+)
+"""
+Unified FastMCP server instance that handles both Claude Desktop and opencode clients.
+Authentication is handled by middleware rather than the built-in auth parameter.
+"""
+
+# Apply unified authentication middleware
+mcp_unified.add_middleware(unified_auth_middleware)
+
+# ============================================================================
+# MCP Tools - Unified Implementation
+# ============================================================================
+
+@mcp_unified.tool
 async def falkordb_query(
     ctx: Context,
     graphName: str,
     query: str,
     parameters: Optional[Dict[str, Any]] = None
 ) -> str:
-    """Execute a Cypher query against a FalkorDB graph"""
+    """
+    Execute a Cypher query against a FalkorDB graph.
     
+    This tool works with both authentication methods:
+    - For Claude Desktop (Bearer token): Uses graph name as-is
+    - For opencode (URL token): Automatically prefixes graph name with tenant ID
+    
+    Args:
+        ctx (Context): FastMCP context containing request information.
+        graphName (str): Name of the graph to query against.
+        query (str): Cypher query to execute.
+        parameters (Optional[Dict[str, Any]]): Query parameters for parameterized queries.
+        
+    Returns:
+        str: Formatted query results or error message.
+        
+    Example:
+        # Claude Desktop usage (no tenant isolation)
+        await falkordb_query(ctx, "social_network", "MATCH (n:User) RETURN n.name LIMIT 5")
+        
+        # opencode usage (automatic tenant isolation)
+        # If tenant="acme", graph "users" becomes "acme_users"
+        await falkordb_query(ctx, "users", "MATCH (n:User) RETURN n.name LIMIT 5")
+        
+    Note:
+        - Query results are formatted with metadata including execution time
+        - For tenant authentication, graph names are automatically prefixed
+        - Parameters should be provided as a dictionary for parameterized queries
+    """
+    # Initialize parameters if not provided
     if parameters is None:
         parameters = {}
     
+    # Extract authentication context from request state (set by middleware)
+    auth_context: Optional[AuthContext] = getattr(ctx.request.state, 'auth_context', None)
+    if not auth_context:
+        return "Error: No authentication context available"
+    
+    # Apply tenant isolation for multi-tenant scenarios
+    if auth_context.is_tenant_auth:
+        # Prefix graph name with tenant ID to ensure data isolation
+        # e.g., "users" becomes "acme_users" for tenant "acme"
+        actual_graph_name = f"{auth_context.tenant_id}_{graphName}"
+        display_context = f" (tenant: {auth_context.tenant_id})"
+    else:
+        # Bearer auth (Claude Desktop) - use graph name as provided
+        actual_graph_name = graphName
+        display_context = ""
+    
     try:
-        result = await call_backend("POST", "/api/mcp/context", {
-            "graphName": graphName,
+        result = await call_backend_unified("POST", "/api/mcp/context", auth_context, {
+            "graphName": actual_graph_name,
             "query": query,
             "parameters": parameters
         })
         
-        # Format response for Claude Desktop
+        # Format response
         if "data" in result and "data" in result["data"]:
             data_results = result["data"]["data"]
             metadata_info = result.get("metadata", {})
@@ -100,109 +510,205 @@ async def falkordb_query(
                         row_text += f"- {key}: {value}\n"
                     formatted_results.append(row_text)
                 
-                response_text = f"Query executed successfully on graph '{graphName}':\n\n"
+                response_text = f"Query executed successfully on graph '{graphName}'{display_context}:\n\n"
                 response_text += "\n".join(formatted_results)
                 response_text += f"\n**Metadata:**\n- Query time: {metadata_info.get('queryTime', 'N/A')}ms\n"
                 response_text += f"- Provider: {metadata_info.get('provider', 'N/A')}"
+                if auth_context.is_tenant_auth:
+                    response_text += f"\n- Tenant: {auth_context.tenant_id}"
             else:
-                response_text = f"Query executed successfully on graph '{graphName}' with no results returned."
+                response_text = f"Query executed successfully on graph '{graphName}'{display_context} with no results returned."
         else:
-            response_text = f"Query executed on graph '{graphName}' but unexpected response format."
+            response_text = f"Query executed on graph '{graphName}'{display_context} but unexpected response format."
         
         return response_text
         
     except Exception as e:
-        return f"Error executing query on graph '{graphName}': {str(e)}"
+        return f"Error executing query on graph '{graphName}'{display_context}: {str(e)}"
 
-@mcp.tool
+@mcp_unified.tool
 async def falkordb_list_graphs(ctx: Context) -> str:
-    """List all available graphs in the FalkorDB instance"""
+    """List all available graphs (tenant-aware for opencode, all graphs for Claude Desktop)"""
+    auth_context = getattr(ctx.request.state, 'auth_context', None)
+    if not auth_context:
+        return "Error: No authentication context available"
+    
     try:
-        result = await call_backend("GET", "/api/mcp/graphs")
+        result = await call_backend_unified("GET", "/api/mcp/graphs", auth_context)
         
         if "data" in result:
             graphs = result["data"]
             metadata = result.get("metadata", {})
             
-            if graphs:
-                graph_list = []
+            if auth_context.is_tenant_auth:
+                # Filter graphs by tenant prefix and remove prefix for display
+                tenant_prefix = f"{auth_context.tenant_id}_"
+                tenant_graphs = []
                 for graph in graphs:
                     if isinstance(graph, dict) and "name" in graph:
-                        graph_list.append(f"- {graph['name']}")
-                    else:
-                        graph_list.append(f"- {graph}")
+                        graph_name = graph["name"]
+                        if graph_name.startswith(tenant_prefix):
+                            display_name = graph_name[len(tenant_prefix):]
+                            tenant_graphs.append(f"- {display_name}")
+                    elif isinstance(graph, str) and graph.startswith(tenant_prefix):
+                        display_name = graph[len(tenant_prefix):]
+                        tenant_graphs.append(f"- {display_name}")
                 
-                response_text = f"Available graphs ({metadata.get('count', len(graphs))}):\n\n"
-                response_text += "\n".join(graph_list)
+                if tenant_graphs:
+                    response_text = f"Available graphs for tenant '{auth_context.tenant_id}' ({len(tenant_graphs)}):\n\n"
+                    response_text += "\n".join(tenant_graphs)
+                else:
+                    response_text = f"No graphs found for tenant '{auth_context.tenant_id}'."
             else:
-                response_text = "No graphs found in the FalkorDB instance."
+                # Bearer auth - show all graphs
+                if graphs:
+                    graph_list = []
+                    for graph in graphs:
+                        if isinstance(graph, dict) and "name" in graph:
+                            graph_list.append(f"- {graph['name']}")
+                        else:
+                            graph_list.append(f"- {graph}")
+                    
+                    response_text = f"Available graphs ({metadata.get('count', len(graphs))}):\n\n"
+                    response_text += "\n".join(graph_list)
+                else:
+                    response_text = "No graphs found in the FalkorDB instance."
         else:
             response_text = "Unexpected response format from backend."
         
         return response_text
         
     except Exception as e:
-        return f"Error listing graphs: {str(e)}"
+        context_info = f"tenant '{auth_context.tenant_id}'" if auth_context.is_tenant_auth else "instance"
+        return f"Error listing graphs for {context_info}: {str(e)}"
 
-@mcp.tool
+@mcp_unified.tool
 async def falkordb_server_info(ctx: Context) -> str:
     """Get FalkorDB server metadata and capabilities"""
+    auth_context = getattr(ctx.request.state, 'auth_context', None)
+    if not auth_context:
+        return "Error: No authentication context available"
+    
     try:
-        result = await call_backend("GET", "/api/mcp/metadata")
+        result = await call_backend_unified("GET", "/api/mcp/metadata", auth_context)
         
         provider = result.get("provider", "Unknown")
         version = result.get("version", "Unknown")
         capabilities = result.get("capabilities", [])
         
-        response_text = f"**FalkorDB Server Information:**\n\n"
+        response_text = f"**FalkorDB Server Information"
+        if auth_context.is_tenant_auth:
+            response_text += f" (Tenant: {auth_context.tenant_id})"
+        response_text += ":**\n\n"
+        
         response_text += f"- Provider: {provider}\n"
         response_text += f"- Version: {version}\n"
         response_text += f"- Capabilities: {', '.join(capabilities) if capabilities else 'None listed'}"
         
+        if auth_context.is_tenant_auth:
+            response_text += f"\n- Tenant: {auth_context.tenant_id}\n"
+            response_text += f"- User: {auth_context.user_id}"
+        
         return response_text
         
     except Exception as e:
-        return f"Error getting server info: {str(e)}"
+        context_info = f"tenant '{auth_context.tenant_id}'" if auth_context.is_tenant_auth else "server"
+        return f"Error getting server info for {context_info}: {str(e)}"
 
-@mcp.tool
+@mcp_unified.tool
 async def falkordb_health(ctx: Context) -> str:
     """Check FalkorDB server health status"""
+    auth_context = getattr(ctx.request.state, 'auth_context', None)
+    if not auth_context:
+        return "Error: No authentication context available"
+    
     try:
-        result = await call_backend("GET", "/health")
+        result = await call_backend_unified("GET", "/health", auth_context)
         
         status = result.get("status", "unknown")
         services = result.get("services", {})
         database = services.get("database", {})
         
-        response_text = f"**FalkorDB Health Status:**\n\n"
+        response_text = f"**FalkorDB Health Status"
+        if auth_context.is_tenant_auth:
+            response_text += f" (Tenant: {auth_context.tenant_id})"
+        response_text += ":**\n\n"
+        
         response_text += f"- Overall Status: {status}\n"
         response_text += f"- Database Connected: {database.get('connected', 'Unknown')}\n"
         response_text += f"- Database Latency: {database.get('latency', 'Unknown')}ms"
         
+        if auth_context.is_tenant_auth:
+            response_text += f"\n- Tenant: {auth_context.tenant_id}\n"
+            response_text += f"- User: {auth_context.user_id}"
+        
         return response_text
         
     except Exception as e:
-        return f"Error checking health: {str(e)}"
+        context_info = f"tenant '{auth_context.tenant_id}'" if auth_context.is_tenant_auth else "server"
+        return f"Error checking health for {context_info}: {str(e)}"
 
-if __name__ == "__main__":
-    print("🚀 Starting FalkorDB FastMCP Proxy Server")
+def main() -> None:
+    """
+    Main entry point for the FalkorDB FastMCP Proxy (Unified).
+    
+    This function initializes and starts the unified proxy server that supports
+    both Claude Desktop and opencode authentication methods. It prints startup
+    information including sample tokens for development and testing.
+    
+    Configuration:
+        - Listens on the configured host and port (default: 0.0.0.0:3001)
+        - Supports both Bearer token and URL JWT token authentication
+        - Provides tenant isolation for opencode clients
+        - Connects to backend FalkorDB MCP server
+        
+    Development Features:
+        - Generates sample Bearer tokens for Claude Desktop testing
+        - Generates sample tenant tokens for opencode testing
+        - Prints configuration examples for both client types
+        
+    Example Usage:
+        # Run directly
+        python fastmcp_proxy.py
+        
+        # Run with custom configuration
+        PROXY_PORT=8080 BACKEND_URL=http://custom-backend:3000 python fastmcp_proxy.py
+        
+    Note:
+        This function runs indefinitely until interrupted (Ctrl+C).
+        In production, consider using a proper WSGI server like Gunicorn.
+    """
+    print("🚀 Starting FalkorDB FastMCP Proxy (Unified)")
     print(f"📡 Backend URL: {BACKEND_URL}")
-    print(f"🔐 Authentication: Bearer Token (Development)")
     print(f"🌐 Server: http://{PROXY_HOST}:{PROXY_PORT}")
+    print(f"🔧 Supports both Bearer tokens (Claude Desktop) and URL tokens (opencode)")
     
-    # Print test token for development
-    test_token = generate_test_token()
-    print(f"\n🔑 Development Test Token:")
-    print(f"Bearer {test_token}")
-    print(f"\n📋 Use this token in Claude Desktop MCP configuration:")
-    print(f'  "auth": {{"type": "bearer", "token": "{test_token}"}}')
-    print(f"\n📍 OAuth Authorization Server Metadata:")
-    print(f"   http://{PROXY_HOST}:{PROXY_PORT}/.well-known/oauth-authorization-server")
+    # Generate and display test tokens for development
+    test_bearer_token = generate_test_token()
+    print(f"\n🔑 Development Bearer Token (Claude Desktop):")
+    print(f"Bearer {test_bearer_token}")
     
-    # Try streamable-http transport instead of deprecated SSE
-    print(f"\n🔧 Using streamable-http transport for Docker compatibility")
-    mcp.run(
+    # Generate sample tenant tokens for different organizations
+    tenant_tokens = {
+        "acme": generate_tenant_token("acme", "admin"),
+        "widgets": generate_tenant_token("widgets", "user1")
+    }
+    
+    print(f"\n🏢 Sample Tenant Tokens (opencode):")
+    for tenant, token in tenant_tokens.items():
+        print(f"  {tenant}: {token}")
+        print(f"  URL: http://{PROXY_HOST}:{PROXY_PORT}/sse/?token={token}")
+    
+    print(f"\n📋 Configuration examples:")
+    print(f"Claude Desktop: Bearer token in auth header")
+    print(f"opencode: URL token in query parameter")
+    
+    # Start the unified FastMCP server
+    mcp_unified.run(
         transport="streamable-http",
         host=PROXY_HOST,
         port=PROXY_PORT
     )
+
+if __name__ == "__main__":
+    main()
