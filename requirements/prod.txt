@@ -1,0 +1,18 @@
+# Production requirements with exact versions and hashes
+# Generated from base.txt using pip-compile
+# 
+# To update: pip-compile requirements/base.txt --output-file requirements/prod.txt --generate-hashes
+#
+# This file should contain:
+# 1. Exact versions (==) instead of ranges (>=)
+# 2. SHA256 hashes for security verification
+# 3. All transitive dependencies explicitly listed
+# 4. Only production dependencies (no dev/test tools)
+
+-r base.txt
+
+# This file should be generated using pip-compile for production deployments
+# Example command:
+# pip-compile requirements/base.txt --output-file requirements/prod.txt --generate-hashes --no-emit-index-url
+
+# For now, use base.txt until pip-compile is run

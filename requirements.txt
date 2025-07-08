@@ -1,10 +1,11 @@
-fastmcp>=2.10.2
-fastapi>=0.116.0
-uvicorn[standard]>=0.35.0
-pytest>=8.0.0
-requests>=2.32.0
-httpx>=0.28.1
-starlette>=0.46.0
-sse-starlette>=2.4.0
-pyjwt[crypto]>=2.8.0
-cryptography>=45.0.0
+# Main requirements file - points to base production requirements
+# This is the file most users will use for basic installation
+
+-r requirements/base.txt
+
+# This file exists for backwards compatibility and simplicity
+# Use specific requirements files for different environments:
+# - requirements/base.txt: Core production dependencies
+# - requirements/dev.txt: Development and testing tools  
+# - requirements/prod.txt: Exact versions with hashes for production
+# - requirements/ci.txt: CI/CD pipeline tools

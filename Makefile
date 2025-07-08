@@ -12,11 +12,17 @@ help: ## Show this help message
 
 # Installation targets
 install: ## Install production dependencies
-	pip install -e .
+	pip install -r requirements/base.txt
 
 install-dev: ## Install development dependencies
-	pip install -e ".[dev]"
+	pip install -r requirements/dev.txt
 	pre-commit install
+
+install-prod: ## Install production dependencies with exact versions
+	pip install -r requirements/prod.txt
+
+install-ci: ## Install CI/CD dependencies
+	pip install -r requirements/ci.txt
 
 # Testing targets
 test: ## Run all tests
@@ -107,10 +113,20 @@ setup-dev: install-dev pre-commit-install ## Complete development environment se
 # CI/CD simulation
 ci: format-check lint test ## Simulate CI pipeline locally
 
-# Dependencies
+# Requirements management
+compile-deps: ## Generate production lockfile with exact versions
+	pip-compile requirements/base.txt --output-file requirements/prod.txt --generate-hashes --no-emit-index-url
+
 update-deps: ## Update all dependencies
-	pip-compile --upgrade pyproject.toml
-	pip install -e ".[dev]"
+	pip-compile --upgrade requirements/base.txt
+	pip-compile --upgrade requirements/dev.txt  
+	pip-compile --upgrade requirements/base.txt --output-file requirements/prod.txt --generate-hashes --no-emit-index-url
+
+check-deps: ## Check for dependency vulnerabilities  
+	pip-audit -r requirements/prod.txt || pip-audit -r requirements/base.txt
+
+sync-deps: ## Sync current environment with requirements
+	pip-sync requirements/dev.txt
 
 # Quick development commands
 quick-test: ## Run quick tests (exclude slow ones)

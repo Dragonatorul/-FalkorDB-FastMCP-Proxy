@@ -1,0 +1,25 @@
+# CI/CD requirements
+# Includes development tools plus CI-specific tools
+
+-r dev.txt
+
+# CI/CD specific tools
+tox>=4.0.0,<5.0.0           # Testing across multiple Python versions
+coverage>=7.0.0,<8.0.0      # Code coverage reporting
+pytest-xdist>=3.3.0,<4.0.0  # Parallel test execution
+
+# Publishing and packaging
+build>=0.10.0,<1.0.0        # Modern Python package building
+twine>=4.0.0,<5.0.0         # PyPI package uploading
+wheel>=0.41.0,<1.0.0        # Wheel building
+
+# Security and compliance
+pip-audit>=2.6.0,<3.0.0     # Vulnerability scanning
+licensecheck>=2023.1,<2024.0 # License compliance
+
+# Performance testing (optional)
+# pytest-benchmark>=4.0.0,<5.0.0
+
+# Integration testing (optional)
+# docker>=6.0.0,<7.0.0
+# requests>=2.31.0,<3.0.0    # For integration tests
