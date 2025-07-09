@@ -1,70 +1,42 @@
-# FalkorDB FastMCP Proxy - Issues
+# Issues Tracking
 
-This directory contains detailed documentation for current issues and bugs that need to be addressed.
+Issues organized by status with one file per issue. Files moved between state folders as status changes.
 
-## Issue Categories
-
-### 🔴 High Priority Issues
-Critical issues that block core functionality or affect system security.
-
-### 🟡 Medium Priority Issues  
-Important issues that impact user experience or system performance.
-
-### 🟢 Low Priority Issues
-Minor issues or nice-to-have improvements.
-
-## Current Issues
-
-### High Priority
-- **[fastmcp-url-tokens.md](./fastmcp-url-tokens.md)** - FastMCP URL token authentication for Claude compatibility
-- **[complete-tenant-tools.md](./complete-tenant-tools.md)** - Complete remaining 3 tenant-aware MCP tools
-- **[multi-device-testing.md](./multi-device-testing.md)** - Multi-device testing and validation
-
-### Medium Priority  
-- **[docker-dual-port.md](./docker-dual-port.md)** - Docker configuration for dual-port deployment
-
-## Issue Template
-
-When creating new issues, follow this structure:
-
-```markdown
-# Issue: [Title]
-
-**Status**: [Pending/In Progress/Completed]  
-**Priority**: [High/Medium/Low]  
-**Assigned**: [Session/Person]  
-
-## Problem Statement
-[Clear description of the issue]
-
-## Technical Details
-[Implementation details and constraints]
-
-## Success Criteria
-[Measurable criteria for completion]
-
-## Dependencies
-[Other issues or features this depends on]
-
-## Estimated Effort
-[Time estimate for resolution]
+## Status Structure
+```
+issues/
+├── pending/        # Issues awaiting work
+├── in-progress/    # Currently being worked on  
+├── completed/      # Resolved and verified
+└── closed/         # Won't fix or no longer relevant
 ```
 
-## Issue Workflow
+## Current Issues
+- **Pending**: 4 issues (all moved to pending/ folder)
+- **In Progress**: 0 issues
+- **Completed**: 0 issues  
+- **Closed**: 0 issues
 
-1. **Create Issue**: Document the problem and requirements
-2. **Prioritize**: Assign priority based on impact and urgency  
-3. **Assign**: Allocate to specific session or team member
-4. **Track Progress**: Update status as work progresses
-5. **Validate**: Test solution against success criteria
-6. **Close**: Mark as completed when fully resolved
+## Issue Management Process
+1. **Create**: New issue in pending/ folder
+2. **Prioritize**: Set priority in issue header  
+3. **Work**: Move to in-progress/ when starting
+4. **Complete**: Move to completed/ when done
+5. **Close**: Move to closed/ if won't fix
 
-## Integration with Development
+## Issue Headers Required
+```markdown
+**Status**: [Pending/In-Progress/Completed/Closed]
+**Priority**: [High/Medium/Low]  
+**Assigned**: [Session ID or "Unassigned"]
+**Estimated Effort**: [Time estimate]
+```
 
-- Each issue should have clear, testable success criteria
-- Issues should be small enough to complete in 1-2 sessions
-- Cross-references with related code files and documentation
-- Link to relevant commits when issues are resolved
+See `docs/project-management/AGENTS.md` for detailed ticket management process.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.
 ---
 
 > **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

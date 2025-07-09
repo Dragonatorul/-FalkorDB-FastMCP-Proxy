@@ -1,6 +1,41 @@
-# FalkorDB FastMCP Proxy - Planned Features
+# Features Tracking
 
-This directory contains detailed specifications for planned features and enhancements.
+Features organized by status with one file per feature. Files moved between state folders as development progresses.
+
+## Status Structure
+```
+features/
+├── concept/        # Ideas, not planned for implementation
+├── planned/        # Approved for development
+├── in-progress/    # Currently being developed
+└── completed/      # Implemented and tested
+```
+
+## Current Features
+- **Concept**: 3 features (enterprise ideas, not planned)
+- **Planned**: 0 features
+- **In Progress**: 0 features
+- **Completed**: 1 feature (CI/CD pipeline)
+
+## Feature Management Process
+1. **Create**: New feature in concept/ folder
+2. **Plan**: Move to planned/ when approved for development
+3. **Develop**: Move to in-progress/ when starting work
+4. **Complete**: Move to completed/ when implemented and tested
+
+## Feature Headers Required
+```markdown
+**Status**: [Concept/Planned/In-Progress/Completed]
+**Priority**: [High/Medium/Low/Not Applicable]
+**Category**: [Core/Enhancement/Enterprise/Integration]
+**Estimated Effort**: [Time estimate]
+```
+
+See `docs/project-management/AGENTS.md` for detailed ticket management process.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.
 
 ## Feature Categories
 
