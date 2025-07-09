@@ -1,6 +1,6 @@
 # FalkorDB FastMCP Proxy
 
-> **Note**: Most contributions to this repository have been created with significant assistance from AI tools, including Anthropic Claude and GitHub Copilot. This collaboration demonstrates the potential of AI-assisted software development while maintaining high code quality and comprehensive documentation.
+> **Note**: Most contributions to this repository have been created with significant assistance from AI tools, specifically Claude Sonnet 4 and GitHub Copilot (ChatGPT 4.1) via opencode.ai platform. This collaboration demonstrates the potential of AI-assisted software development while maintaining high code quality and comprehensive documentation.
 
 A **remote-accessible** Model Context Protocol (MCP) server proxy that provides Claude Desktop and other MCP clients with **HTTP-based access** to FalkorDB graph databases through the FalkorDB MCPServer backend.
 
@@ -184,26 +184,30 @@ python test_remote_mcp.py
 ## 📚 Documentation
 
 ### Setup & Configuration
-- **[Deployment Guide](docs/deployment-guide.md)** - Complete setup instructions
-- **[Claude Desktop Integration](docs/claude-desktop-integration.md)** - ⚠️ **Essential:** Step-by-step Claude Desktop setup
-- **[Multi-Tenant Authentication](docs/multi-tenant-authentication.md)** - 🏢 **Enterprise:** Multi-tenant deployment with data isolation
-- **[Client Onboarding Guide](docs/client-onboarding-guide.md)** - 🎯 **Production:** Complete workflow for onboarding new tenants
-- **[Architecture Overview](docs/architecture.md)** - System design and components
-- **[Testing Guide](docs/testing.md)** - Test procedures and validation
+- **[Deployment Guide](docs/technical-guides/deployment-guide.md)** - Complete setup instructions
+- **[Claude Desktop Integration](docs/user-guides/claude-desktop-integration.md)** - ⚠️ **Essential:** Step-by-step Claude Desktop setup
+- **[Multi-Tenant Authentication](docs/technical-guides/multi-tenant-authentication.md)** - 🏢 **Enterprise:** Multi-tenant deployment with data isolation
+- **[Client Onboarding Guide](docs/user-guides/client-onboarding-guide.md)** - 🎯 **Production:** Complete workflow for onboarding new tenants
+- **[Architecture Overview](docs/technical-guides/architecture.md)** - System design and components
+- **[Testing Guide](docs/user-guides/testing.md)** - Test procedures and validation
 
 ### Technical Deep Dives
-- **[MCP vs Integrations Deep Dive](docs/mcp-vs-integrations.md)** - 🧠 **Technical:** Complete analysis of Claude Desktop's two integration methods
+- **[MCP vs Integrations Deep Dive](docs/technical-guides/mcp-vs-integrations.md)** - 🧠 **Technical:** Complete analysis of Claude Desktop's two integration methods
 - **[Vector Capabilities Analysis](docs/exploratory-analysis/)** - 🔍 **Vector Search:** Comprehensive analysis of vector search implementation options and solutions
 
-### Status & Troubleshooting  
-- **[Deployment Status](docs/deployment-status.md)** - Current production readiness
-- **[Known Issues](docs/known-issues.md)** - Bug reports and solutions
-- **[Implementation Plan](docs/implementation-plan.md)** - Development progress and milestones
+### AI-Assisted Development
+- **[AI Workflow Documentation](docs/ai-workflow/)** - 🤖 **Workflow:** Complete guide to AI-human collaboration patterns used in this project
 
-**⚠️ Quick Start**: If you're confused about Claude Desktop setup, read [docs/claude-desktop-integration.md](docs/claude-desktop-integration.md) first!  
-**🏢 Enterprise**: For multi-tenant deployments, see [docs/multi-tenant-authentication.md](docs/multi-tenant-authentication.md)  
-**🎯 Production**: For onboarding new clients, see [docs/client-onboarding-guide.md](docs/client-onboarding-guide.md)  
-**🧠 Deep Understanding**: For technical details about MCP vs Integrations, see [docs/mcp-vs-integrations.md](docs/mcp-vs-integrations.md)
+### Status & Troubleshooting  
+- **[Current Status](docs/STATUS.md)** - Overall project completion and next steps
+- **[Implementation Plan](docs/project-management/implementation-plan.md)** - Development progress and milestones
+- **[Known Issues](docs/project-management/known-issues.md)** - Bug reports and solutions
+
+**⚠️ Quick Start**: If you're confused about Claude Desktop setup, read [Claude Desktop Integration](docs/user-guides/claude-desktop-integration.md) first!  
+**🏢 Enterprise**: For multi-tenant deployments, see [Multi-Tenant Authentication](docs/technical-guides/multi-tenant-authentication.md)  
+**🎯 Production**: For onboarding new clients, see [Client Onboarding Guide](docs/user-guides/client-onboarding-guide.md)  
+**🧠 Deep Understanding**: For technical details about MCP vs Integrations, see [MCP vs Integrations Deep Dive](docs/technical-guides/mcp-vs-integrations.md)  
+**🤖 AI Workflow**: For implementing similar AI-assisted development patterns, see [AI Workflow Documentation](docs/ai-workflow/)
 
 ## Implementation Status
 
@@ -254,11 +258,16 @@ curl -H "Authorization: Bearer YOUR_TOKEN" http://localhost:3001/sse/
 
 This project was developed with significant assistance from AI tools and platforms:
 
-- **[Anthropic Claude](https://www.anthropic.com/)** - AI assistant for code development, documentation, and architectural decisions
-- **[GitHub Copilot](https://github.com/features/copilot)** - AI pair programming for code completion and suggestions  
-- **[opencode.ai](https://opencode.ai/)** - AI-powered development environment for comprehensive project assistance
+- **[Anthropic Claude Sonnet 4](https://www.anthropic.com/)** - Primary AI assistant for code development, documentation, and architectural decisions
+- **[GitHub Copilot (ChatGPT 4.1)](https://github.com/features/copilot)** - AI pair programming for code completion and suggestions  
+- **[opencode.ai](https://opencode.ai/)** - AI-powered development environment providing uniform workflow across multiple AI models (see [ai-workflow documentation](docs/ai-workflow/))
+- **[Visual Studio Code](https://code.visualstudio.com/)** - Primary development environment and code editor
+
+> **⚠️ Note**: There are two projects named "opencode" that solve similar problems. This project specifically uses the production-ready version from [opencode.ai](https://opencode.ai/) / [github.com/sst/opencode](https://github.com/sst/opencode).
 
 These AI tools enabled rapid development, comprehensive documentation, and robust testing while maintaining high code quality standards. This project demonstrates the potential for effective AI-human collaboration in modern software development.
+
+For detailed information about the AI-assisted development workflow used in this project, see the [AI Workflow Documentation](docs/ai-workflow/).
 
 ---
 
