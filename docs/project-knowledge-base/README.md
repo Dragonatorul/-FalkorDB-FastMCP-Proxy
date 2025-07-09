@@ -2,33 +2,42 @@
 
 ⚠️ **FOR AI AGENT CONSUMPTION ONLY** ⚠️
 
-This folder contains detailed technical information maintained exclusively by AI agents for AI context and decision-making. Human users should refer to the main documentation in other `docs/` sections.
+This folder contains modular technical knowledge optimized for AI context efficiency. Each file has a 10-line summary for quick scanning. Human users should refer to main documentation sections.
 
-## Purpose
-- **AI Context Storage**: Detailed technical knowledge for AI agent decision-making
-- **Implementation Details**: Low-level technical information too detailed for human docs
-- **Decision Records**: AI reasoning and architectural decision context
-- **Troubleshooting Database**: AI-accessible problem-solution mappings
+## AI Knowledge Modules
 
-## Content Types
-- **Technical Specifications**: Implementation details and constraints
-- **Decision Context**: Background information for AI architectural decisions
-- **Process Knowledge**: AI workflow patterns and established practices
-- **Reference Data**: Lookup tables, configuration examples, error mappings
+### Process Knowledge
+- **[development-processes.md](development-processes.md)** - Git workflow, commit standards, testing, deployment
+- **[ticket-management-context.md](ticket-management-context.md)** - Feature/issue lifecycle and state management
 
-## AI Maintenance Guidelines
-- Update when gathering new technical knowledge not in main docs
-- Store implementation decisions and reasoning for future reference
-- Maintain duplicate information if needed for AI context efficiency
-- Cross-reference main docs when appropriate but prioritize AI comprehension
+### Technical Context
+- **[architecture-context.md](architecture-context.md)** - System components, authentication flow, network topology
+- **[configuration-reference.md](configuration-reference.md)** - Environment variables, deployment configs, multi-tenancy
+- **[implementation-status.md](implementation-status.md)** - Component completion matrix and readiness tracking
 
-## Human Users
-**Please refer to other documentation sections:**
-- `docs/technical-guides/` - Technical implementation guides
-- `docs/user-guides/` - Setup and usage instructions
-- `docs/project-management/` - Feature and issue tracking
-- `docs/exploratory-analysis/` - Vector implementation analysis
+### Specialized Knowledge
+- **[vector-implementation-context.md](vector-implementation-context.md)** - Vector capabilities, implementation gap, async job solution
+- **[troubleshooting-database.md](troubleshooting-database.md)** - Common issues, debugging workflows, error solutions
+
+## AI Usage Guidelines
+1. **Scan First**: Read 10-line summary to determine if full file needed
+2. **Modular Access**: Each file is self-contained for specific context
+3. **Efficient Context**: Optimized for minimal token usage while preserving information
+4. **Update When**: Gathering new knowledge not available in main docs
+5. **Cross-Reference**: Link to main docs when directing humans to information
+
+## Content Organization
+- **10-Line Summaries**: Essential info in first 10 lines for quick scanning
+- **Compact Format**: Token-efficient while maintaining comprehensiveness  
+- **Modular Structure**: Each file addresses specific knowledge domain
+- **AI-Optimized**: Formatted for LLM consumption and decision-making
+
+## Human Users - Please Refer To:
+- **User Guides**: Setup and usage instructions
+- **Technical Guides**: Implementation and architecture details
+- **Project Management**: Feature and issue tracking
+- **Exploratory Analysis**: Vector implementation research
 
 ---
 
-> **Note**: This section is actively maintained by AI agents and optimized for AI consumption.
+> **Note**: This section is actively maintained by AI agents and optimized for AI consumption. Content may duplicate main docs but is structured for efficient AI context usage.
