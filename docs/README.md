@@ -45,6 +45,13 @@ Vector search implementation research and architectural analysis.
 - [Implementation Options Comparison](./exploratory-analysis/implementation-options-comparison.md) - Architecture analysis
 - [Async Vector Job Solution](./exploratory-analysis/async-vector-job-solution.md) - Complete implementation
 
+### 🤖 AI Workflow (`ai-workflow/`)
+AI-human collaboration patterns and workflows for repository management.
+- [Modular Documentation Workflow](./ai-workflow/modular-documentation-workflow.md) - 3-tier documentation hierarchy
+- [Ticket Management Workflow](./ai-workflow/ticket-management-workflow.md) - State-based issue and feature tracking
+- [AI Context Management](./ai-workflow/ai-context-management.md) - Token optimization and context efficiency
+- [Development Process Integration](./ai-workflow/development-process-integration.md) - AI integration with git and testing
+
 ### 📋 Project Status
 - [Current Status Report](./STATUS.md) - Overall project completion and next steps
 
