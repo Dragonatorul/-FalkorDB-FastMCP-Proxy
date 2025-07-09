@@ -16,6 +16,8 @@ A **remote-accessible** Model Context Protocol (MCP) server proxy that provides 
 - **falkordb_server_info**: Get server metadata and capabilities  
 - **falkordb_health**: Check server health status
 
+> **⚠️ Vector Ingestion Limitation**: The upstream FalkorDB MCPServer v1.1.0 does not currently support automatic vector embedding generation or ingestion tools. While FalkorDB 4.0+ has full native vector support for querying, embedding generation must be handled separately. See our [vector capabilities analysis](docs/exploratory-analysis/) for proposed solutions and the [FalkorDB-Async-Vectorizer](https://github.com/Dragonatorul/FalkorDB-Async-Vectorizer) async job implementation.
+
 ### ✅ **Production Integration**
 - **FalkorDB MCPServer v1.1.0**: Production-tested backend
 - **Multi-tenant Support**: Complete data isolation with JWT-based tenant authentication
@@ -189,6 +191,7 @@ python test_remote_mcp.py
 
 ### Technical Deep Dives
 - **[MCP vs Integrations Deep Dive](docs/mcp-vs-integrations.md)** - 🧠 **Technical:** Complete analysis of Claude Desktop's two integration methods
+- **[Vector Capabilities Analysis](docs/exploratory-analysis/)** - 🔍 **Vector Search:** Comprehensive analysis of vector search implementation options and solutions
 
 ### Status & Troubleshooting  
 - **[Deployment Status](docs/deployment-status.md)** - Current production readiness
