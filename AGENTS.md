@@ -98,6 +98,13 @@ PROXY_PORT=3001
 - **Type Check**: `mypy src/` (if configured)
 - **Docker Build**: `docker-compose build`
 
+## opencode + Docker Model Runner Integration
+- **Start Agent Server**: `./start-opencode-server.sh` (headless server with ai/mistral:latest)
+- **Direct Agent**: `opencode run "your message"` (immediate AI assistance)
+- **Test Integration**: `./test-opencode-docker.sh` (verify Docker Model Runner setup)
+- **Available Models**: `opencode models | grep docker-model-runner`
+- **Model Info**: `docker model ls` (shows local AI models: mistral 7.25B, llama3.2 3.21B, phi4 14.66B)
+
 ## Code Style Guidelines
 - Python: 4 spaces, snake_case, type hints where possible
 - Error handling: Comprehensive with structured responses
