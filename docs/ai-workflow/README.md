@@ -7,6 +7,8 @@ This section documents the AI-human collaboration workflows established in this 
 ### Primary Development Platform
 - **[opencode.ai](https://opencode.ai/)** - AI-powered development environment providing uniform workflow integration across multiple AI models and service providers, including local models
 
+> **⚠️ CRITICAL NOTE**: There are two projects with the "opencode" name that aim to solve the same problem of providing a TUI centralized AI client. This project specifically uses the version from **[opencode.ai](https://opencode.ai/)** and **[https://github.com/sst/opencode](https://github.com/sst/opencode)**. The other similarly named tool is discontinued, moved to other maintainers, and is not production ready. Always verify you're referencing the correct opencode implementation.
+
 ### AI Models Employed
 - **Anthropic Claude Sonnet 4** - Primary AI assistant for code development, documentation, and architectural decisions
 - **GitHub Copilot (ChatGPT 4.1)** - AI pair programming for code completion and suggestions
@@ -100,6 +102,8 @@ The FalkorDB FastMCP Proxy project demonstrates effective AI-assisted developmen
 ## Tool-Specific Considerations
 
 ### opencode.ai Integration
+- **Specific implementation**: Using opencode from [opencode.ai](https://opencode.ai/) / [github.com/sst/opencode](https://github.com/sst/opencode)
+- **Production ready**: Mature, actively maintained implementation
 - **Uniform interface**: Consistent interaction patterns across different AI models
 - **Context management**: Built-in support for efficient context handling
 - **Model flexibility**: Easy switching between different AI providers as needed
