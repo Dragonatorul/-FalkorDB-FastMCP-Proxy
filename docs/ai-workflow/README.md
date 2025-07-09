@@ -1,6 +1,24 @@
 # AI Workflow Documentation
 
-This section documents the AI-human collaboration workflows established in this repository, providing guidance for teams wanting to implement similar patterns in their own projects.
+This section documents the AI-human collaboration workflows established in this repository, providing guidance for teams wanting to implement similar patterns in their own projects using modern AI development tools.
+
+## AI Tools and Models Used
+
+### Primary Development Platform
+- **[opencode.ai](https://opencode.ai/)** - AI-powered development environment providing uniform workflow integration across multiple AI models and service providers, including local models
+
+### AI Models Employed
+- **Anthropic Claude Sonnet 4** - Primary AI assistant for code development, documentation, and architectural decisions
+- **GitHub Copilot (ChatGPT 4.1)** - AI pair programming for code completion and suggestions
+
+### Model Integration Benefits
+The use of opencode.ai as the primary platform ensures:
+- **Uniform workflow** across different AI models
+- **Seamless integration** with development tools and processes
+- **Support for local models** when needed for privacy or performance
+- **Consistent collaboration patterns** regardless of underlying AI provider
+
+> **Note**: Documentation disclaimers throughout this repository may reference "Claude Sonnet 3.5" or general "opencode" references. The actual models used are listed above, with this section maintaining the authoritative record of AI tools employed.
 
 ## Overview
 
@@ -15,9 +33,9 @@ The FalkorDB FastMCP Proxy project demonstrates effective AI-assisted developmen
 - **[Development Process Integration](./development-process-integration.md)** - AI integration with git workflow, commits, and testing
 
 ### Advanced Patterns
-- **[Documentation Hierarchy Design](./documentation-hierarchy-design.md)** - Structuring docs for both AI agents and human users
-- **[AI Knowledge Base Patterns](./ai-knowledge-base-patterns.md)** - Creating AI-specific knowledge repositories
-- **[Collaboration Standards](./collaboration-standards.md)** - Communication protocols and responsibility boundaries
+- **[Documentation Hierarchy Design](./documentation-hierarchy-design.md)** - Structuring docs for both AI agents and human users *(planned)*
+- **[AI Knowledge Base Patterns](./ai-knowledge-base-patterns.md)** - Creating AI-specific knowledge repositories *(planned)*
+- **[Collaboration Standards](./collaboration-standards.md)** - Communication protocols and responsibility boundaries *(planned)*
 
 ## Key Principles
 
@@ -70,6 +88,19 @@ The FalkorDB FastMCP Proxy project demonstrates effective AI-assisted developmen
 3. **Start Small**: Implement one workflow at a time
 4. **Iterate and Improve**: Refine patterns based on team experience
 
+## Tool-Specific Considerations
+
+### opencode.ai Integration
+- **Uniform interface**: Consistent interaction patterns across different AI models
+- **Context management**: Built-in support for efficient context handling
+- **Model flexibility**: Easy switching between different AI providers as needed
+- **Local model support**: Privacy-focused development when required
+
+### Multi-Model Workflow
+- **Claude Sonnet 4**: Strategic thinking, architecture decisions, complex documentation
+- **GitHub Copilot**: Code completion, routine implementation, pattern following
+- **Complementary strengths**: Leveraging different models for their optimal use cases
+
 ## Success Metrics
 
 ### Measurable Outcomes
@@ -84,6 +115,21 @@ The FalkorDB FastMCP Proxy project demonstrates effective AI-assisted developmen
 - **Better Context Management**: Modular approach prevents information overload
 - **Improved Collaboration**: Clear boundaries and communication protocols
 
+## Running Model List
+
+### Currently Active Models
+| Model | Provider | Use Case | Integration |
+|-------|----------|----------|-------------|
+| Claude Sonnet 4 | Anthropic | Primary development, documentation, architecture | opencode.ai |
+| ChatGPT 4.1 | OpenAI/GitHub | Code completion, pair programming | GitHub Copilot |
+
+### Historical Models
+| Model | Provider | Period | Notes |
+|-------|----------|--------|-------|
+| Claude Sonnet 3.5 | Anthropic | Early development | Referenced in legacy disclaimers |
+
+*This list will be updated as new models are integrated or existing models are upgraded.*
+
 ## Contributing to This Documentation
 
 This workflow documentation is actively maintained to capture successful patterns and lessons learned. When implementing these workflows in other projects, consider contributing back improvements and adaptations that prove successful.
@@ -91,9 +137,10 @@ This workflow documentation is actively maintained to capture successful pattern
 ### Contribution Areas
 - **New workflow patterns**: Successful adaptations for different project types
 - **Tool integrations**: Ways to integrate these patterns with specific development tools
+- **Model comparisons**: Effectiveness of different AI models for specific tasks
 - **Lessons learned**: What works well and what to avoid
 - **Template improvements**: Better starting templates for new repositories
 
 ---
 
-> **Note**: This documentation was created with assistance from Claude Sonnet 3.5, demonstrating the AI collaboration patterns it describes.
+> **Note**: This documentation was created with assistance from Claude Sonnet 4 and GitHub Copilot via opencode.ai, demonstrating the AI collaboration patterns it describes.
