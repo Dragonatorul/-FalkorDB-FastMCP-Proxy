@@ -6,6 +6,7 @@
 - **Status**: Update `docs/STATUS.md` after each major milestone  
 - **Context**: Use modular approach - refer to docs/ for additional context when needed
 - **AI Files**: Store AI knowledge files in `docs/project-knowledge-base/` with README
+- **AGENTS.md Size**: Maintain this file as small as possible (target 50 lines, 100 max) - offload context to docs/
 
 ## Project Status: 98% Complete - Ready for Initial Deployment
 
