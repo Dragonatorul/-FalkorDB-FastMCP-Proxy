@@ -1,5 +1,7 @@
 # FalkorDB FastMCP Proxy
 
+> **Note**: Most contributions to this repository have been created with significant assistance from AI tools, including Anthropic Claude and GitHub Copilot. This collaboration demonstrates the potential of AI-assisted software development while maintaining high code quality and comprehensive documentation.
+
 A **remote-accessible** Model Context Protocol (MCP) server proxy that provides Claude Desktop and other MCP clients with **HTTP-based access** to FalkorDB graph databases through the FalkorDB MCPServer backend.
 
 ## 🚀 Key Features
@@ -247,6 +249,16 @@ curl http://localhost:3001/.well-known/oauth-authorization-server
 # Test with Bearer token
 curl -H "Authorization: Bearer YOUR_TOKEN" http://localhost:3001/sse/
 ```
+
+## Acknowledgments
+
+This project was developed with significant assistance from AI tools and platforms:
+
+- **[Anthropic Claude](https://www.anthropic.com/)** - AI assistant for code development, documentation, and architectural decisions
+- **[GitHub Copilot](https://github.com/features/copilot)** - AI pair programming for code completion and suggestions  
+- **[opencode.ai](https://opencode.ai/)** - AI-powered development environment for comprehensive project assistance
+
+These AI tools enabled rapid development, comprehensive documentation, and robust testing while maintaining high code quality standards. This project demonstrates the potential for effective AI-human collaboration in modern software development.
 
 ---
 
