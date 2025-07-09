@@ -11,12 +11,21 @@ This section documents the AI-human collaboration workflows established in this 
 - **Anthropic Claude Sonnet 4** - Primary AI assistant for code development, documentation, and architectural decisions
 - **GitHub Copilot (ChatGPT 4.1)** - AI pair programming for code completion and suggestions
 
+### Additional Development Tools
+- **Visual Studio Code** - Primary code editor and development environment
+
 ### Model Integration Benefits
 The use of opencode.ai as the primary platform ensures:
 - **Uniform workflow** across different AI models
 - **Seamless integration** with development tools and processes
 - **Support for local models** when needed for privacy or performance
 - **Consistent collaboration patterns** regardless of underlying AI provider
+
+## Tools Considered But Not Used
+
+### AI Development Extensions
+- **Continue VSCode Extension** - Briefly tested but didn't pass the "vibe check" for workflow integration
+- **Cline VSCode Extension** - Offers similar functionality to opencode but seemed overly complicated; preference for opencode's TUI version and direct CLI usage over IDE-integrated approach
 
 > **Note**: Documentation disclaimers throughout this repository may reference "Claude Sonnet 3.5" or general "opencode" references. The actual models used are listed above, with this section maintaining the authoritative record of AI tools employed.
 
@@ -95,6 +104,20 @@ The FalkorDB FastMCP Proxy project demonstrates effective AI-assisted developmen
 - **Context management**: Built-in support for efficient context handling
 - **Model flexibility**: Easy switching between different AI providers as needed
 - **Local model support**: Privacy-focused development when required
+- **CLI workflow**: Direct command-line interface preferred over IDE-integrated approaches
+- **TUI experience**: Terminal-based user interface provides efficient workflow
+
+### Visual Studio Code Integration
+- **Primary editor**: Standard code editing and project navigation
+- **GitHub Copilot integration**: Native support for AI code completion
+- **Extension ecosystem**: Leverages VS Code's rich extension marketplace
+- **Development workflow**: Integrates with existing development practices
+
+### Tool Selection Rationale
+- **opencode over Continue/Cline**: Preference for standalone CLI tool over IDE extensions
+- **Simplicity over complexity**: opencode's streamlined approach preferred over feature-heavy alternatives
+- **Workflow integration**: TUI and CLI usage patterns align better with development style
+- **Model flexibility**: opencode's multi-provider support reduces vendor lock-in
 
 ### Multi-Model Workflow
 - **Claude Sonnet 4**: Strategic thinking, architecture decisions, complex documentation
