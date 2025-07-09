@@ -2,6 +2,8 @@
 
 > **Note**: Most contributions to this repository have been created with significant assistance from AI tools, specifically Claude Sonnet 4 and GitHub Copilot (ChatGPT 4.1) via opencode.ai platform. This collaboration demonstrates the potential of AI-assisted software development while maintaining high code quality and comprehensive documentation.
 
+> **⚠️ CRITICAL NOTE**: There are two projects named "opencode" that provide TUI-based AI development tools. This project uses the **production-ready version** from **[opencode.ai](https://opencode.ai/)** / **[github.com/sst/opencode](https://github.com/sst/opencode)**. The other similarly named project is discontinued and not production-ready. Always verify you're using the correct implementation when following our [AI workflow documentation](docs/ai-workflow/).
+
 A **remote-accessible** Model Context Protocol (MCP) server proxy that provides Claude Desktop and other MCP clients with **HTTP-based access** to FalkorDB graph databases through the FalkorDB MCPServer backend.
 
 ## 🚀 Key Features
