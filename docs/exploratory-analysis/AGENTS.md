@@ -1,31 +1,44 @@
-# Exploratory Analysis - Agent Instructions
+# Exploratory Analysis - AI Instructions
 
-## Section Purpose
-Comprehensive analysis of vector search implementation options and architectural decisions for FalkorDB integration.
+## Documentation Hierarchy
+- **AGENTS.md** (This file): AI-specific vector analysis maintenance process
+- **README.md**: Human-readable analysis overview and navigation
+- **Detailed analysis**: Comprehensive vector implementation research and solutions
 
-## File Organization
-- **README.md**: Analysis overview and navigation
-- **vector-capabilities-assessment.md**: Current FalkorDB vector capabilities
-- **implementation-options-comparison.md**: Architectural approach comparison
-- **async-vector-job-solution.md**: Complete async job implementation
-- **practical-implementation-guide.md**: 15-minute deployment guide
-- **hardware-optimized-architecture.md**: Cost-effective ML deployment
+## AI Context for Vector Analysis
+- **vector-capabilities-assessment.md**: FalkorDB 4.0+ vector capabilities evaluation
+- **implementation-options-comparison.md**: Architectural approach analysis
+- **async-vector-job-solution.md**: Complete background job implementation
+- **practical-implementation-guide.md**: 15-minute deployment tutorial
+- **hardware-optimized-architecture.md**: Cost-effective ML deployment strategy
 - **performance-considerations.md**: Performance analysis and optimization
-- **vector-query-examples.md**: Working vector query examples
+- **vector-query-examples.md**: Working Cypher vector query examples
 
-## Maintenance Rules
-- Keep analysis current with FalkorDB capabilities
-- Update implementation guides when tested
-- Cross-reference with actual implementation results
-- Maintain practical focus with working examples
-- Document performance findings
+## AI Maintenance Process
+1. **Read this AGENTS.md**: Before any exploratory-analysis work
+2. **Verify current state**: Check FalkorDB capabilities against documented assessment
+3. **Update implementations**: Sync solutions with tested approaches
+4. **Cross-reference**: Link analysis findings to actual implementation results
+5. **Update README.md**: Sync human navigation with current analysis state
 
-## Key Context
-- **Gap Identified**: MCPServer v1.1.0 lacks embedding generation tools
-- **Solution**: Async job for automatic vector ingestion
-- **Current State**: FalkorDB 4.0+ has full native vector support
-- **Implementation**: Complete analysis with working solution
+## Analysis Context (AI Reference)
+- **Core Finding**: FalkorDB 4.0+ has full vector support, MCPServer v1.1.0 lacks embedding tools
+- **Solution Status**: Async job approach documented and ready for implementation
+- **Implementation Gap**: Embedding generation (not vector querying)
+- **Recommended Path**: Simple async job → Enhanced tools → Hardware optimization
+
+## AI Update Triggers
+- FalkorDB capability changes (update vector-capabilities-assessment.md)
+- New implementation approaches tested (update implementation-options-comparison.md)
+- Async job solution refined (update async-vector-job-solution.md)
+- Performance data gathered (update performance-considerations.md)
+
+## Content Formatting (AI Guidelines)
+- **Research Quality**: Maintain analytical rigor and objectivity
+- **Practical Focus**: Emphasize actionable solutions over theoretical analysis
+- **Cross-Reference**: Link findings to implementation status
+- **Human Accessibility**: Structure for both technical and strategic readers
 
 ---
 
-> **AI Instructions**: Update analysis when vector capabilities change or new solutions are implemented.
+> **AI Note**: Analysis documentation serves both strategic decision-making and implementation guidance.

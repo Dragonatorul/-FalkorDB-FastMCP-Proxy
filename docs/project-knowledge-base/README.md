@@ -1,23 +1,34 @@
-# Project Knowledge Base
+# Project Knowledge Base - AI ONLY
 
-This folder contains files primarily meant for AI consumption to maintain a modular context workflow. These files store detailed technical knowledge, implementation decisions, and contextual information that supports the main documentation.
+⚠️ **FOR AI AGENT CONSUMPTION ONLY** ⚠️
+
+This folder contains detailed technical information maintained exclusively by AI agents for AI context and decision-making. Human users should refer to the main documentation in other `docs/` sections.
 
 ## Purpose
-- **AI Context**: Provide detailed context for AI assistants without cluttering main docs
-- **Modular Approach**: Allow main AGENTS.md to stay compact while preserving detailed knowledge
-- **Technical Reference**: Store implementation details, decisions, and troubleshooting info
+- **AI Context Storage**: Detailed technical knowledge for AI agent decision-making
+- **Implementation Details**: Low-level technical information too detailed for human docs
+- **Decision Records**: AI reasoning and architectural decision context
+- **Troubleshooting Database**: AI-accessible problem-solution mappings
 
-## File Organization
-- **Technical Details**: Implementation specifics too detailed for main docs
-- **Decision Records**: Architecture decisions and rationale
-- **Troubleshooting**: Common issues and solutions
-- **Context Files**: Background information for AI assistants
+## Content Types
+- **Technical Specifications**: Implementation details and constraints
+- **Decision Context**: Background information for AI architectural decisions
+- **Process Knowledge**: AI workflow patterns and established practices
+- **Reference Data**: Lookup tables, configuration examples, error mappings
 
-## Usage
-- AI assistants should refer to these files when main docs lack sufficient detail
-- Update these files when gathering information not available in main docs
-- Keep main user-facing docs in parent `docs/` folder clean and focused
+## AI Maintenance Guidelines
+- Update when gathering new technical knowledge not in main docs
+- Store implementation decisions and reasoning for future reference
+- Maintain duplicate information if needed for AI context efficiency
+- Cross-reference main docs when appropriate but prioritize AI comprehension
+
+## Human Users
+**Please refer to other documentation sections:**
+- `docs/technical-guides/` - Technical implementation guides
+- `docs/user-guides/` - Setup and usage instructions
+- `docs/project-management/` - Feature and issue tracking
+- `docs/exploratory-analysis/` - Vector implementation analysis
 
 ---
 
-> **Note**: This knowledge base was created to support AI-assisted development with Claude Sonnet 3.5.
+> **Note**: This section is actively maintained by AI agents and optimized for AI consumption.

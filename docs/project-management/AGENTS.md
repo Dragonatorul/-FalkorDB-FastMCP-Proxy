@@ -1,46 +1,46 @@
-# Project Management - Agent Instructions
+# Project Management - AI Instructions
 
-## Ticket System Rules
-- **Issues**: Problems, bugs, technical debt (issues/{state}/)
-- **Features**: New functionality, enhancements (features/{state}/)
+## Documentation Hierarchy
+- **AGENTS.md** (This file): AI-specific ticket management process
+- **README.md**: Human-readable summary and navigation
+- **Detailed files**: Comprehensive information for specific features/issues
+
+## Ticket System Process (AI)
+- **Issues**: Problems/bugs in `issues/{state}/` folders
+- **Features**: New functionality in `features/{state}/` folders  
 - **States**: pending → in-progress → completed/closed
-- **File Format**: One ticket = one file, descriptive filename
-- **Movement**: Move files between state folders as status changes
+- **File Management**: Move files between state folders as status changes
+- **Headers Required**: Status, Priority, Assigned, Estimated Effort
 
-## Ticket States
-### Issues
-- **pending/**: Identified issues awaiting work
-- **in-progress/**: Currently being worked on
-- **completed/**: Fixed and verified
-- **closed/**: Won't fix or no longer relevant
+## AI Workflow
+1. **Read this AGENTS.md**: Before any project-management work
+2. **Check current state**: Review ticket locations and headers
+3. **Update status**: Move files and update headers when status changes
+4. **Maintain structure**: Keep folder organization clean
+5. **Update README.md**: Sync human-readable summary after changes
 
-### Features  
-- **concept/**: Ideas, not planned for implementation
-- **planned/**: Approved for development
-- **in-progress/**: Currently being developed
-- **completed/**: Implemented and tested
+## Ticket States (AI Reference)
+```
+issues/pending/     → issues/in-progress/ → issues/completed/
+issues/pending/     → issues/closed/ (won't fix)
+features/concept/   → features/planned/ → features/in-progress/ → features/completed/
+```
 
-## Ticket Management Process
-1. **Create**: New ticket in appropriate pending/ or concept/ folder
-2. **Prioritize**: Update priority and assignment in ticket header
-3. **Work**: Move to in-progress/ when starting work
-4. **Complete**: Move to completed/ when done, update status
-5. **Update**: Maintain current state in ticket headers
-
-## Required Ticket Headers
+## Required Headers (AI Template)
 ```markdown
-**Status**: [Pending/In-Progress/Completed/Closed]
+**Status**: [Current state]
 **Priority**: [High/Medium/Low]
 **Assigned**: [Session ID or "Unassigned"]
 **Estimated Effort**: [Time estimate]
 ```
 
-## Maintenance Tasks
-- Move tickets between folders as status changes
+## AI Maintenance Tasks
+- Move ticket files when status changes
 - Update ticket headers with current information
-- Reference completed tickets when relevant issues arise
-- Keep folder structure organized and consistent
+- Sync README.md with current ticket counts and status
+- Maintain clean folder structure
+- Reference completed tickets for related work
 
 ---
 
-> **AI Instructions**: Update ticket states and locations as work progresses. Maintain clear status tracking.
+> **AI Note**: This file contains AI-specific process information. Humans should refer to README.md for navigation.

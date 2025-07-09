@@ -1,27 +1,41 @@
-# Technical Guides - Agent Instructions
+# Technical Guides - AI Instructions
 
-## Section Purpose
-Technical documentation for architecture, deployment, authentication, and integration patterns.
+## Documentation Hierarchy
+- **AGENTS.md** (This file): AI-specific technical documentation process
+- **README.md**: Human-readable technical guide index and navigation
+- **Detailed guides**: Comprehensive technical documentation for implementation
 
-## File Organization
-- **architecture.md**: System design, components, data flow
-- **deployment-guide.md**: Production setup, HTTPS, OAuth configuration  
-- **multi-tenant-authentication.md**: JWT tenant isolation, security model
-- **mcp-vs-integrations.md**: Claude Desktop integration comparison
+## AI Context for Technical Guides
+- **architecture.md**: System design, components, data flow diagrams
+- **deployment-guide.md**: Production setup, HTTPS, OAuth configuration
+- **multi-tenant-authentication.md**: JWT tenant isolation, security implementation
+- **mcp-vs-integrations.md**: Claude Desktop integration technical comparison
 
-## Maintenance Rules
-- Keep guides focused on implementation details
-- Update after architectural changes
-- Cross-reference related guides
-- Maintain security best practices
-- Document production considerations
+## AI Maintenance Process
+1. **Read this AGENTS.md**: Before any technical-guides work
+2. **Check current architecture**: Understand system state from architecture.md
+3. **Update guides**: Sync with actual implementation changes
+4. **Cross-reference**: Link related guides and maintain consistency
+5. **Update README.md**: Sync human navigation after content changes
 
-## Key Context
-- **Authentication**: OAuth 2.1 with Bearer tokens
-- **Transport**: SSE over HTTPS for remote access
-- **Backend**: FalkorDB MCPServer v1.1.0 on port 3000
-- **Proxy**: FastMCP on port 3001 with 4 MCP tools
+## Technical Context (AI Reference)
+- **Current Architecture**: SSE over HTTPS, OAuth 2.1 Bearer tokens
+- **Stack**: FastMCP proxy (port 3001) → FalkorDB MCPServer v1.1.0 (port 3000) → FalkorDB (port 6379)
+- **Authentication**: RSA JWT with tenant extraction for multi-tenancy
+- **Transport**: Server-Sent Events for remote Claude Desktop access
+
+## AI Update Triggers
+- System architecture changes (update architecture.md)
+- Deployment process changes (update deployment-guide.md)
+- Authentication/security changes (update multi-tenant-authentication.md)
+- Integration method changes (update mcp-vs-integrations.md)
+
+## Content Formatting (AI Guidelines)
+- **Technical Accuracy**: Verify against actual implementation
+- **Human Readability**: Structure for technical implementers
+- **Completeness**: Include all necessary technical details
+- **Cross-References**: Link related concepts and files
 
 ---
 
-> **AI Instructions**: Update technical guides when system architecture or deployment processes change.
+> **AI Note**: Technical guides target human developers. Focus on clarity and completeness for implementation.
