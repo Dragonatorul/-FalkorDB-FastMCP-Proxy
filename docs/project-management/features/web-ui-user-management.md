@@ -324,3 +324,6 @@ CREATE TABLE audit_logs (
 - **Backup & Recovery**: Automated disaster recovery
 - **Compliance**: SOC2, HIPAA compliance features
 - **White-label**: Customizable branding and themes
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

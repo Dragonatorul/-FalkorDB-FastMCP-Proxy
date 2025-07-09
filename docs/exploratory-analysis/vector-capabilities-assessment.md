@@ -178,3 +178,7 @@ The foundation is solid. The missing piece is a simple ingestion layer that can:
 4. Integrate with the existing MCP architecture
 
 This can be implemented without major architectural changes, preserving the current system's simplicity while adding the missing ingestion capabilities.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

@@ -6,14 +6,14 @@
 
 ## Problem Statement
 
-Claude Desktop integration works 100% with Bearer token authentication, but opencode requires URL-based token passing for MCP connections. FastMCP currently only supports Bearer tokens in headers, not URL query parameters.
+Claude Desktop integration works 100% with Bearer token authentication, but Claude requires URL-based token passing for MCP connections. FastMCP currently only supports Bearer tokens in headers, not URL query parameters.
 
 ## Technical Details
 
 **Current State**:
 - FastMCP uses `BearerAuthProvider` which expects `Authorization: Bearer <token>` headers
-- opencode hardcodes SSE transport with no authentication header support
-- opencode only supports: `{"type": "sse", "url": "http://host:port/sse/"}`
+- Claude hardcodes SSE transport with no authentication header support
+- Claude only supports: `{"type": "sse", "url": "http://host:port/sse/"}`
 
 **Required State**:
 - FastMCP should accept tokens from URL query parameters: `/sse/?token=<jwt_token>`
@@ -57,7 +57,7 @@ async def url_token_middleware(request: Request, call_next):
 
 - [ ] FastMCP accepts tokens from URL query parameters
 - [ ] Backward compatibility with Bearer headers maintained  
-- [ ] opencode can connect using: `http://host:port/sse/?token=<jwt>`
+- [ ] Claude can connect using: `http://host:port/sse/?token=<jwt>`
 - [ ] All existing Claude Desktop functionality preserved
 - [ ] Tests pass for both authentication methods
 
@@ -66,7 +66,7 @@ async def url_token_middleware(request: Request, call_next):
 1. Test URL token authentication: `GET /sse/?token=<valid_jwt>`
 2. Test Bearer header authentication: `GET /sse/` with `Authorization: Bearer <token>`
 3. Test invalid token scenarios for both methods
-4. Test opencode connection with generated tenant tokens
+4. Test Claude connection with generated tenant tokens
 
 ## Dependencies
 
@@ -76,4 +76,7 @@ async def url_token_middleware(request: Request, call_next):
 
 ## Notes
 
-This is the critical blocker for opencode integration. Once resolved, multi-device remote access will be fully functional.
+This is the critical blocker for Claude integration. Once resolved, multi-device remote access will be fully functional.
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

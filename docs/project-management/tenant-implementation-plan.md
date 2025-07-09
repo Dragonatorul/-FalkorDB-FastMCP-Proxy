@@ -1,7 +1,7 @@
 # Tenant-Aware Multi-Device Implementation Plan
 
 ## 🎯 **OBJECTIVE**
-Enable multiple devices to securely access a single remote FalkorDB instance through opencode with proper tenant isolation and authentication.
+Enable multiple devices to securely access a single remote FalkorDB instance through Claude with proper tenant isolation and authentication.
 
 ## 🏗️ **ARCHITECTURE OVERVIEW**
 
@@ -10,7 +10,7 @@ Enable multiple devices to securely access a single remote FalkorDB instance thr
 │   Device 1      │    │   Device 2      │    │   Device 3      │
 │  (Tenant A)     │    │  (Tenant B)     │    │  (Tenant A)     │
 │                 │    │                 │    │                 │
-│ opencode        │    │ opencode        │    │ opencode        │
+│ Claude        │    │ Claude        │    │ Claude        │
 │ URL: /sse/?     │    │ URL: /sse/?     │    │ URL: /sse/?     │
 │ token=jwt_a     │    │ token=jwt_b     │    │ token=jwt_a     │
 └─────────┬───────┘    └─────────┬───────┘    └─────────┬───────┘
@@ -96,8 +96,8 @@ async def falkordb_health_tenant(ctx: Context) -> str:
 
 ### **Phase 2: Integration & Testing** (Priority: HIGH)
 
-#### Task 2.1: opencode Configuration Update
-**File**: `opencode.json`  
+#### Task 2.1: Claude Configuration Update
+**File**: `Claude.json`  
 **Status**: Not Started  
 **Work Required**:
 - [ ] Create tenant-specific configuration examples
@@ -167,7 +167,7 @@ async def falkordb_health_tenant(ctx: Context) -> str:
 
 ### **Step 3: Multi-Device Testing** (Estimated: 2 hours)
 1. Generate test tokens for multiple tenants
-2. Configure opencode on multiple devices/sessions
+2. Configure Claude on multiple devices/sessions
 3. Test data isolation between tenants
 4. Validate concurrent access scenarios
 
@@ -180,7 +180,7 @@ async def falkordb_health_tenant(ctx: Context) -> str:
 ## 📊 **SUCCESS CRITERIA**
 
 ### **Technical Validation**:
-- [ ] Multiple opencode instances connect to same remote database
+- [ ] Multiple Claude instances connect to same remote database
 - [ ] Perfect tenant data isolation (no cross-tenant data access)
 - [ ] All 4 MCP tools working correctly in tenant context
 - [ ] JWT token validation working reliably
@@ -226,3 +226,6 @@ async def falkordb_health_tenant(ctx: Context) -> str:
 **Week 4**: Production deployment and monitoring setup
 
 **Next Session Priority**: Complete `fastmcp_proxy.py` and test basic functionality
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

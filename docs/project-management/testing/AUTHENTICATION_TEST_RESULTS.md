@@ -111,3 +111,6 @@ For production deployment:
 🎉 **The authentication system is COMPLETE and CLAUDE DESKTOP COMPATIBLE!**
 
 Our proxy successfully implements industry-standard Bearer token authentication that matches the exact method used by Claude Desktop and hundreds of other MCP servers in the ecosystem.
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

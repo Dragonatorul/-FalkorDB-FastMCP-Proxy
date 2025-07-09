@@ -477,3 +477,7 @@ You now have a fully functional automatic vector ingestion system that:
 ✅ **Configurable** - Environment variables for all settings  
 
 The system transforms your existing vector-capable FalkorDB setup into a fully autonomous vector search platform while maintaining simplicity and reliability.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

@@ -391,3 +391,7 @@ class CostOptimizationAlerting:
 The hardware-optimized architecture provides the optimal balance of performance, cost, and operational complexity. By separating ML workloads from graph operations and deploying them on appropriate hardware, organizations can achieve significant cost savings while improving performance and maintaining architectural flexibility.
 
 This approach is particularly valuable for production deployments where cost efficiency and performance optimization are critical requirements.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

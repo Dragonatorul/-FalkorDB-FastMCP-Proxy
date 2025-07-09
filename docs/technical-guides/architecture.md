@@ -322,3 +322,7 @@ docs/
 - **FalkorDB MCPServer**: v1.1.0 (backend API)
 
 This architecture provides a solid foundation for extending functionality, improving performance, and ensuring security in production deployments.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

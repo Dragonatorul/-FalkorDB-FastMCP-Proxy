@@ -39,3 +39,6 @@ A visual, web-based GraphQL query builder that allows users to construct complex
 - Requires Web UI User Management feature
 - D3.js or similar graph visualization library
 - CodeMirror for syntax highlighting
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

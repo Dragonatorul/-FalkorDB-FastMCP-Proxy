@@ -6,7 +6,7 @@
 
 ## Problem Statement
 
-Current Docker setup only runs single-device proxy on port 3001. Need to support dual-port deployment for both Claude Desktop (authenticated) and opencode (tenant-aware) access.
+Current Docker setup only runs single-device proxy on port 3001. Need to support dual-port deployment for both Claude Desktop (authenticated) and Claude (tenant-aware) access.
 
 ## Current Configuration
 
@@ -20,7 +20,7 @@ Current Docker setup only runs single-device proxy on port 3001. Need to support
 ### Dual-Port Architecture
 ```yaml
 # Port 3001: Claude Desktop (Bearer token authentication)
-# Port 3003: opencode (URL token authentication with tenant isolation)
+# Port 3003: Claude (URL token authentication with tenant isolation)
 ```
 
 ### Docker Service Options
@@ -82,7 +82,7 @@ async def run_dual_servers():
 
 - [ ] Both endpoints accessible via Docker
 - [ ] Port 3001: Claude Desktop authentication working
-- [ ] Port 3003: opencode URL token authentication working  
+- [ ] Port 3003: Claude URL token authentication working  
 - [ ] Docker logs show both servers starting
 - [ ] Health checks work for both endpoints
 
@@ -90,7 +90,7 @@ async def run_dual_servers():
 
 1. `docker-compose up -d`
 2. Test Claude Desktop connection to `:3001`
-3. Test opencode connection to `:3003/?token=<jwt>`
+3. Test Claude connection to `:3003/?token=<jwt>`
 4. Verify tenant isolation between different tokens
 5. Check Docker service health and logs
 
@@ -114,7 +114,7 @@ async def run_dual_servers():
 }
 ```
 
-### opencode (Port 3003)
+### Claude (Port 3003)
 ```json
 {
   "name": "FalkorDB-Tenant",
@@ -126,3 +126,7 @@ async def run_dual_servers():
 ## Estimated Effort
 
 ~1 hour to implement and test dual-port Docker configuration.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

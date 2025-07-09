@@ -392,3 +392,7 @@ These examples demonstrate that the current FalkorDB FastMCP Proxy implementatio
 ✅ **Real-world use cases** - Search, recommendations, clustering, deduplication  
 
 **All of these operations work right now** using the existing `falkordb_query` MCP tool. The only missing piece is convenient embedding generation, which can be added with the simple async job solution without changing any existing functionality.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

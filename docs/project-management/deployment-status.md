@@ -98,3 +98,6 @@ See [known-issues.md](./known-issues.md) for detailed bug reports and workaround
 ## Deployment Instructions
 
 See [deployment-guide.md](./deployment-guide.md) for complete setup instructions.
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

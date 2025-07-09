@@ -83,3 +83,7 @@ When updating documentation:
 2. Update relevant README files when adding new documents
 3. Cross-reference related documentation
 4. Keep technical and user documentation separate
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

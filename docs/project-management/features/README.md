@@ -115,3 +115,6 @@ When proposing new features, follow this structure:
 - **Performance Review**: Performance impact evaluation
 - **User Experience Review**: Usability and design validation
 - **Final Review**: Complete feature validation before release
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

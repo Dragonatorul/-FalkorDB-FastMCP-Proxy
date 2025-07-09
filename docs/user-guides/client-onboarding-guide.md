@@ -899,3 +899,7 @@ Production client onboarding involves:
 7. **📦 Delivery**: Secure credential and documentation delivery
 
 Each new client gets **complete data isolation**, their own authentication credentials, and a tailored Claude Desktop configuration for immediate productivity with FalkorDB graph operations.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

@@ -169,3 +169,7 @@ Here's a complete MCP configuration file with our FalkorDB proxy:
 6. ❌ Don't use `/sse/` endpoint (deprecated for Docker)
 
 **Expected Result**: 4 FalkorDB tools available in Claude Desktop for graph database operations.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

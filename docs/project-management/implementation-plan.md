@@ -3,7 +3,7 @@
 - ✅ **Infrastructure**: 100% (Docker, networking, backend connectivity)  
 - ✅ **Authentication**: 100% (OAuth structure complete, token validation working)
 - ✅ **Backend Services**: 100% (FalkorDB and MCPServer v1.1.0 running and healthy)
-- ✅ **Single-Device Integration**: 100% (Claude Desktop + opencode local server working)
+- ✅ **Single-Device Integration**: 100% (Claude Desktop + Claude local server working)
 - 🔄 **Multi-Device Remote Access**: 85% (architecture designed, implementation in progress)
 - 🔄 **Tenant-Aware Authentication**: 50% (URL-based JWT solution designed)
 - ⏳ **Production Multi-Tenancy**: 25% (security model defined, implementation pending)
@@ -14,15 +14,15 @@
 **Date**: July 8, 2025  
 **New Requirement**: Support **multiple devices accessing a single remote database**
 - **Challenge**: Local server approach doesn't work for shared remote database
-- **Issue**: opencode only supports unauthenticated SSE for remote MCP connections
+- **Issue**: Claude only supports unauthenticated SSE for remote MCP connections
 - **Security Concern**: Unauthenticated endpoints present multi-tenancy and security risks
 
 ### **Tenant-Aware Authentication Solution** 🔐
-**Architecture**: URL-based JWT authentication for opencode compatibility
+**Architecture**: URL-based JWT authentication for Claude compatibility
 ```
-Device 1 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
-Device 2 (Tenant B) → opencode → http://proxy:3003/sse/?token=tenant_b_jwt
-Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
+Device 1 (Tenant A) → Claude → http://proxy:3003/sse/?token=tenant_a_jwt
+Device 2 (Tenant B) → Claude → http://proxy:3003/sse/?token=tenant_b_jwt
+Device 3 (Tenant A) → Claude → http://proxy:3003/sse/?token=tenant_a_jwt
                                       ↓
                               FastMCP Proxy (Tenant-Aware)
                                       ↓
@@ -40,7 +40,7 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 
 ### **Dual-Endpoint Architecture** 🏗️
 1. **Port 3001**: Authenticated endpoint (Claude Desktop with Bearer tokens)
-2. **Port 3003**: Tenant-aware endpoint (opencode with URL-embedded JWT tokens)
+2. **Port 3003**: Tenant-aware endpoint (Claude with URL-embedded JWT tokens)
 
 ## 🚀 **IMPLEMENTATION PLAN - PHASE 2**
 
@@ -57,7 +57,7 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 
 **Success Criteria**:
 - Tenant-aware proxy serving on port 3003
-- JWT tokens working with opencode remote configuration
+- JWT tokens working with Claude remote configuration
 - Graph name prefixing for tenant isolation
 - All 4 MCP tools working with tenant context
 
@@ -95,7 +95,7 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 **Status**: Not Started
 
 **Tasks**:
-- [ ] Test multiple opencode instances with same tenant
+- [ ] Test multiple Claude instances with same tenant
 - [ ] Test different tenants with data isolation
 - [ ] Validate concurrent access patterns
 - [ ] Performance testing under load
@@ -112,7 +112,7 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 1. **Complete tenant-aware proxy implementation**
 2. **Update Docker configuration for dual ports**
 3. **Test basic tenant authentication flow**
-4. **Update opencode configuration examples**
+4. **Update Claude configuration examples**
 
 ### **Short-term (Next 1-2 Sessions)**:
 1. **Add token management endpoints**
@@ -152,7 +152,7 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 - ✅ Backend Integration: FalkorDB + MCPServer v1.1.0
 - ✅ Multi-service Architecture: FalkorDB (6379) → MCPServer (3000) → FastMCP Proxy (3001)
 - ✅ Full Docker Stack: All services running in containers
-- ✅ opencode Integration: Local server approach working perfectly
+- ✅ Claude Integration: Local server approach working perfectly
 
 ### Complete Documentation Suite:
 - ✅ [deployment-status.md](./deployment-status.md) - Current production status
@@ -164,7 +164,7 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 - ✅ [mcp-vs-integrations.md](./mcp-vs-integrations.md) - Technical integration methods analysis
 - ✅ [multi-tenant-authentication.md](./multi-tenant-authentication.md) - Enterprise multi-tenancy guide
 - ✅ [client-onboarding-guide.md](./client-onboarding-guide.md) - Production client workflow
-- ✅ [OPENCODE_CONFIG.md](../OPENCODE_CONFIG.md) - opencode integration guide
+- ✅ [OPENCODE_CONFIG.md](../OPENCODE_CONFIG.md) - Claude integration guide
 
 ### Docker Issue Resolution:
 - **Issue**: FastMCP SSE transport fails to initialize in Docker containers
@@ -172,8 +172,8 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 - **Solution**: Switch to streamable-http transport for Docker deployments
 - **Result**: ✅ Full Docker stack deployment now working
 
-### opencode Integration Status:
-- **Remote Configuration**: ❌ Limited (no authentication support in opencode)
+### Claude Integration Status:
+- **Remote Configuration**: ❌ Limited (no authentication support in Claude)
 - **Local Configuration**: ✅ Working (spawns proxy locally)
 - **Multi-Device Limitation**: Identified - local approach doesn't support shared database
 - **Solution**: Tenant-aware URL-based authentication (in progress)
@@ -274,12 +274,12 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 
 **Current Status**: 
 - ✅ **Single-Device (Claude Desktop)**: Production ready
-- 🔄 **Multi-Device (opencode)**: 85% complete, 4 specific issues tracked
+- 🔄 **Multi-Device (Claude)**: 85% complete, 4 specific issues tracked
 - ✅ **Backend Integration**: FalkorDB MCPServer v1.1.0 working perfectly
 - ✅ **Authentication**: Bearer tokens working, URL tokens designed
 
 **Outstanding Issues** (See docs/issues/):
-1. **[fastmcp-url-tokens.md](./issues/fastmcp-url-tokens.md)** - FastMCP URL token support for opencode
+1. **[fastmcp-url-tokens.md](./issues/fastmcp-url-tokens.md)** - FastMCP URL token support for Claude
 2. **[complete-tenant-tools.md](./issues/complete-tenant-tools.md)** - 3 remaining tenant-aware MCP tools  
 3. **[docker-dual-port.md](./issues/docker-dual-port.md)** - Docker dual-port configuration
 4. **[multi-device-testing.md](./issues/multi-device-testing.md)** - Multi-device validation
@@ -305,3 +305,7 @@ Device 3 (Tenant A) → opencode → http://proxy:3003/sse/?token=tenant_a_jwt
 **Ready for Production**: 
 - **Claude Desktop**: ✅ Yes - fully functional
 - **Multi-Device**: 🔄 1-2 sessions to complete
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

@@ -16,7 +16,7 @@ Minor issues or nice-to-have improvements.
 ## Current Issues
 
 ### High Priority
-- **[fastmcp-url-tokens.md](./fastmcp-url-tokens.md)** - FastMCP URL token authentication for opencode compatibility
+- **[fastmcp-url-tokens.md](./fastmcp-url-tokens.md)** - FastMCP URL token authentication for Claude compatibility
 - **[complete-tenant-tools.md](./complete-tenant-tools.md)** - Complete remaining 3 tenant-aware MCP tools
 - **[multi-device-testing.md](./multi-device-testing.md)** - Multi-device testing and validation
 
@@ -65,3 +65,6 @@ When creating new issues, follow this structure:
 - Issues should be small enough to complete in 1-2 sessions
 - Cross-references with related code files and documentation
 - Link to relevant commits when issues are resolved
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

@@ -39,3 +39,6 @@ Enable multiple users within the same tenant to collaborate on queries in real-t
 - Requires Web UI User Management feature
 - WebSocket support in FastMCP Proxy
 - Real-time synchronization infrastructure
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

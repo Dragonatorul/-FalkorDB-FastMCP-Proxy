@@ -429,3 +429,7 @@ Performance optimization for vector search involves balancing multiple factors:
 5. **Index tuning** can improve search speed by 2-5x
 
 The async job approach provides the best performance/complexity ratio for most use cases, while the hardware-optimized architecture is optimal for large-scale production deployments.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

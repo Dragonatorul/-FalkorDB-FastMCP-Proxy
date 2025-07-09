@@ -11,7 +11,7 @@ Need to validate that multiple devices can access the same remote FalkorDB insta
 ## Testing Scenarios
 
 ### Scenario 1: Same Tenant, Multiple Devices
-**Setup**: Two opencode instances with same tenant token
+**Setup**: Two Claude instances with same tenant token
 **Expected**: Both see same data, changes visible to both
 ```
 Device A (tenant: acme) → Creates graph "customers"
@@ -21,7 +21,7 @@ Device A (tenant: acme) → Should see new data
 ```
 
 ### Scenario 2: Different Tenants, Data Isolation
-**Setup**: Two opencode instances with different tenant tokens
+**Setup**: Two Claude instances with different tenant tokens
 **Expected**: Complete data isolation
 ```
 Device A (tenant: acme) → Creates graph "customers"
@@ -30,12 +30,12 @@ Device B (tenant: widgets) → Creates graph "products"
 Device A (tenant: acme) → Should NOT see "products" graph
 ```
 
-### Scenario 3: Claude Desktop + opencode Mixed
-**Setup**: Claude Desktop on port 3001, opencode on port 3003
+### Scenario 3: Claude Desktop + Claude Mixed
+**Setup**: Claude Desktop on port 3001, Claude on port 3003
 **Expected**: Independent operation
 ```
 Claude Desktop → Uses authenticated endpoint (global access)
-opencode → Uses tenant-aware endpoint (isolated access)
+Claude → Uses tenant-aware endpoint (isolated access)
 Both should work simultaneously without interference
 ```
 
@@ -57,7 +57,7 @@ def test_different_tenant_isolation():
     
 def test_mixed_endpoints():
     # Test Claude Desktop endpoint
-    # Test opencode tenant endpoint
+    # Test Claude tenant endpoint
     # Verify no interference
 ```
 
@@ -95,7 +95,7 @@ class TenantTestClient:
 1. `tests/test_multi_device.py` - Comprehensive multi-device test suite
 2. `tests/test_tenant_isolation.py` - Focused tenant isolation tests  
 3. `tests/utils/tenant_test_client.py` - Test client utilities
-4. `tests/test_mixed_endpoints.py` - Claude Desktop + opencode tests
+4. `tests/test_mixed_endpoints.py` - Claude Desktop + Claude tests
 
 ## Success Criteria
 
@@ -112,7 +112,7 @@ class TenantTestClient:
 - [ ] Tenant-specific error handling
 
 ### Mixed Endpoint Operation
-- [ ] Claude Desktop and opencode work simultaneously
+- [ ] Claude Desktop and Claude work simultaneously
 - [ ] No authentication conflicts
 - [ ] Independent session management
 - [ ] Proper error isolation
@@ -159,7 +159,7 @@ CREATE (p:Product {name: 'Gadget B', price: 200})
 
 4. **Mixed-Endpoint Testing**
    - Test Claude Desktop authentication
-   - Test opencode tenant authentication
+   - Test Claude tenant authentication
    - Verify simultaneous operation
    - Check resource isolation
 
@@ -173,3 +173,6 @@ CREATE (p:Product {name: 'Gadget B', price: 200})
 ## Estimated Effort
 
 ~2-3 hours to implement comprehensive test suite and validate all scenarios.
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

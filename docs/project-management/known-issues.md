@@ -163,3 +163,6 @@ For Docker issues, also include:
 - `docker --version`
 - `docker-compose --version`  
 - Container logs: `docker-compose logs [service-name]`
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

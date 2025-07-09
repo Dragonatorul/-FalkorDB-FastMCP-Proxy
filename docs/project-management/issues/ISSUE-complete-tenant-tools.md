@@ -92,3 +92,6 @@ For each tool:
 ## Estimated Effort
 
 ~1-2 hours to implement all 3 remaining tools following the established pattern.
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

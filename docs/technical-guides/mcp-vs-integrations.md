@@ -456,3 +456,7 @@ The choice between **MCP Servers** and **Integrations** fundamentally comes down
 For custom tools, local data sources, or specialized business logic, **MCP Servers** are the clear choice. For standard cloud service operations with minimal customization needs, **Integrations** provide a streamlined experience.
 
 Understanding this distinction helps developers choose the right approach for their specific use case and avoid configuration mistakes that can lead to integration failures.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

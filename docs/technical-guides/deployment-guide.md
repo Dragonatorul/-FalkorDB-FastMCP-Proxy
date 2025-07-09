@@ -330,3 +330,7 @@ curl http://localhost:3001/.well-known/oauth-authorization-server
 - Monitor and log authentication attempts
 
 For production security hardening, see [security-guide.md](./security-guide.md) (coming soon).
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

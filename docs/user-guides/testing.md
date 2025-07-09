@@ -345,3 +345,6 @@ For production monitoring:
 - Mock external APIs when not testing integration
 
 This testing framework ensures the FalkorDB FastMCP Proxy maintains high reliability and performance standards across all deployment scenarios.
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

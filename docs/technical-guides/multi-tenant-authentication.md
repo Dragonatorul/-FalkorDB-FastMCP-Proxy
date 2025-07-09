@@ -659,3 +659,7 @@ Multi-tenant support in the FalkorDB FastMCP Proxy provides **enterprise-grade d
 - **Production Security**: OAuth integration, audit logging, monitoring
 
 This architecture enables **secure SaaS deployment** where multiple organizations can safely share the same FalkorDB infrastructure while maintaining complete data privacy and security.
+
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.

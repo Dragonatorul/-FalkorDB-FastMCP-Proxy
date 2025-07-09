@@ -187,3 +187,6 @@ python tests/test_remote_mcp.py
 ---
 
 🎯 **Goal Achieved**: FastMCP proxy successfully provides remote SSE access to FalkorDB with OAuth 2.1 authentication, ready for Claude Desktop integration.
+---
+
+> **Note**: This document was created with assistance from Claude Sonnet 3.5, an AI assistant by Anthropic.
