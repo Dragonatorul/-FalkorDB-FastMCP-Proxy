@@ -1,3 +1,13 @@
+---
+summary: "Complete deployment instructions for FalkorDB FastMCP Proxy using Docker"
+scope: "Local development setup, production deployment, environment configuration"
+components: "FalkorDB + MCPServer v1.1.0 + FastMCP Proxy with OAuth 2.1 authentication"
+target_environments: "Development (localhost), production (cloud/remote servers)"
+prerequisites: "Docker Compose, network access, optional SSL certificates"
+ports: "FalkorDB (6379), MCPServer (3000), FastMCP Proxy (3001)"
+includes: "Health checks, troubleshooting, integration testing procedures, authentication setup"
+---
+
 # Deployment Guide
 
 ## Quick Start (Full Docker Deployment)
@@ -118,7 +128,9 @@ Create `/etc/systemd/system/fastmcp-proxy.service`:
 
 ```ini
 [Unit]
-Description=FalkorDB FastMCP Proxy
+---
+Description: FalkorDB FastMCP Proxy
+---
 After=docker.service
 Requires=docker.service
 

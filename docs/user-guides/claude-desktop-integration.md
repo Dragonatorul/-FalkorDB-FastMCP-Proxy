@@ -1,3 +1,14 @@
+---
+summary: "Step-by-step configuration guide for integrating FalkorDB FastMCP Proxy with Claude Desktop"
+scope: "MCP server configuration, JSON setup, authentication token configuration"
+important: "Distinguishes between MCP servers and integrations (two different features)"
+config_location: "Claude Desktop → Settings → Features → Model Context Protocol"
+format: "JSON format with serverUrl, authentication type, Bearer token setup"
+testing: "Connection verification, tool availability, query execution tests"
+troubleshooting: "URL formatting, authentication failures, network connectivity problems"
+alternatives: "Manual server testing, configuration validation, debug procedures"
+---
+
 # Claude Desktop Integration Guide
 
 ## ⚠️ **IMPORTANT: Two Different Integration Methods**

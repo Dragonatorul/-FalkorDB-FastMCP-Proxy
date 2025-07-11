@@ -183,6 +183,31 @@ python test_proxy.py
 python test_remote_mcp.py
 ```
 
+## 🤝 Community
+
+### Getting Help & Contributing
+
+- **🐛 [Report Bugs](https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/issues/new?template=bug_report.md)** - Found an issue? Let us know!
+- **🚀 [Request Features](https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/issues/new?template=feature_request.md)** - Have a specific enhancement in mind?
+- **💡 [Share Ideas](https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/discussions/categories/ideas)** - Discuss concept features and future possibilities
+- **🙋 [Ask Questions](https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/discussions/categories/q-a)** - Get help with setup, usage, or troubleshooting
+- **💬 [General Discussion](https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/discussions/categories/general)** - Chat about the project and share experiences
+- **🙌 [Show and Tell](https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/discussions/categories/show-and-tell)** - Share your implementations and use cases
+
+### Issue vs Discussion Guidelines
+
+**Use Issues for:**
+- 🐛 Bug reports with specific steps to reproduce
+- 🚀 Feature requests with clear implementation requirements
+- 📋 Specific tasks that can be completed and closed
+
+**Use Discussions for:**
+- 💡 Feature concepts and brainstorming
+- 🙋 Questions about usage, setup, or configuration  
+- 💬 General project discussion and feedback
+- 🙌 Showcasing your implementations
+- 📚 Documentation sharing and experiences
+
 ## 📚 Documentation
 
 ### Setup & Configuration

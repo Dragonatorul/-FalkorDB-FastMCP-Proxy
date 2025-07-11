@@ -1,3 +1,10 @@
+---
+summary: Complete system architecture and component relationships for FalkorDB FastMCP Proxy.
+scope: Architecture, Authentication, Multi-Tenancy
+components: FastMCP Proxy, MCPServer, FalkorDB
+last_updated: 2025-07-10
+---
+
 # Architecture Context - AI Reference
 
 ## Summary (Lines 1-10)

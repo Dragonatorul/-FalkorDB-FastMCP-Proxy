@@ -1,3 +1,14 @@
+---
+summary: "Complete system architecture for FalkorDB FastMCP Proxy including component relationships"
+scope: "System overview, data flow, authentication mechanisms, security boundaries"
+components: "Claude Desktop, FastMCP Proxy, MCPServer v1.1.0, FalkorDB instances"
+transport: "SSE over HTTPS (external), HTTP (internal), Redis protocol"
+authentication: "OAuth 2.1 Bearer tokens, RSA JWT validation, tenant extraction"
+multi_tenancy: "Graph prefixing for data isolation, tenant-aware tool implementation"
+network: "3-service Docker stack with defined ports and communication paths"
+security: "Token validation, network isolation, tenant data separation mechanisms"
+---
+
 # Architecture Documentation
 
 ## System Overview

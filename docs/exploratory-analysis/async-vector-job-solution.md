@@ -1,5 +1,16 @@
 # Async Vector Job Solution
 
+---
+Description: Simple background job solution for automatic vector generation on nodes lacking vectors.
+Follows KISS principle with minimal architectural changes to existing FalkorDB setup.
+Implementation: Standalone polling process that identifies and processes nodes needing vectors.
+Benefits: Non-blocking operation, immediate value, backward compatibility with current tools.
+Technical approach: Database polling, vector generation, automatic node updating.
+Requirements: Background process capability, vector generation libraries, database access.
+Performance: Configurable polling intervals, batch processing, efficient query patterns.
+Integration: Works with existing MCP tools without modification, transparent operation.
+---
+
 ## Overview
 
 A simple, standalone background job that automatically adds vectors to nodes that don't have them yet. This solution follows the KISS principle while providing immediate value with minimal architectural changes.

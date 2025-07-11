@@ -1,3 +1,14 @@
+---
+summary: "Instructions for accessing FalkorDB FastMCP Proxy from multiple devices remotely"
+scope: "Network configuration, port forwarding, firewall settings, security considerations"
+use_case: "Claude Desktop on different devices accessing same FalkorDB instance"
+network_reqs: "Public IP or VPN, port 3001 accessibility, SSL/TLS optional"
+security: "Bearer token authentication, network-level access controls, monitoring"
+troubleshooting: "Connection issues, authentication failures, network diagnostics"
+alternatives: "SSH tunneling, VPN solutions, cloud deployment options"
+device_support: "Windows, macOS, Linux clients with Claude Desktop integration"
+---
+
 # FalkorDB FastMCP Proxy - Remote Access Guide
 
 ## Overview

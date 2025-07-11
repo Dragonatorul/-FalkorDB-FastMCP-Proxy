@@ -1,3 +1,10 @@
+---
+summary: Complete development workflow processes for FalkorDB FastMCP Proxy project.
+scope: Development, Testing, Deployment, Documentation
+components: FastMCP Proxy, MCPServer, FalkorDB
+last_updated: 2025-07-10
+---
+
 # Development Processes - AI Reference
 
 ## Summary (Lines 1-10)

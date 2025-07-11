@@ -31,12 +31,11 @@ Implementation details for developers and system administrators.
 - [Multi-Tenant Authentication](./technical-guides/multi-tenant-authentication.md) - Security implementation
 - [MCP vs Integrations Analysis](./technical-guides/mcp-vs-integrations.md) - Integration comparison
 
-### 📊 Project Management (`project-management/`)
-Feature tracking, issue management, and development planning.
-- [Features](./project-management/features/) - Development features organized by status
-- [Issues](./project-management/issues/) - Bug tracking and technical debt by status
-- [Implementation Plan](./project-management/implementation-plan.md) - Development progress
-- [Deployment Status](./project-management/deployment-status.md) - Current readiness state
+### 📊 Project Management
+**Migrated to GitHub Issues and Projects** (was: `project-management/`)
+- [GitHub Issues](https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/issues) - Feature requests, bugs, and enhancements
+- [GitHub Project Board](https://github.com/users/Dragonatorul/projects/3) - Development tracking and progress
+- Active tracking with labels: `enhancement`, `documentation`, concept features
 
 ### 🔍 Exploratory Analysis (`exploratory-analysis/`)
 Vector search implementation research and architectural analysis.

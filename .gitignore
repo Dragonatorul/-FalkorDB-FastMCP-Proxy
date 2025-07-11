@@ -187,3 +187,6 @@ CLAUDE.md
 # Editor configs (project-specific versions)
 .editorconfig.local
 .pylintrc.local
+
+# AI Task Management (private planning and delegation)
+docs/running-plans/

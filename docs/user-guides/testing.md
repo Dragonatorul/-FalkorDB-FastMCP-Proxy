@@ -1,3 +1,14 @@
+---
+summary: "Comprehensive testing procedures for FalkorDB FastMCP Proxy functionality"
+scope: "Integration tests, unit tests, authentication testing, multi-tenant validation"
+test_files: "test_remote_mcp.py (integration), test_unified_proxy.py (unit)"
+coverage: "OAuth 2.1 authentication, MCP tool proxying, FalkorDB connectivity"
+requirements: "Docker services running, network connectivity"
+auth_testing: "Bearer token validation, JWT tenant extraction, security checks"
+performance: "Response times, concurrent connections, error handling"
+integration: "Claude Desktop integration verification procedures"
+---
+
 # Testing Documentation
 
 ## Test Coverage Overview

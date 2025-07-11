@@ -1,5 +1,15 @@
 # AI Workflow Documentation
 
+## Description (Lines 1-10)
+Documentation of AI-human collaboration workflows and patterns for development teams.  
+Covers AI tools used, workflow patterns, documentation strategies, development processes.  
+Primary platform: opencode.ai (production-ready AI development environment).  
+Important note: Distinguishes between two "opencode" projects, specifies correct version.  
+Workflow patterns: Modular documentation, ticket management, AI context management.  
+Development integration: Git workflows, semantic versioning, testing, deployment processes.  
+Team guidance: Implementing similar AI-assisted development patterns in other projects.  
+Tool attribution: Specific AI models and platforms with version and source disambiguation.
+
 This section documents the AI-human collaboration workflows established in this repository, providing guidance for teams wanting to implement similar patterns in their own projects using modern AI development tools.
 
 ## AI Tools and Models Used

@@ -1,3 +1,14 @@
+---
+summary: "Complete onboarding process for new clients/tenants in production FalkorDB FastMCP Proxy"
+scope: "Prerequisites, installation steps, configuration, testing, and troubleshooting"
+audience: "Production administrators onboarding new tenants with isolated data"
+steps: "Tenant setup, JWT configuration, graph isolation, client credentials"
+testing: "Multi-tenant validation, data isolation verification, authentication tests"
+security: "Tenant separation, authentication credential management, access controls"
+support: "Log analysis, tenant troubleshooting, isolation verification"
+prerequisites: "Production deployment, multi-tenant configuration, administrative access"
+---
+
 # Production Client Onboarding Guide
 
 ## Overview

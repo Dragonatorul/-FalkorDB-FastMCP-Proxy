@@ -35,6 +35,29 @@ Serves as entry point for both human users and AI agents navigating documentatio
 - **Cross-References**: Ensure all subsection links are accurate
 - **Structure**: Follow established 3-tier documentation hierarchy
 
+## Critical Time and Date Management Protocol
+
+**🚨 MANDATORY TIME VERIFICATION 🚨**
+
+**CRITICAL**: Always use system time calls for accurate date/time information.
+
+### System Time Protocol
+**MANDATORY**: Before using any date or time information in responses, filenames, or documentation:
+1. **Primary**: Use `date -u` command for UTC timestamps
+2. **Local time**: Use `date` command when local timezone needed
+3. **ISO format**: Use `date -u +"%Y-%m-%d"` for date-only operations
+4. **Full timestamp**: Use `date -u +"%Y-%m-%d %H:%M:%S UTC"` for complete timestamps
+5. **Verify current date** especially for month-sensitive operations
+
+### Common Error Prevention
+- **NEVER ASSUME** the current month/date without checking system time first
+- **ALWAYS CALL SYSTEM TIME** before creating timestamped files or documentation
+- **MANDATORY VERIFICATION**: Use actual current time from system calls, never environment variables or cached values
+- **CRITICAL**: Prevent month confusion (e.g., writing January instead of July)
+- **DOUBLE-CHECK**: Always verify the date is correct, especially for month-sensitive operations
+
+**🚨 CRITICAL RULE**: This applies to ALL date/time operations and overrides any cached or assumed date information. Time verification is MANDATORY before any timestamped output.
+
 ---
 
 > **AI Note**: Docs root coordinates overall documentation structure and project status tracking.

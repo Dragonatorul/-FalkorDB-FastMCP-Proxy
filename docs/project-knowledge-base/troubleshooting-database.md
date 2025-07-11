@@ -1,3 +1,10 @@
+---
+summary: Common issues, solutions, and debugging workflows for FalkorDB FastMCP Proxy.
+scope: Troubleshooting, Debugging, Performance
+components: FastMCP Proxy, MCPServer, FalkorDB
+last_updated: 2025-07-10
+---
+
 # Troubleshooting Database - AI Reference
 
 ## Summary (Lines 1-10)

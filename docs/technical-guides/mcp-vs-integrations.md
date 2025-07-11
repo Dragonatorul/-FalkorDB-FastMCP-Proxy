@@ -1,5 +1,15 @@
 # Claude Desktop Integration Methods: MCP Servers vs Integrations
 
+## Description (Lines 1-10)
+Comprehensive technical analysis of Claude Desktop's two integration methods.  
+Covers MCP servers (Model Context Protocol) vs Integrations (external APIs).  
+Critical distinction: FalkorDB FastMCP Proxy uses MCP server method, not integrations.  
+Technical details: Protocols, configuration formats, authentication methods, use cases.  
+Configuration guidance: Proper setup procedures, common mistakes, troubleshooting steps.  
+Developer focus: Implementation details for MCP server development and deployment.  
+User guidance: Configuration instructions, settings location, testing procedures.  
+Best practices: Method selection criteria, security considerations, performance implications.
+
 ## Overview
 
 Claude Desktop provides **two distinct methods** for connecting external services and tools. Understanding the difference is crucial for developers building MCP servers and users configuring Claude Desktop.

@@ -1,3 +1,10 @@
+---
+summary: Complete configuration reference for all components and deployment scenarios.
+scope: Configuration, Deployment, Authentication, Multi-Tenant
+components: FalkorDB, MCPServer, FastMCP Proxy
+last_updated: 2025-07-10
+---
+
 # Configuration Reference - AI Reference
 
 ## Summary (Lines 1-10)

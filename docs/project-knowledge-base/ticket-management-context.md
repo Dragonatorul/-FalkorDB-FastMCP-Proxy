@@ -1,3 +1,10 @@
+---
+summary: Ticket lifecycle and state management for features and issues in project-management section.
+scope: Ticket Management, Workflow, Documentation
+components: Features, Issues, Project Management
+last_updated: 2025-07-10
+---
+
 # Ticket Management Context - AI Reference
 
 ## Summary (Lines 1-10)
