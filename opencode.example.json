@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "falkordb-local": {
+      "type": "remote",
+      "url": "http://localhost:3001/sse/?token=REPLACE_WITH_JWT_TOKEN",
+      "enabled": true
+    },
+    "falkordb-production": {
+      "type": "remote", 
+      "url": "https://your-falkordb-proxy.com:3001/sse/?token=REPLACE_WITH_PRODUCTION_TOKEN",
+      "enabled": false
+    }
+  }
+}
