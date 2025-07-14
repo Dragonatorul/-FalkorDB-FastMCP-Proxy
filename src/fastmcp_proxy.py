@@ -432,9 +432,12 @@ async def unified_auth_middleware(request: Request, call_next):
 # FastMCP Server Setup
 # ============================================================================
 
-# Create unified FastMCP server instance
-mcp_unified: FastMCP = FastMCP(
-    name="FalkorDB FastMCP Proxy (Unified)"
+# Create unified FastMCP server instance  
+mcp_unified = FastMCP(
+    name="FalkorDB FastMCP Proxy (Unified)",
+    host=PROXY_HOST,
+    port=PROXY_PORT,
+    sse_path='/sse'
 )
 """
 Unified FastMCP server instance that handles both Claude Desktop and opencode clients.
@@ -724,11 +727,7 @@ def main() -> None:
     print("opencode: URL token in query parameter")
 
     # Start the unified FastMCP server
-    mcp_unified.run(
-        transport="streamable-http",
-        host=PROXY_HOST,
-        port=PROXY_PORT
-    )
+    mcp_unified.run(transport='sse')
 
 
 if __name__ == "__main__":
