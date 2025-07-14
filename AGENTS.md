@@ -12,6 +12,7 @@
 Use FastMCP Proxy with FastMCP.as_proxy  and ProxyClient with bearer token authentication.
 If necessary, see https://gofastmcp.com/servers/proxy and https://gofastmcp.com/servers/auth/bearer for details. 
 AUTHENTICATION IS MANDATORY to allow multi-tenant usage. Authentication will use ONLY bearer tokens as described in the FastMCP documentation. No other authentication middleware will be used. If there are authentication issues, they will be resolved on the client side by using alternative clients. 
+The target audience has at least a Pro plan subscription to Claude Desktop. 
 Use `npx` `mcp-remote` to connect to the proxy server or similar alternative clients if `mcp-remote` is not a valid option.
 ## Files
 - `src/fastmcp_proxy.py` - Proxy
