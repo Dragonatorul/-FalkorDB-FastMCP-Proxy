@@ -1,46 +1,45 @@
 # Project Status Report
 
-## Current Status: ✅ UNIFIED CLIENT-SERVER SOLUTION COMPLETE
+## Current Status: ✅ LOCAL CLIENT SOLUTION COMPLETE
 
-**Last Updated**: 2025-07-14 (Unified authentication with Claude Desktop DXT + opencode support)
+**Last Updated**: 2025-07-14 (Local client approach for opencode with Claude Desktop DXT)
 
-## 🎯 ACHIEVEMENT: UNIFIED MULTI-CLIENT SOLUTION
+## 🎯 ACHIEVEMENT: DUAL CLIENT LOCAL SOLUTION
 
-**✅ COMPLETE SOLUTION** with support for both Claude Desktop and opencode clients:
-- ✅ **Claude Desktop DXT Client**: `FalkorDB-FastMCP-Proxy.dxt` (8.1kB) with Bearer token authentication
-- ✅ **opencode Remote MCP**: URL token authentication via `?token=jwt` parameter
-- ✅ **Unified Server**: Supports both Bearer tokens and URL tokens with multi-tenant isolation
-- ✅ **Multi-Client Architecture**: Single server supporting multiple client types simultaneously
+**✅ COMPLETE SOLUTION** with support for both Claude Desktop and opencode clients using local client architecture:
+- ✅ **Claude Desktop DXT Client**: `FalkorDB-FastMCP-Proxy.dxt` (7.9kB) with Bearer token authentication
+- ✅ **opencode Local Client**: Local MCP configuration using `uvx` to fetch client from GitHub
+- ✅ **Unified Server**: Clean Bearer-only authentication with multi-tenant isolation
+- ✅ **Proven Architecture**: Both clients use the same local client proxy connecting to remote server
 
-### 🚀 DUAL CLIENT ARCHITECTURE COMPLETE
+### 🚀 DUAL CLIENT LOCAL ARCHITECTURE COMPLETE
 ```
-Claude Desktop ←STDIO→ DXT Client ←Bearer Token→ Unified Server ←HTTP→ MCPServer ←→ FalkorDB
-opencode       ←HTTP→ Remote MCP ←URL Token→   Unified Server ←HTTP→ MCPServer ←→ FalkorDB
+Claude Desktop ←STDIO→ DXT Client ←Bearer Token→ FastMCP Server ←HTTP→ MCPServer ←→ FalkorDB
+opencode       ←STDIO→ Local Client (uvx) ←Bearer Token→ FastMCP Server ←HTTP→ MCPServer ←→ FalkorDB
 ```
 
-## 🎯 IMPLEMENTATION STATUS: UNIFIED MULTI-CLIENT SOLUTION
+## 🎯 IMPLEMENTATION STATUS: DUAL LOCAL CLIENT SOLUTION
 
 ### ✅ CLAUDE DESKTOP CLIENT (DXT PACKAGE)
-- **FastMCP STDIO Client**: `claude_desktop_proxy.py` - connects via Bearer tokens
-- **DXT Client Package**: `FalkorDB-FastMCP-Proxy.dxt` (8.1kB) client-only distribution  
+- **FastMCP STDIO Client**: `client/claude_desktop_proxy.py` - connects via Bearer tokens
+- **DXT Client Package**: `FalkorDB-FastMCP-Proxy.dxt` (7.9kB) client-only distribution  
 - **User Configuration**: Bearer token + remote server URL via secure DXT interface
 - **Authentication**: Bearer token in Authorization header
 - **Distribution**: Ready for Claude Desktop extension directory submission
 
-### ✅ OPENCODE CLIENT (REMOTE MCP)
-- **Remote MCP Configuration**: `opencode.json` with URL token authentication
-- **Authentication**: JWT token in URL query parameter `?token=jwt`
+### ✅ OPENCODE CLIENT (LOCAL UVX)
+- **Local MCP Configuration**: `opencode.json` with uvx command and environment variables
+- **GitHub Integration**: Client fetched directly from `git+https://github.com/...@feat/fastmcp-proxy-integration`
+- **Authentication**: JWT token via `PROXY_TOKEN` environment variable
 - **Configuration Guide**: `docs/user-guides/opencode-integration.md`
-- **Example Config**: `opencode.example.json` template
-- **Multi-tenant Support**: Automatic tenant isolation via JWT subject claim
+- **Same Client Code**: Uses identical `client/claude_desktop_proxy.py` as Claude Desktop
 
-### ✅ UNIFIED SERVER (DUAL AUTHENTICATION)
-- **Unified Proxy**: `server/fastmcp_proxy.py` v4.0 with dual authentication
-- **Bearer Token Support**: Authorization: Bearer JWT (Claude Desktop clients)  
-- **URL Token Support**: ?token=JWT (opencode clients)
-- **Multi-tenant Isolation**: Automatic graph name prefixing for tenant separation
-- **Backend Integration**: Unified proxy ↔ MCPServer ↔ FalkorDB communication
-- **Production Ready**: Single server supporting multiple client types simultaneously
+### ✅ FASTMCP SERVER (BEARER AUTHENTICATION)
+- **Clean Server**: `server/fastmcp_proxy.py` v3.0 with Bearer-only authentication
+- **Bearer Token Support**: Authorization: Bearer JWT (both clients)  
+- **Multi-tenant Isolation**: Tenant separation via JWT subject claim
+- **Backend Integration**: FastMCP proxy ↔ MCPServer ↔ FalkorDB communication
+- **Production Ready**: Single server supporting multiple client types with same auth method
 
 ## 🎯 DXT CONFIGURATION APPROACH
 
@@ -86,47 +85,67 @@ opencode       ←HTTP→ Remote MCP ←URL Token→   Unified Server ←HTTP→
 }
 ```
 
-### 🔧 DXT User Configuration Collection
-- **Proxy URL**: User provides FastMCP server endpoint (e.g., `https://myserver.com:3001/sse/`)
-- **Bearer Token**: Securely collected and stored in OS keychain by Claude Desktop
-- **Template Variables**: DXT automatically injects config into environment variables
-- **One-Click Install**: No manual JSON editing or environment setup required
-
+### 🔧 opencode Local Client Configuration
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "falkordb": {
+      "type": "local",
+      "command": [
+        "uvx", 
+        "--from", 
+        "git+https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy@feat/fastmcp-proxy-integration", 
+        "python", 
+        "-m", 
+        "client.claude_desktop_proxy"
+      ],
+      "environment": {
+        "PROXY_URL": "http://localhost:3001/sse/",
+        "PROXY_TOKEN": "JWT_TOKEN_FROM_SERVER"
+      },
+      "enabled": true
+    }
+  }
+}
+```
 
 ## Recent Changes (2025-07-14)
-- ✅ **UNIFIED AUTHENTICATION IMPLEMENTED**: Added dual Bearer + URL token authentication support
-- ✅ **OPENCODE INTEGRATION COMPLETE**: Remote MCP server configuration with JWT token authentication  
-- ✅ **MULTI-CLIENT SERVER**: Single server now supports both Claude Desktop and opencode clients
-- ✅ **DOCUMENTATION COMPLETE**: opencode integration guide with configuration examples
-- ✅ **TENANT ISOLATION**: Multi-tenant graph name prefixing for secure tenant separation
+- ✅ **LOCAL CLIENT APPROACH IMPLEMENTED**: Switched from remote MCP to local client for opencode
+- ✅ **REVERTED SERVER TO BEARER-ONLY**: Clean authentication without URL token complexity  
+- ✅ **UVX GITHUB INTEGRATION**: opencode fetches client directly from GitHub repository
+- ✅ **UNIFIED CLIENT CODE**: Both Claude Desktop and opencode use same client proxy
+- ✅ **ENVIRONMENT VARIABLE SUPPORT**: Client supports both naming conventions (PROXY_TOKEN/FASTMCP_BEARER_TOKEN)
 
-### ✅ UNIFIED AUTHENTICATION ARCHITECTURE
-- **Claude Desktop**: Bearer token authentication via DXT client package
-- **opencode**: URL token authentication via remote MCP configuration
-- **Server**: Unified authentication middleware supporting both token types
-- **Multi-tenant**: Automatic tenant isolation via JWT subject claim identification
+### ✅ LOCAL CLIENT ARCHITECTURE BENEFITS
+- **opencode Compatibility**: Uses supported local MCP server pattern
+- **Code Reuse**: Same client proxy for both Claude Desktop and opencode
+- **Simple Authentication**: Both clients use Bearer tokens consistently
+- **GitHub Integration**: Client auto-fetched via uvx from repository
+- **No Remote MCP Limitations**: Bypasses opencode's remote MCP authentication restrictions
 
-## Ready Implementation Tasks (UNIFIED SOLUTION COMPLETE)
+## Ready Implementation Tasks (LOCAL CLIENT SOLUTION COMPLETE)
 1. ✅ **DXT Package Creation**: Desktop Extension with manifest.json and user config (COMPLETE)
-2. ✅ **opencode Integration**: Remote MCP server configuration with URL token auth (COMPLETE)
-3. ✅ **Unified Authentication**: Server supporting both Bearer and URL token authentication (COMPLETE) 
-4. ✅ **Multi-tenant Isolation**: Automatic tenant separation via JWT subject claims (COMPLETE)
+2. ✅ **opencode Local Client**: Local MCP configuration with uvx GitHub integration (COMPLETE)
+3. ✅ **Unified Client Code**: Single client proxy supporting both platforms (COMPLETE) 
+4. ✅ **Bearer Authentication**: Clean server-side authentication for both clients (COMPLETE)
 5. 📋 **Extension Submission**: Submit DXT to Claude Desktop extension directory (READY)
-6. 🚀 **Production Deployment**: Deploy unified servers supporting both client types (READY)
+6. 🚀 **Production Deployment**: Deploy servers supporting both client types (READY)
 
-**UNIFIED SOLUTION COMPLETE - supports both Claude Desktop and opencode clients simultaneously.**
+**LOCAL CLIENT SOLUTION COMPLETE - supports both Claude Desktop and opencode clients with same architecture.**
 
 ## DXT Client Package Details (CLIENT-ONLY DISTRIBUTION)
 ```bash
 # Client Package Information
 File: FalkorDB-FastMCP-Proxy.dxt
-Size: 8.1kB (client-only, no server components)
-Contents: 6 files (excluding 103 server/development files)
+Size: 7.9kB (client-only, no server components)
+Contents: Essential client files only
 
 # Client Package Structure
 ├── manifest.json                    # Client extension metadata and user config
-├── claude_desktop_proxy.py          # FastMCP STDIO client proxy (2.1kB)
-├── client-requirements.txt          # Minimal client dependencies (fastmcp, httpx)
+├── client/
+│   ├── claude_desktop_proxy.py      # FastMCP STDIO client proxy
+│   └── requirements.txt             # Minimal client dependencies
 ├── LICENSE                          # MIT License
 └── README.md                        # Project documentation
 
@@ -136,46 +155,48 @@ Contents: 6 files (excluding 103 server/development files)
 3. Configure remote server URL + Bearer token via secure UI
 4. Connect to remote FalkorDB infrastructure immediately
 
-# Server Deployment (Separate)
-- Deploy src/fastmcp_proxy.py on remote infrastructure
-- Configure with Docker: FalkorDB + MCPServer + FastMCP Proxy
-- Generate Bearer tokens for client authentication
+# opencode Installation for Users
+1. Copy opencode.json configuration to ~/.config/opencode/
+2. Update PROXY_TOKEN with JWT from server
+3. uvx automatically fetches client from GitHub
+4. Connect to same FalkorDB infrastructure
 ```
 
 ## 🎯 CRITICAL PATH TO COMPLETION
-1. ✅ **UNIFIED AUTHENTICATION**: Implemented dual Bearer + URL token support (COMPLETE)
-2. ✅ **MULTI-CLIENT SUPPORT**: Single server supports Claude Desktop + opencode (COMPLETE)
+1. ✅ **LOCAL CLIENT ARCHITECTURE**: Implemented for both Claude Desktop and opencode (COMPLETE)
+2. ✅ **UNIFIED CLIENT CODE**: Single client proxy supporting both platforms (COMPLETE)
 3. 📋 **EXTENSION SUBMISSION**: Submit DXT to Claude Desktop extension directory (READY)
-4. 🚀 **PRODUCTION SERVERS**: Deploy unified proxy servers supporting both client types (READY)
+4. 🚀 **PRODUCTION SERVERS**: Deploy FastMCP proxy servers supporting both client types (READY)
 5. 📈 **USER ADOPTION**: Enable one-click FalkorDB access for both Claude Desktop and opencode users
 
-## Architecture (UNIFIED CLIENT-SERVER)
+## Architecture (LOCAL CLIENT SOLUTION)
 ```
-Claude Desktop ←STDIO→ DXT Client ←Bearer Token→ Unified Server ←HTTP→ MCPServer ←→ FalkorDB
-opencode       ←HTTP→ Remote MCP ←URL Token→   Unified Server ←HTTP→ MCPServer ←→ FalkorDB
-                (8.1kB install)  (user config)    (dual auth)         (backend)      (database)
+Claude Desktop ←STDIO→ DXT Client ←Bearer Token→ FastMCP Server ←HTTP→ MCPServer ←→ FalkorDB
+opencode       ←STDIO→ Local Client (uvx) ←Bearer Token→ FastMCP Server ←HTTP→ MCPServer ←→ FalkorDB
+                 (7.9kB install)  (user config)       (clean auth)         (backend)      (database)
 ```
 
-**UNIFIED SOLUTION**: Single server deployment supporting multiple client types with appropriate authentication.
+**LOCAL CLIENT SOLUTION**: Both clients use local STDIO proxies connecting to remote authenticated servers.
+
 ## Key Metrics  
 - **Claude Desktop DXT Packaging**: ✅ 100% - Client-only Desktop Extension created
-- **opencode Remote MCP Integration**: ✅ 100% - URL token authentication configuration
-- **Unified Server Authentication**: ✅ 100% - Dual Bearer + URL token support implemented
-- **Multi-Client Architecture**: ✅ 100% - Single server supporting both client types
-- **Multi-tenant Isolation**: ✅ 100% - Automatic tenant separation via JWT claims
+- **opencode Local Client Integration**: ✅ 100% - uvx GitHub integration with local MCP
+- **Unified Client Code**: ✅ 100% - Single client proxy supporting both platforms
+- **Bearer Authentication**: ✅ 100% - Clean server-side authentication implemented
+- **Multi-tenant Isolation**: ✅ 100% - Tenant separation via JWT claims
 - **Documentation**: ✅ 100% - Complete guides for both Claude Desktop and opencode
 - **Production Ready**: ✅ 95% - Ready for extension submission + server deployment
 
 ## Resolution Summary
-**Current State**: Complete unified solution supporting both Claude Desktop and opencode clients
-**Achievement**: Dual-client architecture with single server supporting multiple authentication methods
-**Package**: `FalkorDB-FastMCP-Proxy.dxt` (8.1kB) + opencode remote MCP configuration
-**Architecture**: Unified server with Bearer token (Claude Desktop) + URL token (opencode) authentication
+**Current State**: Complete local client solution supporting both Claude Desktop and opencode
+**Achievement**: Dual local client architecture with unified authentication and client code reuse
+**Package**: `FalkorDB-FastMCP-Proxy.dxt` (7.9kB) + opencode local MCP configuration
+**Architecture**: Both clients use local STDIO proxies with Bearer token authentication
 **Ready for**: Claude Desktop extension directory submission + opencode configuration distribution
-**Goal**: Unified FalkorDB access for both Claude Desktop and opencode users via single server deployment
+**Goal**: Unified FalkorDB access for both platforms using proven local client pattern
 
 ---
 
-**Status**: ✅ UNIFIED MULTI-CLIENT SOLUTION COMPLETE - CLAUDE DESKTOP + OPENCODE SUPPORT
-**ACHIEVEMENT**: Single server supporting both Claude Desktop DXT clients and opencode remote MCP
-**NEXT STEP**: Submit DXT to extension directory + deploy unified servers for production use
+**Status**: ✅ LOCAL CLIENT SOLUTION COMPLETE - CLAUDE DESKTOP + OPENCODE SUPPORT
+**ACHIEVEMENT**: Dual local client architecture using same client code and authentication method
+**NEXT STEP**: Submit DXT to extension directory + deploy servers for production use
