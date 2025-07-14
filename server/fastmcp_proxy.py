@@ -1,5 +1,5 @@
 """
-FalkorDB FastMCP Proxy with MANDATORY Multi-Tenant Authentication
+FalkorDB FastMCP Proxy with MANDATORY Bearer Authentication
 
 A FastMCP proxy server that provides secure multi-tenant access to FalkorDB MCPServer backend
 using proper FastMCP proxy patterns with ProxyClient and MANDATORY authentication.
@@ -7,7 +7,8 @@ using proper FastMCP proxy patterns with ProxyClient and MANDATORY authenticatio
 ⚠️ CRITICAL: Authentication is MANDATORY and NEVER optional for multi-tenant security.
 
 Architecture:
-    Claude Desktop → FastMCP Proxy (with MANDATORY auth) → FalkorDB MCPServer → FalkorDB
+    Claude Desktop → FastMCP Proxy (Bearer auth) → FalkorDB MCPServer → FalkorDB
+    opencode       → Local Client → FastMCP Proxy → FalkorDB MCPServer → FalkorDB
 
 Environment Variables:
     FALKORDB_MCPSERVER_URL: Backend FalkorDB MCP server URL (default: http://localhost:3000)
@@ -16,7 +17,7 @@ Environment Variables:
     SECRET_KEY: JWT signing secret for multi-tenant tokens (REQUIRED)
 
 Author: Claude Code Assistant
-Version: 3.0.0 - MANDATORY Authentication
+Version: 3.0.0 - Bearer Authentication Only
 License: MIT
 """
 
@@ -42,7 +43,7 @@ def setup_mandatory_auth():
     # For development, generate a key pair
     key_pair = RSAKeyPair.generate()
     
-    # Create auth provider
+    # Create Bearer auth provider
     auth = BearerAuthProvider(
         public_key=key_pair.public_key,
         issuer="https://fastmcp-proxy.dev",
@@ -101,17 +102,18 @@ def main():
   }}
 }}""")
     
-    print(f"\n📋 opencode Configuration (opencode.json):")
+    print(f"\n📋 opencode Configuration (Local client):")
     print(f"""{{
   "$schema": "https://opencode.ai/config.json",
   "mcp": {{
     "falkordb": {{
-      "type": "remote",
-      "url": "http://{PROXY_HOST}:{PROXY_PORT}/sse/",
-      "enabled": true,
-      "headers": {{
-        "Authorization": "Bearer {dev_token}"
-      }}
+      "type": "local",
+      "command": ["uvx", "--from", "git+https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy@feat/fastmcp-proxy-integration", "python", "-m", "client.claude_desktop_proxy"],
+      "environment": {{
+        "PROXY_URL": "http://{PROXY_HOST}:{PROXY_PORT}/sse/",
+        "PROXY_TOKEN": "{dev_token}"
+      }},
+      "enabled": true
     }}
   }}
 }}""")
