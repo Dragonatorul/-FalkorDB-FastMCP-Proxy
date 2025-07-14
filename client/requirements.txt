@@ -1,0 +1,5 @@
+# FastMCP STDIO Client Requirements for DXT Extension
+# Only the client dependencies needed for connecting to remote servers
+
+fastmcp>=2.10.2
+httpx>=0.28.1
