@@ -101,6 +101,21 @@ def main():
   }}
 }}""")
     
+    print(f"\n📋 opencode Configuration (opencode.json):")
+    print(f"""{{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {{
+    "falkordb": {{
+      "type": "remote",
+      "url": "http://{PROXY_HOST}:{PROXY_PORT}/sse/",
+      "enabled": true,
+      "headers": {{
+        "Authorization": "Bearer {dev_token}"
+      }}
+    }}
+  }}
+}}""")
+    
     print(f"\n📡 SSE Endpoint: http://{PROXY_HOST}:{PROXY_PORT}/sse/")
     print("🔐 Authentication: Bearer token REQUIRED for ALL connections")
     print("🏢 Multi-tenant: Tenant identification via JWT subject claim")
