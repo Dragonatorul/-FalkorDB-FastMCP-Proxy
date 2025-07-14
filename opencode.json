@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "_comment": "FalkorDB FastMCP Proxy - Remote graph database access via authenticated proxy",
   "mcp": {
     "falkordb": {
       "type": "local",
@@ -13,7 +14,7 @@
       ],
       "environment": {
         "PROXY_URL": "http://localhost:3001/sse/",
-        "PROXY_TOKEN": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2Zhc3RtY3AtcHJveHkuZGV2Iiwic3ViIjoiZGV2LXVzZXIiLCJpYXQiOjE3NTI0OTgyMjksImV4cCI6MTc1MjUwMTgyOSwiYXVkIjoiZmFsa29yZGItcHJveHkiLCJzY29wZSI6InJlYWQgd3JpdGUifQ.PVvFEy0sn_450PokBAAVHC-7feuObLsaneWjJ6b5x_DFkiCXW45yySJQhEfjJdYCwYgFseeOgpNacEINy8YtuqMZHemFsp4P9sTjZ90fWtEmOsN_XR8g7vgQc7Gq7BpfG3dqpXOuYAFog4pnAtL0bKvTy_489G9LF4oNMZMtthDv6Gvq7gCwiWB4gYoChix4vRsKd47-NMyIxrHZsh5JOXeTPlmpQ-yqIF_Dbd_5OIHAWdb9e7jl22LCGeSEwwF_VBgwTrQrtEq--oz1H1J82CP_ZMiVwLn9fyt6yGTasL7v8_k_I7sGnvDdhLk1ADwKhGZdiBfOlOL_39fybwPvLw"
+        "PROXY_TOKEN": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2Zhc3RtY3AtcHJveHkuZGV2Iiwic3ViIjoiZGV2LXVzZXIiLCJpYXQiOjE3NTI1MDAzMjUsImV4cCI6MTc1MjU4NjcyNSwiYXVkIjoiZmFsa29yZGItcHJveHkiLCJzY29wZSI6InJlYWQgd3JpdGUifQ.fOXF4jkAlJah7HQ-azZZ6x9UQ9MG9RMilMEjYrtw7XXcE3GVCk71P1gb7zSxhGi-GEQZ-EjL6GTMTqisZcMvZUnsMfJ59FG-CD09n1gvG1mhKoe2JhoU8G-Z_RfdXbpsB3tEuqTxtTBO9FuvIvx1fIbF_ZksEL3MfDvKmGEo7-YzXHJ1QfZEsJp-ENMj0csll1WWrWPYCxFNqQApoxHzMrw6oLoiczlyJmZEa0CPGf8LPCOxWAjg_UHkQFgJfB5OfwwiqTrNS2OY_YX6O7mKaN1PGTaASgFd_bi2ZzrAJJg---9EyZq0wQ1JSAYIpaHDbcJ0ztkYkgP6P3K8EBBiZQ"
       },
       "enabled": true
     }
