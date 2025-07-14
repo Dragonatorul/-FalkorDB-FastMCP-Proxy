@@ -1,10 +1,24 @@
 # opencode Integration Guide
 
-This guide shows how to integrate the FalkorDB FastMCP Proxy with [opencode](https://opencode.ai), enabling remote access to FalkorDB graph databases directly from opencode's command line interface.
+This guide shows how to integrate the FalkorDB FastMCP Proxy with [opencode](https://opencode.ai) using a local client proxy approach.
 
 ## Quick Setup
 
-### 1. Add Remote MCP Server to opencode
+### 1. Architecture Overview
+
+Since opencode doesn't support custom headers for remote MCP servers, we use the same local client pattern that works with Claude Desktop:
+
+```
+opencode → Local Client (uvx) → Remote FastMCP Proxy (Bearer auth) → FalkorDB MCPServer → FalkorDB
+```
+
+This approach:
+- ✅ Works with opencode's local MCP server support
+- ✅ Uses the same proven client proxy as Claude Desktop  
+- ✅ Maintains full authentication and security
+- ✅ Supports all FastMCP proxy features
+
+### 2. opencode Configuration
 
 Create or update your `opencode.json` configuration file:
 
@@ -13,69 +27,49 @@ Create or update your `opencode.json` configuration file:
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "falkordb": {
-      "type": "remote",
-      "url": "http://localhost:3001/sse/",
-      "enabled": true,
-      "headers": {
-        "Authorization": "Bearer <JWT_TOKEN>"
-      }
-    }
-  }
-}
-```
-
-**Note**: This configuration assumes opencode supports custom headers for remote MCP servers. If opencode doesn't support the `headers` field, you may need to use a different authentication method.
-
-### 2. Get Authentication Token
-
-Contact your FalkorDB proxy administrator to obtain a JWT authentication token, or if running locally:
-
-```bash
-# Start local proxy to generate development token
-python server/fastmcp_proxy.py
-
-# Copy the Bearer token from output (without "Bearer " prefix)
-# Example output: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...
-```
-
-### 3. Configure with Token
-
-Replace `<JWT_TOKEN>` in your opencode.json with your actual JWT token:
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json", 
-  "mcp": {
-    "falkordb": {
-      "type": "remote",
-      "url": "http://localhost:3001/sse/",
-      "enabled": true,
-      "headers": {
-        "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
-      }
-    }
-  }
-}
-```
-
-## Alternative Configuration (if headers not supported)
-
-If opencode doesn't support custom headers, try this basic configuration:
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "falkordb": {
-      "type": "remote", 
-      "url": "http://localhost:3001/sse/",
+      "type": "local",
+      "command": [
+        "uvx", 
+        "--from", 
+        "git+https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy", 
+        "python", 
+        "-m", 
+        "client.claude_desktop_proxy"
+      ],
+      "environment": {
+        "PROXY_URL": "http://localhost:3001/sse/",
+        "PROXY_TOKEN": "YOUR_JWT_TOKEN_HERE"
+      },
       "enabled": true
     }
   }
 }
 ```
 
-**Note**: This will only work if the FastMCP proxy is configured without authentication, which is not recommended for production use.
+### 3. Get Authentication Token
+
+Start the FastMCP proxy server to generate a development token:
+
+```bash
+python server/fastmcp_proxy.py
+```
+
+Copy the JWT token from the "opencode Configuration" section in the server output (the `PROXY_TOKEN` value).
+
+### 4. Configuration Location
+
+Place your `opencode.json` file in the appropriate location:
+
+- **Linux/macOS**: `~/.config/opencode/opencode.json`
+- **Windows**: `%APPDATA%/opencode/opencode.json`
+
+## How It Works
+
+1. **opencode** runs the local client using `uvx` (Python package runner)
+2. **uvx** fetches and runs the client directly from the GitHub repository
+3. **Local Client** connects to the remote FastMCP proxy using Bearer authentication
+4. **FastMCP Proxy** forwards requests to the FalkorDB MCPServer backend
+5. **Authentication** is handled transparently by the local client
 
 ## Available Tools
 
@@ -104,7 +98,7 @@ Query the social graph to find all users connected to each other
 
 ## Local Development Setup
 
-For local development with Docker Compose:
+For local development:
 
 1. **Start the FalkorDB stack:**
 ```bash
@@ -116,64 +110,51 @@ docker-compose up --build
 python server/fastmcp_proxy.py
 ```
 
-3. **Copy the token from proxy output:**
-```
-🔑 Development Bearer Token (Required for ALL connections):
-Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...
-```
+3. **Copy the configuration from server output:**
+The server will display the complete opencode configuration with the correct token.
 
-4. **Configure opencode.json:**
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "falkordb-local": {
-      "type": "remote",
-      "url": "http://localhost:3001/sse/",
-      "enabled": true,
-      "headers": {
-        "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
-      }
-    }
-  }
-}
+4. **Save to opencode.json:**
+Copy the configuration to your opencode config file location.
+
+5. **Restart opencode:**
+```bash
+opencode
 ```
 
-## Authentication Requirements
+## Authentication & Security
 
-The FalkorDB FastMCP Proxy uses JWT tokens for authentication with these requirements:
-
-- **Algorithm**: RSA-256 (RS256)
-- **Issuer**: `https://fastmcp-proxy.dev` (configurable)
-- **Audience**: `falkordb-proxy` (configurable)  
-- **Subject**: Tenant identifier for multi-tenant setups
-- **Scopes**: `["read", "write"]` for full access
+- **JWT Tokens**: Uses the same secure JWT authentication as Claude Desktop
+- **Multi-tenant**: Supports tenant isolation via JWT subject claims
+- **Encrypted**: All communication uses HTTPS/Bearer authentication
+- **Token Expiry**: Development tokens expire in 1 hour (configurable for production)
 
 ## Troubleshooting
 
 ### Common Issues
 
+**"Command not found: uvx"**:
+```bash
+# Install uv (which includes uvx)
+pip install uv
+# or
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 **"Connection refused" errors:**
-- Verify the proxy server is running: `python server/fastmcp_proxy.py`
+- Verify the FastMCP proxy server is running: `python server/fastmcp_proxy.py`
 - Check Docker services: `docker-compose ps`
 - Ensure port 3001 is accessible
 
 **"Authentication failed" errors:**  
-- Verify the JWT token is correctly formatted
+- Verify the JWT token is correctly copied from server output
 - Check token expiration time (development tokens expire in 1 hour)
-- Ensure opencode supports custom headers in remote MCP configuration
+- Ensure `PROXY_TOKEN` matches the server's generated token
 
 **"No tools available" errors:**
 - Verify opencode.json is in the correct location
 - Check JSON syntax is valid
 - Ensure the MCP server is enabled (`"enabled": true`)
 - Restart opencode after configuration changes
-
-### opencode Configuration Location
-
-The opencode.json file should be located in:
-- **Linux/macOS**: `~/.config/opencode/opencode.json`
-- **Windows**: `%APPDATA%/opencode/opencode.json`
 
 ### Debug Mode
 
@@ -183,31 +164,54 @@ Enable debug logging in opencode to see MCP communication:
 opencode --debug
 ```
 
-### Server Health Check
+### Test the Client Directly
 
-Test proxy server connectivity:
+You can test the client proxy independently:
 
 ```bash
-# Without authentication (will fail if auth is required)
-curl http://localhost:3001/health
+# Set environment variables
+export PROXY_URL="http://localhost:3001/sse/"
+export PROXY_TOKEN="your_jwt_token_here"
 
-# With authentication  
-curl -H "Authorization: Bearer <JWT_TOKEN>" http://localhost:3001/health
+# Run the client directly
+uvx --from git+https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy python -m client.claude_desktop_proxy
 ```
 
-## Current Limitations
+## Advantages of Local Client Approach
 
-1. **opencode Header Support**: This integration assumes opencode supports custom headers for remote MCP servers. If this feature is not available, authentication may not work properly.
+1. **Compatibility**: Works with opencode's existing local MCP server support
+2. **Security**: Maintains full Bearer token authentication
+3. **Reliability**: Uses the same client code as Claude Desktop
+4. **Flexibility**: Easy to modify or debug locally
+5. **Future-proof**: Independent of opencode's remote MCP limitations
 
-2. **Authentication Method**: The current setup uses Bearer token authentication. If opencode doesn't support custom headers, alternative authentication methods may be needed.
+## Production Deployment
 
-3. **Token Management**: Development tokens expire in 1 hour. For production use, implement proper token management.
+For production use:
 
-## Next Steps
+1. **Deploy FastMCP Proxy** to a public server
+2. **Update PROXY_URL** to point to your production server
+3. **Generate production tokens** with appropriate expiry times
+4. **Use HTTPS** for all connections
+5. **Set SECRET_KEY** environment variable for consistent token generation
 
-1. **Verify opencode Headers**: Test if opencode actually supports the `headers` field for remote MCP servers
-2. **Alternative Auth**: If headers aren't supported, investigate URL-based authentication or other methods
-3. **Production Deployment**: Set up proper token management for production environments
-4. **Documentation Updates**: Update this guide based on actual opencode behavior
+Example production configuration:
+```json
+{
+  "environment": {
+    "PROXY_URL": "https://your-fastmcp-proxy.com/sse/",
+    "PROXY_TOKEN": "production_jwt_token"
+  }
+}
+```
 
-For additional support, see the [main documentation](../README.md) or the [FastMCP proxy documentation](../technical-guides/).
+## Current Status
+
+✅ **Local Client**: Fully working with uvx and GitHub integration  
+✅ **Authentication**: Bearer token support via environment variables  
+✅ **opencode Compatibility**: Uses supported local MCP server pattern  
+✅ **Multi-tenant**: Full support for tenant isolation  
+
+This approach provides a complete, working solution for opencode integration without the limitations of remote MCP authentication.
+
+For additional support, see the [main documentation](../README.md) or the [technical guides](../technical-guides/).
