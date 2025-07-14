@@ -1,6 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "_comment": "FalkorDB FastMCP Proxy - Remote graph database access via authenticated proxy",
   "mcp": {
     "falkordb": {
       "type": "local",
