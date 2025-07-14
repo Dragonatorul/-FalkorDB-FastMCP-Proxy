@@ -93,9 +93,6 @@ opencode       ←STDIO→ Local Client (uvx) ←Bearer Token→ FastMCP Server 
     "falkordb": {
       "type": "local",
       "command": [
-        "uvx", 
-        "--from", 
-        "git+https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy@feat/fastmcp-proxy-integration", 
         "python", 
         "-m", 
         "client.claude_desktop_proxy"
@@ -116,6 +113,7 @@ opencode       ←STDIO→ Local Client (uvx) ←Bearer Token→ FastMCP Server 
 - ✅ **UVX GITHUB INTEGRATION**: opencode fetches client directly from GitHub repository
 - ✅ **UNIFIED CLIENT CODE**: Both Claude Desktop and opencode use same client proxy
 - ✅ **ENVIRONMENT VARIABLE SUPPORT**: Client supports both naming conventions (PROXY_TOKEN/FASTMCP_BEARER_TOKEN)
+- ✅ **FIXED UVX INSTALLATION ISSUE**: Fixed pyproject.toml TOML syntax errors and package discovery issues that prevented uvx from building wheels from git repository
 
 ### ✅ LOCAL CLIENT ARCHITECTURE BENEFITS
 - **opencode Compatibility**: Uses supported local MCP server pattern
