@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "falkordb": {
+      "type": "local",
+      "command": [
+        "uvx", 
+        "--from", 
+        "git+https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy@feat/fastmcp-proxy-integration", 
+        "python", 
+        "-m", 
+        "client.claude_desktop_proxy"
+      ],
+      "environment": {
+        "PROXY_URL": "http://localhost:3001/sse/",
+        "PROXY_TOKEN": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2Zhc3RtY3AtcHJveHkuZGV2Iiwic3ViIjoiZGV2LXVzZXIiLCJpYXQiOjE3NTI0OTgyMjksImV4cCI6MTc1MjUwMTgyOSwiYXVkIjoiZmFsa29yZGItcHJveHkiLCJzY29wZSI6InJlYWQgd3JpdGUifQ.PVvFEy0sn_450PokBAAVHC-7feuObLsaneWjJ6b5x_DFkiCXW45yySJQhEfjJdYCwYgFseeOgpNacEINy8YtuqMZHemFsp4P9sTjZ90fWtEmOsN_XR8g7vgQc7Gq7BpfG3dqpXOuYAFog4pnAtL0bKvTy_489G9LF4oNMZMtthDv6Gvq7gCwiWB4gYoChix4vRsKd47-NMyIxrHZsh5JOXeTPlmpQ-yqIF_Dbd_5OIHAWdb9e7jl22LCGeSEwwF_VBgwTrQrtEq--oz1H1J82CP_ZMiVwLn9fyt6yGTasL7v8_k_I7sGnvDdhLk1ADwKhGZdiBfOlOL_39fybwPvLw"
+      },
+      "enabled": true
+    }
+  }
+}
