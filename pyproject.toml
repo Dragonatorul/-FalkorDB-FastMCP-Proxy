@@ -33,6 +33,9 @@ dependencies = [
     "fastmcp>=0.3.0",
 ]
 
+[tool.setuptools]
+packages = ["client", "server"]
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
@@ -113,7 +116,8 @@ exclude = [
 # Pytest configuration
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra -q --strict-markers --strict-config"\nasyncio_mode = "auto"
+addopts = "-ra -q --strict-markers --strict-config"
+asyncio_mode = "auto"
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
@@ -121,7 +125,8 @@ python_functions = ["test_*"]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: marks tests as integration tests",
-    "unit: marks tests as unit tests",\n    "asyncio: marks tests as async tests",
+    "unit: marks tests as unit tests",
+    "asyncio: marks tests as async tests",
 ]
 filterwarnings = [
     "error",
