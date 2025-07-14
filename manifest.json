@@ -1,0 +1,77 @@
+{
+  "dxt_version": "0.1",
+  "name": "falkordb-fastmcp-client",
+  "display_name": "FalkorDB FastMCP Client",
+  "version": "1.0.0",
+  "description": "Claude Desktop client for connecting to remote FalkorDB FastMCP proxy servers",
+  "long_description": "Connect Claude Desktop to remote FalkorDB graph databases through authenticated FastMCP proxy servers. This client provides secure Bearer token authentication and enables access to FalkorDB tools for executing Cypher queries, listing graphs, and managing graph database operations.",
+  "author": {
+    "name": "FalkorDB Team",
+    "url": "https://www.falkordb.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy"
+  },
+  "homepage": "https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy",
+  "documentation": "https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy/tree/main/docs",
+  "keywords": ["falkordb", "graph", "database", "cypher", "mcp", "fastmcp", "client"],
+  "server": {
+    "type": "python",
+    "entry_point": "client/claude_desktop_proxy.py",
+    "mcp_config": {
+      "command": "uvx",
+      "args": [
+        "--from", "fastmcp>=2.10.2",
+        "--with", "httpx>=0.28.1",
+        "python",
+        "${__dirname}/client/claude_desktop_proxy.py"
+      ],
+      "env": {
+        "FASTMCP_PROXY_URL": "${user_config.proxy_url}",
+        "FASTMCP_BEARER_TOKEN": "${user_config.bearer_token}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "falkordb_query",
+      "description": "Execute Cypher queries against FalkorDB graphs"
+    },
+    {
+      "name": "falkordb_list_graphs",
+      "description": "List available FalkorDB graphs"
+    },
+    {
+      "name": "falkordb_server_info",
+      "description": "Get FalkorDB server information and capabilities"
+    },
+    {
+      "name": "falkordb_health",
+      "description": "Check FalkorDB server health status"
+    }
+  ],
+  "user_config": {
+    "proxy_url": {
+      "type": "string",
+      "title": "FastMCP Proxy URL",
+      "description": "URL of your remote FalkorDB FastMCP proxy server (e.g., https://your-proxy.com:3001/sse/)",
+      "required": true,
+      "default": "https://localhost:3001/sse/"
+    },
+    "bearer_token": {
+      "type": "string",
+      "title": "Bearer Token",
+      "description": "Authentication token for the FastMCP proxy server",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "license": "MIT",
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "python": ">=3.8.0"
+    }
+  }
+}

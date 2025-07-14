@@ -1,0 +1,80 @@
+# DXT ignore file - CLIENT-ONLY PACKAGE
+# Exclude ALL server-side code and development files
+
+# SERVER CODE (exclude all server components)
+src/
+server/
+docker-compose.yml
+Dockerfile
+pyproject.toml
+
+# DEVELOPMENT ENVIRONMENT
+.venv/
+venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+.claude/
+node_modules/
+.git/
+
+# DOCUMENTATION (user will access online)
+docs/
+*.md
+!README.md
+
+# CONFIG FILES (not needed for client)
+.gitignore
+.pre-commit-config.yaml
+.bandit
+.flake8
+Makefile
+
+# TESTS (client-only, no tests needed)
+tests/
+
+# SERVER REQUIREMENTS (use client-only requirements)
+requirements/
+requirements.txt
+
+# BUILD ARTIFACTS
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE FILES
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS FILES
+.DS_Store
+Thumbs.db
+
+# TEMPORARY FILES
+*.tmp
+*.temp
+*.log
+
+# CI/CD FILES
+.github/
+
+# CLAUDE DESKTOP CONFIG (example only, not needed in package)
+claude_desktop_config.json

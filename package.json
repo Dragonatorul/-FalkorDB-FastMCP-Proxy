@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@anthropic-ai/dxt": "^0.2.5"
+  }
+}
