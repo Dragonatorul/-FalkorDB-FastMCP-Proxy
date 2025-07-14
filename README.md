@@ -68,10 +68,10 @@ python src/fastmcp_proxy.py
 {
   "mcpServers": {
     "falkordb": {
-      "serverUrl": "http://localhost:3001/mcp/",
-      "auth": {
-        "type": "bearer",
-        "token": "YOUR_BEARER_TOKEN_HERE"
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:3001/sse/"],
+      "env": {
+        "MCP_AUTH_HEADER": "Bearer YOUR_BEARER_TOKEN_HERE"
       }
     }
   }

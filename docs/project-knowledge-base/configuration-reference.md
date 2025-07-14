@@ -47,10 +47,10 @@ services:
 {
   "mcpServers": {
     "falkordb": {
-      "serverUrl": "http://localhost:3001/mcp/",
-      "auth": {
-        "type": "bearer",
-        "token": "GENERATED_BEARER_TOKEN_HERE"
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:3001/sse/"],
+      "env": {
+        "MCP_AUTH_HEADER": "Bearer GENERATED_BEARER_TOKEN_HERE"
       }
     }
   }

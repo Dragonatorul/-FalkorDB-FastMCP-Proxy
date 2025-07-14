@@ -472,10 +472,10 @@ def generate_claude_desktop_config(tenant_id: str, token: str, proxy_url: str = 
     config = {
         "mcpServers": {
             "falkordb": {
-                "serverUrl": proxy_url,
-                "auth": {
-                    "type": "bearer",
-                    "token": token
+                "command": "npx",
+                "args": ["mcp-remote", proxy_url],
+                "env": {
+                    "MCP_AUTH_HEADER": f"Bearer {token}"
                 },
                 "metadata": {
                     "tenant_id": tenant_id,
@@ -843,10 +843,10 @@ verify_graph_isolation("acme-corp")
 {
   "mcpServers": {
     "falkordb": {
-      "serverUrl": "http://localhost:3001/mcp/",  // Note: /mcp/ not /sse/
-      "auth": {
-        "type": "bearer",
-        "token": "actual_token_without_bearer_prefix"
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:3001/sse/"],
+      "env": {
+        "MCP_AUTH_HEADER": "Bearer actual_token_with_bearer_prefix"
       }
     }
   }

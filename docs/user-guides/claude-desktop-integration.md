@@ -67,10 +67,10 @@ Add this configuration to your MCP servers JSON file:
 {
   "mcpServers": {
     "falkordb": {
-      "serverUrl": "http://localhost:3001/mcp/",
-      "auth": {
-        "type": "bearer",
-        "token": "PASTE_YOUR_BEARER_TOKEN_HERE"
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:3001/sse/"],
+      "env": {
+        "MCP_AUTH_HEADER": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2ZhbGtvcmRiLWZhc3RtY3AtcHJveHkiLCJzdWIiOiJkZXYtdXNlciIsImlhdCI6MTc1MTkzNTU0MywiZXhwIjoxNzUxOTM5MTQzLCJhdWQiOiJmYWxrb3JkYi1tY3Atc2VydmVyIiwic2NvcGUiOiJyZWFkIHdyaXRlIn0.mW3XWliVqamnWQpyinoRTCy88KXg8WHqUdI2pYyg3VM-BnEoz140pGFmI0wiMoh7cLmz1Hg-Z95uO_1dGAKW1Z3GmF4olsm7fhZpWUrPxFpSvYUuNbpp6nQIFXWDFlGJUvusZ9HJFfUBVa29BvPxMgRv7t2aJfTgfrfNrEi5ks3BhCDmZKIy4yEeASkIluHft6Y242pUaQ1DcxMzpzScT1LGg4dLPORMm-9se1ve5QpQ1B3bUtr2FMdA9QfARWcUFgC_qJsVQGy88CiLQD_JTb35hSPCa6wTUBB79QRrs4pGRuCeo--rpynceSH8iSsibMam9K9yPG_0ra-xfCc_7Q"
       }
     }
   }
@@ -79,8 +79,8 @@ Add this configuration to your MCP servers JSON file:
 
 **Important Notes:**
 - Replace `PASTE_YOUR_BEARER_TOKEN_HERE` with your actual token
-- Use `/mcp/` endpoint (streamable-http transport)
-- Don't include the word "Bearer" - just the token
+- Use `/sse/` endpoint with mcp-remote transport
+- Include the word "Bearer" before the token in MCP_AUTH_HEADER
 
 ### **Step 4: Save and Restart**
 1. **Save** the JSON configuration file
@@ -105,18 +105,18 @@ Once configured, you should see these **4 MCP tools** available in Claude Deskto
 - Our FastMCP proxy is an **MCP server**, not a generic integration
 - Using the wrong section will result in connection failures
 
-### **❌ Don't Use the SSE Endpoint**
-- Old documentation may reference `/sse/` endpoint
-- Use `/mcp/` endpoint (streamable-http transport)  
-- SSE transport has Docker compatibility issues
+### **❌ Don't Use the SSE Endpoint Directly**
+- The `/sse/` endpoint requires the `mcp-remote` bridge
+- Use `npx mcp-remote` command, not direct serverUrl
+- Direct SSE connections are not supported by Claude Desktop
 
-### **❌ Don't Include "Bearer" in Token**
+### **❌ Don't Forget "Bearer" in MCP_AUTH_HEADER**
 ```json
 // ❌ WRONG
-"token": "Bearer eyJhbGciOiJSUzI1NiIs..."
+"MCP_AUTH_HEADER": "eyJhbGciOiJSUzI1NiIs..."
 
 // ✅ CORRECT  
-"token": "eyJhbGciOiJSUzI1NiIs..."
+"MCP_AUTH_HEADER": "Bearer eyJhbGciOiJSUzI1NiIs..."
 ```
 
 ---
@@ -128,8 +128,8 @@ Once configured, you should see these **4 MCP tools** available in Claude Deskto
 1. Verify Docker stack is running: `docker-compose ps`
 2. Test endpoints manually:
    ```bash
-   curl http://localhost:3001/.well-known/oauth-authorization-server
-   curl http://localhost:3001/mcp/
+   curl http://localhost:3001/sse
+   npx mcp-remote http://localhost:3001/sse/
    ```
 3. Check that you're using the **MCP Servers** section, not Integrations
 
@@ -174,10 +174,10 @@ Here's a complete MCP configuration file with our FalkorDB proxy:
 
 1. ✅ Use **Settings → Features → Model Context Protocol** 
 2. ✅ Add to **MCP Servers** JSON configuration
-3. ✅ Use endpoint: `http://localhost:3001/mcp/`
+3. ✅ Use command: `["npx", "mcp-remote", "http://localhost:3001/sse/"]`
 4. ✅ Get token from: `python src/fastmcp_proxy.py`
 5. ❌ Don't use **Settings → Integrations** (that's for cloud services)
-6. ❌ Don't use `/sse/` endpoint (deprecated for Docker)
+6. ❌ Don't use direct serverUrl (use mcp-remote bridge)
 
 **Expected Result**: 4 FalkorDB tools available in Claude Desktop for graph database operations.
 

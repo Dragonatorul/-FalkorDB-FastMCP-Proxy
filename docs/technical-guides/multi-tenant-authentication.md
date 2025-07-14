@@ -316,10 +316,10 @@ Each tenant gets their own Claude Desktop configuration:
 {
   "mcpServers": {
     "falkordb": {
-      "serverUrl": "http://localhost:3001/mcp/",
-      "auth": {
-        "type": "bearer",
-        "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...TENANT_A_TOKEN"
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:3001/sse/"],
+      "env": {
+        "MCP_AUTH_HEADER": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...TENANT_A_TOKEN"
       }
     }
   }
@@ -331,10 +331,10 @@ Each tenant gets their own Claude Desktop configuration:
 {
   "mcpServers": {
     "falkordb": {
-      "serverUrl": "http://localhost:3001/mcp/", 
-      "auth": {
-        "type": "bearer",
-        "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...TENANT_B_TOKEN"
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:3001/sse/"],
+      "env": {
+        "MCP_AUTH_HEADER": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...TENANT_B_TOKEN"
       }
     }
   }

@@ -68,7 +68,7 @@ This document provides a comprehensive technical analysis of both integration me
 ```json
 {
   "mcpServers": {
-    "server-name": {
+    "local-server": {
       "command": "python",
       "args": ["path/to/server.py"],
       "env": {
@@ -76,10 +76,10 @@ This document provides a comprehensive technical analysis of both integration me
       }
     },
     "remote-server": {
-      "serverUrl": "http://localhost:3001/mcp/",
-      "auth": {
-        "type": "bearer",
-        "token": "your-jwt-token"
+      "command": "npx", 
+      "args": ["mcp-remote", "http://localhost:3001/sse/"],
+      "env": {
+        "MCP_AUTH_HEADER": "Bearer your-jwt-token"
       }
     }
   }
