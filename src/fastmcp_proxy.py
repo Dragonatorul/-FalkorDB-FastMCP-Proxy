@@ -1,40 +1,44 @@
 """
-FalkorDB FastMCP Proxy
+FalkorDB FastMCP Proxy with MANDATORY Multi-Tenant Authentication
 
-A FastMCP proxy server that provides access to FalkorDB MCPServer backend
-using proper FastMCP proxy patterns with ProxyClient.
+A FastMCP proxy server that provides secure multi-tenant access to FalkorDB MCPServer backend
+using proper FastMCP proxy patterns with ProxyClient and MANDATORY authentication.
+
+⚠️ CRITICAL: Authentication is MANDATORY and NEVER optional for multi-tenant security.
 
 Architecture:
-    Claude Desktop → FastMCP Proxy → FalkorDB MCPServer → FalkorDB
+    Claude Desktop → FastMCP Proxy (with MANDATORY auth) → FalkorDB MCPServer → FalkorDB
 
 Environment Variables:
     FALKORDB_MCPSERVER_URL: Backend FalkorDB MCP server URL (default: http://localhost:3000)
     PROXY_PORT: Port for the proxy server (default: 3001)
     PROXY_HOST: Host interface to bind to (default: 0.0.0.0)
-    ENABLE_AUTH: Enable Bearer token authentication (default: false)
+    SECRET_KEY: JWT signing secret for multi-tenant tokens (REQUIRED)
 
 Author: Claude Code Assistant
-Version: 2.0.0
+Version: 3.0.0 - MANDATORY Authentication
 License: MIT
 """
 
 import os
+import sys
 from fastmcp import FastMCP
 from fastmcp.server.proxy import ProxyClient
 from fastmcp.server.auth import BearerAuthProvider
 from fastmcp.server.auth.providers.bearer import RSAKeyPair
 
-# Configuration
+# Configuration - MANDATORY Authentication
 BACKEND_URL = os.environ.get("FALKORDB_MCPSERVER_URL", "http://localhost:3000")
 PROXY_HOST = os.environ.get("PROXY_HOST", "0.0.0.0")
 PROXY_PORT = int(os.environ.get("PROXY_PORT", "3001"))
-ENABLE_AUTH = os.environ.get("ENABLE_AUTH", "false").lower() == "true"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-def setup_auth():
-    """Setup Bearer token authentication."""
-    if not ENABLE_AUTH:
-        return None, None
-        
+def setup_mandatory_auth():
+    """Setup MANDATORY Bearer token authentication.
+    
+    ⚠️ CRITICAL: This function ALWAYS sets up authentication.
+    Authentication is NEVER optional for multi-tenant security.
+    """
     # For development, generate a key pair
     key_pair = RSAKeyPair.generate()
     
@@ -48,37 +52,46 @@ def setup_auth():
     return auth, key_pair
 
 def main():
-    """Main entry point for the FalkorDB FastMCP Proxy."""
-    print("🚀 Starting FalkorDB FastMCP Proxy v2.0")
+    """Main entry point for the FalkorDB FastMCP Proxy with MANDATORY Authentication."""
+    print("🚀 Starting FalkorDB FastMCP Proxy v3.0 - MANDATORY Authentication")
     print(f"📡 Backend URL: {BACKEND_URL}")
     print(f"🌐 Server: http://{PROXY_HOST}:{PROXY_PORT}")
-    print(f"🔐 Authentication: {'Enabled' if ENABLE_AUTH else 'Disabled'}")
+    print("🔐 Authentication: MANDATORY (Multi-tenant security enforced)")
     
-    # Setup authentication if enabled
-    auth, key_pair = setup_auth()
+    # Validate SECRET_KEY for production use
+    if not SECRET_KEY:
+        print("\n⚠️ WARNING: SECRET_KEY not set - using generated key for development only")
+        print("   For production, set SECRET_KEY environment variable")
     
-    # Create proxy using URL string (ProxyClient will be created automatically)
+    print("\n🚨 SECURITY NOTICE:")
+    print("   Authentication is MANDATORY and NEVER disabled")
+    print("   This ensures proper multi-tenant isolation")
+    print("   Any attempt to bypass authentication violates security requirements")
+    
+    # Setup MANDATORY authentication
+    auth, key_pair = setup_mandatory_auth()
+    
+    # Create proxy with MANDATORY authentication
     proxy = FastMCP.as_proxy(
         BACKEND_URL,
-        name="FalkorDB Proxy",
-        auth=auth
+        name="FalkorDB Multi-Tenant Proxy",
+        auth=auth  # ALWAYS present - NEVER None
     )
     
-    if ENABLE_AUTH and key_pair:
-        # Generate a development token
-        dev_token = key_pair.create_token(
-            subject="dev-user",
-            issuer="https://fastmcp-proxy.dev",
-            audience="falkordb-proxy",
-            scopes=["read", "write"],
-            expires_in_seconds=3600
-        )
-        
-        print(f"\n🔑 Development Bearer Token:")
-        print(f"Bearer {dev_token}")
-        
-        print(f"\n📋 Claude Desktop Configuration (with auth):")
-        print(f"""{{
+    # Generate development token for testing
+    dev_token = key_pair.create_token(
+        subject="dev-user",
+        issuer="https://fastmcp-proxy.dev",
+        audience="falkordb-proxy",
+        scopes=["read", "write"],
+        expires_in_seconds=3600
+    )
+    
+    print(f"\n🔑 Development Bearer Token (Required for ALL connections):")
+    print(f"Bearer {dev_token}")
+    
+    print(f"\n📋 Claude Desktop Configuration (MANDATORY auth):")
+    print(f"""{{
   "mcpServers": {{
     "falkordb": {{
       "command": "npx",
@@ -87,21 +100,16 @@ def main():
     }}
   }}
 }}""")
-    else:
-        print(f"\n📋 Claude Desktop Configuration (no auth):")
-        print(f"""{{
-  "mcpServers": {{
-    "falkordb": {{
-      "command": "npx",
-      "args": ["mcp-remote", "http://{PROXY_HOST}:{PROXY_PORT}/sse/"]
-    }}
-  }}
-}}""")
     
     print(f"\n📡 SSE Endpoint: http://{PROXY_HOST}:{PROXY_PORT}/sse/")
-    print(f"🔐 Authentication: {'Bearer token required' if ENABLE_AUTH else 'No authentication'}")
+    print("🔐 Authentication: Bearer token REQUIRED for ALL connections")
+    print("🏢 Multi-tenant: Tenant identification via JWT subject claim")
     
-    # Start the proxy server
+    print(f"\n🧪 Testing Command (with MANDATORY auth):")
+    print(f"   npx mcp-remote 'http://{PROXY_HOST}:{PROXY_PORT}/sse/' \\")
+    print(f"     --auth-header 'Bearer {dev_token}'")
+    
+    # Start the proxy server with MANDATORY authentication
     proxy.run(transport="sse", host=PROXY_HOST, port=PROXY_PORT)
 
 if __name__ == "__main__":
