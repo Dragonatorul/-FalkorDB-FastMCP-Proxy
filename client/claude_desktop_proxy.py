@@ -22,16 +22,17 @@ from fastmcp import FastMCP
 from fastmcp.client import Client
 from fastmcp.client.auth import BearerAuth
 
-# Configuration
-PROXY_URL = os.environ.get("FASTMCP_PROXY_URL", "http://localhost:3001/sse/")
-BEARER_TOKEN = os.environ.get("FASTMCP_BEARER_TOKEN")
+# Configuration - Support multiple environment variable naming conventions
+PROXY_URL = os.environ.get("PROXY_URL") or os.environ.get("FASTMCP_PROXY_URL", "http://localhost:3001/sse/")
+BEARER_TOKEN = os.environ.get("PROXY_TOKEN") or os.environ.get("FASTMCP_BEARER_TOKEN")
 
 def create_authenticated_proxy():
     """Create FastMCP proxy with Bearer token authentication for Claude Desktop."""
     
     if not BEARER_TOKEN:
-        print("Error: FASTMCP_BEARER_TOKEN environment variable is required", file=sys.stderr)
-        print("Generate a token by running: python src/fastmcp_proxy.py", file=sys.stderr)
+        print("Error: Bearer token environment variable is required", file=sys.stderr)
+        print("Set either PROXY_TOKEN or FASTMCP_BEARER_TOKEN", file=sys.stderr)
+        print("Generate a token by running: python server/fastmcp_proxy.py", file=sys.stderr)
         sys.exit(1)
     
     # Create authenticated client
