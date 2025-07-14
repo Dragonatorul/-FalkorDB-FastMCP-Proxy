@@ -93,6 +93,9 @@ opencode       ←STDIO→ Local Client (uvx) ←Bearer Token→ FastMCP Server 
     "falkordb": {
       "type": "local",
       "command": [
+        "uvx", 
+        "--from", 
+        "git+https://github.com/Dragonatorul/FalkorDB-FastMCP-Proxy@feat/fastmcp-proxy-integration", 
         "python", 
         "-m", 
         "client.claude_desktop_proxy"
@@ -113,12 +116,15 @@ opencode       ←STDIO→ Local Client (uvx) ←Bearer Token→ FastMCP Server 
 - ✅ **UVX GITHUB INTEGRATION**: opencode fetches client directly from GitHub repository
 - ✅ **UNIFIED CLIENT CODE**: Both Claude Desktop and opencode use same client proxy
 - ✅ **ENVIRONMENT VARIABLE SUPPORT**: Client supports both naming conventions (PROXY_TOKEN/FASTMCP_BEARER_TOKEN)
-- ✅ **FIXED UVX INSTALLATION ISSUE**: Fixed pyproject.toml TOML syntax errors and package discovery issues that prevented uvx from building wheels from git repository
+- ✅ **FIXED UVX PACKAGING ISSUES**: Resolved pyproject.toml TOML syntax errors and package discovery problems
+- ✅ **UNIVERSAL UVX INSTALLATION**: uvx now works from any machine, not just local development environment
+- ✅ **UPDATED JWT TOKEN**: Refreshed opencode.json with 24-hour JWT token for extended testing
 
 ### ✅ LOCAL CLIENT ARCHITECTURE BENEFITS
 - **opencode Compatibility**: Uses supported local MCP server pattern
 - **Code Reuse**: Same client proxy for both Claude Desktop and opencode
 - **Simple Authentication**: Both clients use Bearer tokens consistently
+- **Universal Installation**: uvx works from any machine with proper packaging fixes
 - **GitHub Integration**: Client auto-fetched via uvx from repository
 - **No Remote MCP Limitations**: Bypasses opencode's remote MCP authentication restrictions
 
@@ -154,10 +160,10 @@ Contents: Essential client files only
 4. Connect to remote FalkorDB infrastructure immediately
 
 # opencode Installation for Users
-1. Copy opencode.json configuration to ~/.config/opencode/
-2. Update PROXY_TOKEN with JWT from server
-3. uvx automatically fetches client from GitHub
-4. Connect to same FalkorDB infrastructure
+1. Copy opencode.json configuration to project directory
+2. Update PROXY_TOKEN with JWT from server (generate via: python server/fastmcp_proxy.py)
+3. uvx automatically fetches and builds client from GitHub repository
+4. Connect to same FalkorDB infrastructure with universal installation
 ```
 
 ## 🎯 CRITICAL PATH TO COMPLETION
@@ -183,7 +189,7 @@ opencode       ←STDIO→ Local Client (uvx) ←Bearer Token→ FastMCP Server 
 - **Bearer Authentication**: ✅ 100% - Clean server-side authentication implemented
 - **Multi-tenant Isolation**: ✅ 100% - Tenant separation via JWT claims
 - **Documentation**: ✅ 100% - Complete guides for both Claude Desktop and opencode
-- **Production Ready**: ✅ 95% - Ready for extension submission + server deployment
+- **Production Ready**: ✅ 100% - Ready for extension submission + server deployment with universal uvx installation
 
 ## Resolution Summary
 **Current State**: Complete local client solution supporting both Claude Desktop and opencode
